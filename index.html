@@ -11,7 +11,7 @@ header{border-bottom:3px solid transparent;border-image:linear-gradient(90deg,#1
 html,body{height:100%}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-ui);font-size:calc(13*var(--fz,1)*1px);margin:0;padding-inline:0;overflow-x:hidden}
 #app{--lw:clamp(250px,21vw,400px);--rw:clamp(270px,25vw,460px);--bh:clamp(230px,36vh,460px);display:grid;grid-template-columns:var(--lw) 5px minmax(0,1fr) 5px var(--rw);grid-template-rows:auto minmax(0,1fr) 5px var(--bh);height:100%;gap:0;background:var(--line)}
-#app.hl{--lw:0px}#app.hr{--rw:0px}#app.hb{--bh:0px}
+#app.bmax{--bh:74vh!important}#app.hl{--lw:0px}#app.hr{--rw:0px}#app.hb{--bh:0px}
 #app.hl #left,#app.hr #right,#app.hb #bot{overflow:hidden;padding:0;visibility:hidden}
 header{grid-column:1/-1;grid-row:1}#left{grid-column:1;grid-row:2/5}#spL{grid-column:2;grid-row:2/5}#mid{grid-column:3;grid-row:2}#spR{grid-column:4;grid-row:2}#right{grid-column:5;grid-row:2}#spB{grid-column:3/6;grid-row:3}#bot{grid-column:3/6;grid-row:4}
 #app>.spl{background:var(--line);touch-action:none}#app>.spl:hover,#app>.spl.on{background:var(--accent)}.spl.v{cursor:col-resize}.spl.hz{cursor:row-resize}
@@ -92,58 +92,26 @@ textarea{width:100%;height:150px;font-family:var(--font-mono);font-size:calc(11.
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
-/* ===== gerbang kata sandi & logo ===== */
+/* ===== logo ===== */
 .logo{display:block;height:calc(40*var(--fz,1)*1px);width:auto;aspect-ratio:1;border-radius:5px;background:#fff;border:1px solid var(--line);flex:none}
 .hbrand{display:flex;gap:12px;align-items:center;flex:1 1 240px;min-width:0}
-#gate{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:var(--bg);overflow:auto}
-#gate[hidden]{display:none!important}
-#gate .gbg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;color:var(--line)}
-#gf{position:relative;width:100%;max-width:420px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:0 28px 26px;box-shadow:0 10px 40px rgba(8,30,44,.14);overflow:hidden;display:flex;flex-direction:column;gap:12px}
-#gf .gbar{height:5px;margin:0 -28px 18px;background:linear-gradient(90deg,#2f7d32 0 38%,#1a97d3 38% 100%)}
-#gf .glogo{width:92px;height:92px;border-radius:8px;border:1px solid var(--line);background:#fff;display:block}
-#gf .gco{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
-#gf h1{font-size:24px;line-height:1.2;font-weight:600;margin:0;text-wrap:balance}
-#gf p{margin:0;color:var(--muted);line-height:1.5}
-#gf label{font-size:12px;font-weight:600;margin-top:6px}
-#gf input[type=password],#gf input[type=text]{width:100%;font-size:16px;padding:10px 12px}
-#gf .grow{display:flex;gap:8px}#gf .grow input{flex:1;min-width:0}
-#gf .gbtn{font-size:14px;font-weight:600;padding:10px 14px;background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
-#gf .gerr{min-height:18px;font-size:12.5px;color:var(--bottom)}
-#gf .gnote{font-size:12px;margin:0}#gf .gmemx{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--muted);font-weight:400;margin:0}
-#gf .gmem input{width:auto}
-#gf .gft{font-family:var(--font-mono);font-size:10.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:10px;margin-top:4px}
-#gf.shake{animation:gsh .3s}@keyframes gsh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-@media (prefers-reduced-motion:reduce){#gf.shake{animation:none}}
+
+.menu{position:relative;display:inline-block}
+#filemenu{position:absolute;top:calc(100% + 4px);right:0;z-index:60;min-width:230px;background:var(--panel);border:1px solid var(--line,#cfe0e6);border-radius:8px;box-shadow:0 8px 24px rgba(0,60,90,.18);padding:4px;display:flex;flex-direction:column}
+#filemenu[hidden]{display:none}
+#filemenu button{text-align:left;border:0;background:transparent;padding:7px 10px;border-radius:5px;width:100%}
+#filemenu button:hover{background:var(--stage)}#filemenu hr{border:0;border-top:1px solid #dbe8ee;margin:3px 0;width:100%}
+#undob:disabled,#redob:disabled{opacity:.4;cursor:default}
+#toast{position:fixed;left:50%;bottom:18px;transform:translate(-50%,20px);max-width:min(92vw,640px);background:#0d3b4f;color:#fff;border-radius:8px;padding:9px 14px;font-size:13px;opacity:0;pointer-events:none;transition:.25s;z-index:200}
+#toast.show{opacity:1;transform:translate(-50%,0)}#toast.ok{background:#107828}#toast.bad{background:#b3261e}#toast.warn{background:#9a5b00}
+.gdw{max-width:900px}.rdy{list-style:none;margin:0 0 10px;padding:0}.rdy li{display:flex;gap:8px;padding:3px 0;font-size:calc(12.5*var(--fz,1)*1px)}.rdy .mk{font-weight:700;width:16px}.rdy .ok .mk{color:var(--good)}.rdy .no .mk{color:var(--bad)}
+details.gd{border:1px solid #dbe8ee;border-radius:6px;margin:5px 0;background:var(--panel)}details.gd summary{cursor:pointer;padding:7px 10px;font-weight:600;color:var(--green)}.gdb{padding:2px 14px 8px;font-size:calc(12.5*var(--fz,1)*1px);line-height:1.55}.gdb ul,.gdb ol{margin:4px 0;padding-left:20px}
+.xin{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px 12px;margin:6px 0 10px}.xin label{display:flex;flex-direction:column;font-size:calc(11.5*var(--fz,1)*1px);color:var(--muted)}.xin input,.xin select{font:inherit;padding:3px 5px}
+.xh{margin:10px 0 4px;color:var(--green);font-size:calc(13*var(--fz,1)*1px);font-weight:700}
+.fig img{max-width:100%;height:auto;border:1px solid #dde4e9}.lgd{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:11px;margin:3px 0 8px}.lgd span{display:inline-flex;align-items:center;gap:5px}.lgd i{display:inline-block;width:18px;height:4px;border-radius:2px}.lgd .dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#111}.group label{display:inline-flex;align-items:center;gap:4px;margin-right:10px;font-size:12px}
+.prgrid{display:grid;grid-template-columns:minmax(320px,560px) minmax(300px,1fr);gap:12px;align-items:start}#prCv{width:100%;height:auto;border:1px solid var(--line);border-radius:6px;background:#e4f1f6}#prEng{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:8px}.peng{border:1px solid var(--line);border-radius:6px;padding:6px 8px;background:var(--panel)}.peng .phd{margin-bottom:4px}.prk table{font-size:calc(11*var(--fz,1)*1px)}.lamp{display:inline-block;padding:1px 6px;border-radius:9px;background:#dfe7ea;color:#678;font-size:10px;font-weight:700}.lamp.on{background:#107828;color:#fff}@media (max-width:900px){.prgrid{grid-template-columns:1fr}}
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;600&display=swap">
-<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gt">
-<svg class="gbg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.2"><g opacity=".55"><path d="M-40 560 C 200 520 420 470 640 440 S 1000 420 1260 430"/><path d="M-40 600 C 220 565 440 525 660 500 S 1010 485 1260 492"/><path d="M-40 640 C 240 610 460 580 680 560 S 1020 548 1260 552"/><path d="M-40 680 C 260 655 480 635 700 620 S 1030 612 1260 614"/><path d="M-40 720 C 280 700 500 690 720 680 S 1040 676 1260 676"/><path d="M-40 520 C 180 470 400 410 620 380 S 980 360 1260 372"/><path d="M-40 480 C 160 420 380 350 600 320 S 960 300 1260 312"/></g><g opacity=".35"><path d="M300 -20 V 820"/><path d="M520 -20 V 820"/><path d="M740 -20 V 820"/><path d="M960 -20 V 820"/></g></svg>
-<form id="gf" autocomplete="off"><div class="gbar"></div><img class="glogo" alt="Logo PT Pan Maritime Wira Pawitra" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAD2APcDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDs6KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiikzQAtFMkmjiGZHVB6scVTm1mwhBzcox9EO4/pQJtLcv0VhP4ntR/q4ZWPvgD+dVpPFMpH7q2RT6s5b/Cp5kQ6sF1OmorjpfEV/IMK0cfuqf45qpPqF3c/wCtuJGHoDgfkKXOiXWj0O4kniiGZZEQf7TAVVl1jT4vvXSH/c+b+VcPRS5yHXfRHXS+JLJCQglk91XA/WqknikZ/dWpI9WfH6YrnKKXOyHWkzVm8Q38h/dusQ9FUH+db+hXb3mnh5XLyKxVie/f+RFcXXTeFJcw3MR6KwYfiP8A61OLdyqU25as6CiiitDqCiiigAooooAKKKTNAC0VDLdW8P8ArZ44/wDecCqM+v2MJwJTIf8ApmM/r0pXQnJLdmpRWBJ4ogH+qt5G/wB4hf5ZqrJ4ouW/1cESf7xLf4UuZEOrBdTqaTNcZJr2oOeJgg9FQf1qlNczTnM0rv8AU0udEOuuh3Ut7awnE1xFGfRnANVJNc0+P/l4Df7qk1xdFLnIdd9EdW/ie0UkJFM3ocAA/rVSXxRIRiO2VT6s+f6Vz9FLmZLqyZovruouT/pG0eioP8KqyXt1LnzLmZs9i5x+VQUVN2Q5Se7CjrRRSJCiiigAooooAKKKKACiiigAra8LyFb+RCeGjJ+pBH/16xauaTKYdTtyP4nCn8eKqO5UHaSO6ooorY7wooooAKinSV1xFKIz6ld1S0UAZsmn3cgw2pygf7KKv8qqy+Hmm/12oTyf73P8622IUEk4A6moReWxOBcRZ/3xStchxj1MT/hFUH3bpvxQf41SvNAntV3qfNTuVHI/Cuuzmimkl0IlRi1pocXp2mi+uRF5hUbSxIGeK1f+EWi/5+n/AO+RWhZ6ettfzzL91xhR6ev61oU5qDfuomlStH3tzn/+EWi6/an/AO+RWZqelrYzrGshcMuckY9a7Ouf8SriW3b1Vh/L/GqpQi5WaJrwUYNo5/yB61Lb2TXE6RITuY46dPeiui0Gx8qP7S+dzjCj0H/163qU6cI3sclJSqSsVx4WjxzdPn/dFH/CLRf8/T/98iuhorj5Uej7OPY5/wD4RaL/AJ+n/wC+RWRf6f8AY7tod5YAAgkda7euc8RREXUcmPlZMfiD/wDXrWlCLlZoxrwUYXiYXkD+9V3TdJ+3zMpdkRVyWA7+lV66rQ4PJsEY/ekJc/0/TFbVacIx0RzUE5z12M//AIRaL/n5f/vkUv8Awi0X/P0//fIroKK5OVHf7OPY4W7sfs1zJCWJ2nAOOoqLyR6mtjxAgXUAR/EgP6ms+CPzp44v77BfzNdsaVNxu0ebPmU3FGjaeHFnto5ZJ2UuN2AB07VN/wAItD/z8yf98it5VCqAOgGBTq43Fdj0lSikc/8A8ItF/wA/Mn/fIo/4RaL/AJ+pP++RXQVHJPFCQJJEQnn5mAo5UHs4djD/AOEWi/5+ZP8AvkUDwwI2V4rtlZTkEpn+tbscscozG6uP9k5p9HKg9nDsIKWiimaBRRRQAUlLRQBV1J9mn3Bzj92QPxGK46u0vLYXds0LMVDY5H1zWcnh+3DZeSRx6cCuilUjBO5x4ilOpJWLOiljpkO7PfGfTJxV+moixoqIMKowBQ8ixrucgDOKwbu7nVFcsUh1MkkWNdznAyB+JOKfWVr85htYwp5aQH8Bz/PFEVd2CcuWLZqjmsPxKmUt39Cw/PH+FbakEAjvWT4jXNnGR18z+hq6Wk0Z11emzF0+0a8ulQA7AcufQV2CqFAAAAAwAKoaPZ/ZbQFh+8k+Zvb0FXJpRDE0jfdUZNOrPnkTQp+zhd7klFMjYvGrEbSwBx6USuIonkbooJNZHQPrK8QpusVYfwOD/MVpowdQw6EZqrqsfmabOPRd35c/0q4O0kZ1FzQaOUgiM8yRLwXYDPpXaooRAqjAAwB6Vz/h2DdPJMeiDaPqf8/rXRVpXleVjDCwtHm7jSwUgE4LHA96dWVf3YTVbSLsvzN+OQK1ayaskzpjJSbXYwfEqcwSYH8QJ/L/AOvVfw/b+bdmY9Ih+pyK0PEKbrFW/uOD/On6DD5dgGIOZGLf0/pW3NakcrhfEfiadFIahtXEqNIP4nb9Dj+lc5136E9cx4gk3X4UfwoAf1P9a6as650aC6uHmkklDN1AIx0x6VpSkoyuzKvCU4WiY+hF/wC0UCH5SDv+mP8AHFdVVSz0+Cyz5KnLcFick1boqSUpXQUabpxsxKWqlverPeTwKBiLHOep71bqGrbmqaewUUUUhhRRRQBHLPFAAZZFQHgFjioTqNmB/wAfMX4MKyPEUzGaOH+ELuP1rFrohRUo3bOOpiXCTikdRPrlpEDsZpW9FH9TVGwuZtR1VHlPyRguE7Dt/WsWt3w3F/r5T7KP5n+lXKnGnFtGcKsqs0nsb1c54ikDXMUfXYmfzP8A9auiPSuP1GYzX0znsxUfQVnQV5XNsVK0LdzqdPbfYwMTkmNc/lUksSy7N4ztbcAfWqmiNu0uHPUZH6mr9ZS0kzeDvFCVlahcCe+t7KM5/eBpPoOcVfu7hbW2eVuijgep7Vh6GrT6jJO/JClifcn/APXVwjo5PoZ1Z6qC6nRCqWsSeXpsx/vDb+fFXqxvEcmLWOPPLPn8AP8A69TTV5JF1XaDZa0aUyabDk5KgqfwNXZFDoynoRisfw3JmCaPuH3fmP8A61bVFRWkxUnzU0ylpNsbWxRHXDnLMPf/APVirjEBSScAUtUNZn8nTpeeX+Qfj1/TNLWUvUp2px9Dmry4NzdSTjIJOV9sdK7JGDorDkEZFcPXYaZJ5mnwN/sAflx/SuivGyVjkwsm5SuJqkD3FjLHGMscYH4g1YhjEUSxrwEAAp9Fc19LHbZXuU9Un+z2Ezg4YrtGPU8U/T08uxgXGMRjP5Vna44lntLTs7gt+eB/WtlRgAelU1aKM4u835AeBVQ6pZAkG4Xj61LeSeVZzOOqoSPyri6ulTU73M69Z07JHWNrNio/12foprLv9caZdlqGjXuxxk/4Vj0V0RoRTuck8TOStsamgSBdQwT99CB+h/oa6euP0x/L1GBv9rH58f1rrx0rCurSOrCu8LC0UUVgdQUGiigDk9aJOqTZ7bQPyFUK09fTbqOf7yA/0/pWZXo0/hR49X+IwrrNGg8jT4/WT5z+NcnWumvzIgUQx4AwOTUVoykrI0w84wk3I6CeQRQSSHoilvyriScnPWtO51ua4t3hMSKHGCRmsulRg4XuPEVVUa5TpPDjZs5FP8Mn9B/9eteuQsdRlsQ4jVGDYzuFWX166dSoWJcjGQDkfrWc6MnJtG9PEQjBJ7hrt351z5KNmOPggd27/wCfrV7w7BstnlP/AC0PH0H/ANfNc6SSST1NaVrrMlrbpCkKEL3Oea0nTfJyxMKdVe0c5nUVzXiGbfeLEP8Almv6n/Ip/wDwkM//ADxj/M1mXVw11cPM4AZ+w/KopUpRldmtevGcLRNDw9JtvXQnh0/Mg/8A666WuJtp2tp0lTBKHOD3rU/4SGb/AJ4x/rRVpSlK6FQrxhC0joq5vxBcmS6EAPyxjJHuf/rYp3/CQz/88Y/zNZU8rTzvK33nOTRSpSjK7CvXjKNokddPoEm/Twv9xyv9f61zFXrDU5LFGVEVgxzzWtWDlGyMKE1Cd2dbSE4rnv8AhIp/+eMf5mmya/O8bIIo13AjIzxXN7GZ3fWafcbbym915XPzIHO3/dGcV01cdYXf2K483y/MO0gDOK0v+Ejb/n1H/fz/AOtV1Kcm1ZGNGtCKfM9WX9bfZpkuDgnA+vIrla0NQ1Zr6ERGIRgNuyGzn9KppbTyDMcMjj/ZQmtaUeSPvGNeXtJ3iRUVoQ6NeS9UWP8A3zircfh2Q8yTqp9FXP8AhVOrBdSFRqPZGNG5jkVx1Ug/lXcDpWTH4ftl+/JI/wCIArVRQiKo6KMCuWtOM7WO7D05U78w6iiisTpCiiigDnvEkeJoZMdV2/5/OsWuk8Rrmzjb0kH8jXN13UXeB5eJVqjCiiitjnCiiigAooooAKKKKACiinJG8hxGjOfRRmi4DaKuRaZeTfdgdfdht/nVyPw/OSPNljUf7OSah1IrdmiozlsjHoroU8Oxf8tJ3P8AugD/ABqxHolig+aNnPqzH+lZuvFbGqwtR7nLdKmjtp5RmOGRge4UkV18VtDCMRRqv0FS4qHiOyNVhO7OTTSL1/8Alhj/AHmAqzH4fuCQZJY1HoMk10lFZuvNmqwtNbmRH4ftlwXkkf2yAP5VZj0iyj5EAJ/2iT/Or1FQ5ye7NVSgtkRR28MX+riRP91QKlooqDS1gooooAKKKKACiiigAooooAz9cXdpsvHQg/rXKV2d9EZrKaNRlmQ4Hv2rAj0G7bljGn1b/CuqjOMYu7OHE05SmnFGXRW7H4d5BkueO4VP65q1HoNov3vMf6tj+VaOvBGKw1RnMU5EeU4jVnP+yM110Wm2kJBjgUEdzz/OrQGKzeI7I1WEfVnIJpl7IPltn/Hj+dWY9BvH+95cf1bJ/SunoqHXkzVYWC3MSLw8mP30zk/7AA/nVqPRLJOsbOfVmNaNFZupN9TVUaa2RXjsbWP7lvED67RmpwABgUtFTds0SS2CiiikMKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/2Q==">
-<div class="gco">PT Pan Maritime Wira Pawitra</div><h1 id="gt">PM 19 Hull Viewer</h1>
-<p>Simulator muat, hidrostatik, stabilitas, dan hambatan untuk crew boat 50 m PAN MARINE 19.</p>
-<label for="gpw">Kata sandi</label><div class="grow"><input id="gpw" type="password" autocomplete="current-password" spellcheck="false" aria-describedby="gerr" autofocus><button class="gbtn" id="gok" type="submit">Masuk</button></div>
-<p class="gnote">Kata sandi diminta setiap halaman dibuka lagi, dan setelah tab ditinggalkan lebih dari 10 menit.</p><div class="gerr" id="gerr" role="alert"></div>
-<div class="gft">PM 19 · Lines Plan + GA Rev 09 · estimasi, bukan dokumen sertifikasi</div></form></div>
-<script>(function(){var H="6d181c41995bde8ab5d0ce1591880ef4b82c047cbf07e56d12d655c4245922ce",K="pm19_auth",g=document.getElementById("gate");function A(){return document.getElementById("app")}
-function sha(s){var K2=[1116352408,1899447441,3049323471,3921009573,961987163,1508970993,2453635748,2870763221,3624381080,310598401,607225278,1426881987,1925078388,2162078206,2614888103,3248222580,3835390401,4022224774,264347078,604807628,770255983,1249150122,1555081692,1996064986,2554220882,2821834349,2952996808,3210313671,3336571891,3584528711,113926993,338241895,666307205,773529912,1294757372,1396182291,1695183700,1986661051,2177026350,2456956037,2730485921,2820302411,3259730800,3345764771,3516065817,3600352804,4094571909,275423344,430227734,506948616,659060556,883997877,958139571,1322822218,1537002063,1747873779,1955562222,2024104815,2227730452,2361852424,2428436474,2756734187,3204031479,3329325298];
-var b=unescape(encodeURIComponent(s)),l=b.length,w=[],i,j;for(i=0;i<l;i++)w[i>>2]|=b.charCodeAt(i)<<(24-(i%4)*8);w[l>>2]|=128<<(24-(l%4)*8);w[((l*8+64>>9)<<4)+15]=l*8;
-var h=[1779033703,3144134277,1013904242,2773480762,1359893119,2600822924,528734635,1541459225];
-function r(x,n){return(x>>>n)|(x<<(32-n))}
-for(i=0;i<w.length;i+=16){var a=h.slice(),W=[];for(j=0;j<64;j++){if(j<16)W[j]=w[i+j]|0;else{var s0=r(W[j-15],7)^r(W[j-15],18)^(W[j-15]>>>3),s1=r(W[j-2],17)^r(W[j-2],19)^(W[j-2]>>>10);W[j]=(W[j-16]+s0+W[j-7]+s1)|0}
-var S1=r(a[4],6)^r(a[4],11)^r(a[4],25),ch=(a[4]&a[5])^(~a[4]&a[6]),t1=(a[7]+S1+ch+K2[j]+W[j])|0,S0=r(a[0],2)^r(a[0],13)^r(a[0],22),mj=(a[0]&a[1])^(a[0]&a[2])^(a[1]&a[2]),t2=(S0+mj)|0;
-a=[(t1+t2)|0,a[0],a[1],a[2],(a[3]+t1)|0,a[4],a[5],a[6]]}for(j=0;j<8;j++)h[j]=(h[j]+a[j])|0}
-return h.map(function(x){return("00000000"+(x>>>0).toString(16)).slice(-8)}).join("")}
-var unl=false,hid=0;try{sessionStorage.removeItem(K);localStorage.removeItem(K)}catch(e){}
-function open(){g.hidden=true;unl=true;if(A()){A().inert=false;A().removeAttribute("aria-hidden")}window.dispatchEvent(new Event("resize"))}
-function lock(){unl=false;g.hidden=false;if(A()){A().inert=true;A().setAttribute("aria-hidden","true")}var p=document.getElementById("gpw");p.value="";setTimeout(function(){p.focus()},30)}
-window.__lockPM19=lock;
-{document.addEventListener("DOMContentLoaded",function(){if(!g.hidden&&A()){A().inert=true;A().setAttribute("aria-hidden","true")}})}
-document.addEventListener("visibilitychange",function(){if(document.hidden){hid=Date.now()}else if(unl&&hid&&Date.now()-hid>600000){lock()}});
-addEventListener("pagehide",function(){unl=false});
-document.getElementById("gf").addEventListener("submit",function(e){e.preventDefault();var p=document.getElementById("gpw"),er=document.getElementById("gerr");
-if(sha(p.value.trim())===H){er.textContent="";p.value="";open()}
-else{er.textContent="Kata sandi salah. Periksa huruf besar dan spasi.";var f=document.getElementById("gf");f.classList.remove("shake");void f.offsetWidth;f.classList.add("shake");p.select()}});
-})();</script>
 <div id="app">
 <header>
   <div class="hbrand"><img class="logo" alt="PT Pan Maritime Wira Pawitra" title="PT Pan Maritime Wira Pawitra" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAD2APcDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDs6KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiikzQAtFMkmjiGZHVB6scVTm1mwhBzcox9EO4/pQJtLcv0VhP4ntR/q4ZWPvgD+dVpPFMpH7q2RT6s5b/Cp5kQ6sF1OmorjpfEV/IMK0cfuqf45qpPqF3c/wCtuJGHoDgfkKXOiXWj0O4kniiGZZEQf7TAVVl1jT4vvXSH/c+b+VcPRS5yHXfRHXS+JLJCQglk91XA/WqknikZ/dWpI9WfH6YrnKKXOyHWkzVm8Q38h/dusQ9FUH+db+hXb3mnh5XLyKxVie/f+RFcXXTeFJcw3MR6KwYfiP8A61OLdyqU25as6CiiitDqCiiigAooooAKKKTNAC0VDLdW8P8ArZ44/wDecCqM+v2MJwJTIf8ApmM/r0pXQnJLdmpRWBJ4ogH+qt5G/wB4hf5ZqrJ4ouW/1cESf7xLf4UuZEOrBdTqaTNcZJr2oOeJgg9FQf1qlNczTnM0rv8AU0udEOuuh3Ut7awnE1xFGfRnANVJNc0+P/l4Df7qk1xdFLnIdd9EdW/ie0UkJFM3ocAA/rVSXxRIRiO2VT6s+f6Vz9FLmZLqyZovruouT/pG0eioP8KqyXt1LnzLmZs9i5x+VQUVN2Q5Se7CjrRRSJCiiigAooooAKKKKACiiigAra8LyFb+RCeGjJ+pBH/16xauaTKYdTtyP4nCn8eKqO5UHaSO6ooorY7wooooAKinSV1xFKIz6ld1S0UAZsmn3cgw2pygf7KKv8qqy+Hmm/12oTyf73P8622IUEk4A6moReWxOBcRZ/3xStchxj1MT/hFUH3bpvxQf41SvNAntV3qfNTuVHI/Cuuzmimkl0IlRi1pocXp2mi+uRF5hUbSxIGeK1f+EWi/5+n/AO+RWhZ6ettfzzL91xhR6ev61oU5qDfuomlStH3tzn/+EWi6/an/AO+RWZqelrYzrGshcMuckY9a7Ouf8SriW3b1Vh/L/GqpQi5WaJrwUYNo5/yB61Lb2TXE6RITuY46dPeiui0Gx8qP7S+dzjCj0H/163qU6cI3sclJSqSsVx4WjxzdPn/dFH/CLRf8/T/98iuhorj5Uej7OPY5/wD4RaL/AJ+n/wC+RWRf6f8AY7tod5YAAgkda7euc8RREXUcmPlZMfiD/wDXrWlCLlZoxrwUYXiYXkD+9V3TdJ+3zMpdkRVyWA7+lV66rQ4PJsEY/ekJc/0/TFbVacIx0RzUE5z12M//AIRaL/n5f/vkUv8Awi0X/P0//fIroKK5OVHf7OPY4W7sfs1zJCWJ2nAOOoqLyR6mtjxAgXUAR/EgP6ms+CPzp44v77BfzNdsaVNxu0ebPmU3FGjaeHFnto5ZJ2UuN2AB07VN/wAItD/z8yf98it5VCqAOgGBTq43Fdj0lSikc/8A8ItF/wA/Mn/fIo/4RaL/AJ+pP++RXQVHJPFCQJJEQnn5mAo5UHs4djD/AOEWi/5+ZP8AvkUDwwI2V4rtlZTkEpn+tbscscozG6uP9k5p9HKg9nDsIKWiimaBRRRQAUlLRQBV1J9mn3Bzj92QPxGK46u0vLYXds0LMVDY5H1zWcnh+3DZeSRx6cCuilUjBO5x4ilOpJWLOiljpkO7PfGfTJxV+moixoqIMKowBQ8ixrucgDOKwbu7nVFcsUh1MkkWNdznAyB+JOKfWVr85htYwp5aQH8Bz/PFEVd2CcuWLZqjmsPxKmUt39Cw/PH+FbakEAjvWT4jXNnGR18z+hq6Wk0Z11emzF0+0a8ulQA7AcufQV2CqFAAAAAwAKoaPZ/ZbQFh+8k+Zvb0FXJpRDE0jfdUZNOrPnkTQp+zhd7klFMjYvGrEbSwBx6USuIonkbooJNZHQPrK8QpusVYfwOD/MVpowdQw6EZqrqsfmabOPRd35c/0q4O0kZ1FzQaOUgiM8yRLwXYDPpXaooRAqjAAwB6Vz/h2DdPJMeiDaPqf8/rXRVpXleVjDCwtHm7jSwUgE4LHA96dWVf3YTVbSLsvzN+OQK1ayaskzpjJSbXYwfEqcwSYH8QJ/L/AOvVfw/b+bdmY9Ih+pyK0PEKbrFW/uOD/On6DD5dgGIOZGLf0/pW3NakcrhfEfiadFIahtXEqNIP4nb9Dj+lc5136E9cx4gk3X4UfwoAf1P9a6as650aC6uHmkklDN1AIx0x6VpSkoyuzKvCU4WiY+hF/wC0UCH5SDv+mP8AHFdVVSz0+Cyz5KnLcFick1boqSUpXQUabpxsxKWqlverPeTwKBiLHOep71bqGrbmqaewUUUUhhRRRQBHLPFAAZZFQHgFjioTqNmB/wAfMX4MKyPEUzGaOH+ELuP1rFrohRUo3bOOpiXCTikdRPrlpEDsZpW9FH9TVGwuZtR1VHlPyRguE7Dt/WsWt3w3F/r5T7KP5n+lXKnGnFtGcKsqs0nsb1c54ikDXMUfXYmfzP8A9auiPSuP1GYzX0znsxUfQVnQV5XNsVK0LdzqdPbfYwMTkmNc/lUksSy7N4ztbcAfWqmiNu0uHPUZH6mr9ZS0kzeDvFCVlahcCe+t7KM5/eBpPoOcVfu7hbW2eVuijgep7Vh6GrT6jJO/JClifcn/APXVwjo5PoZ1Z6qC6nRCqWsSeXpsx/vDb+fFXqxvEcmLWOPPLPn8AP8A69TTV5JF1XaDZa0aUyabDk5KgqfwNXZFDoynoRisfw3JmCaPuH3fmP8A61bVFRWkxUnzU0ylpNsbWxRHXDnLMPf/APVirjEBSScAUtUNZn8nTpeeX+Qfj1/TNLWUvUp2px9Dmry4NzdSTjIJOV9sdK7JGDorDkEZFcPXYaZJ5mnwN/sAflx/SuivGyVjkwsm5SuJqkD3FjLHGMscYH4g1YhjEUSxrwEAAp9Fc19LHbZXuU9Un+z2Ezg4YrtGPU8U/T08uxgXGMRjP5Vna44lntLTs7gt+eB/WtlRgAelU1aKM4u835AeBVQ6pZAkG4Xj61LeSeVZzOOqoSPyri6ulTU73M69Z07JHWNrNio/12foprLv9caZdlqGjXuxxk/4Vj0V0RoRTuck8TOStsamgSBdQwT99CB+h/oa6euP0x/L1GBv9rH58f1rrx0rCurSOrCu8LC0UUVgdQUGiigDk9aJOqTZ7bQPyFUK09fTbqOf7yA/0/pWZXo0/hR49X+IwrrNGg8jT4/WT5z+NcnWumvzIgUQx4AwOTUVoykrI0w84wk3I6CeQRQSSHoilvyriScnPWtO51ua4t3hMSKHGCRmsulRg4XuPEVVUa5TpPDjZs5FP8Mn9B/9eteuQsdRlsQ4jVGDYzuFWX166dSoWJcjGQDkfrWc6MnJtG9PEQjBJ7hrt351z5KNmOPggd27/wCfrV7w7BstnlP/AC0PH0H/ANfNc6SSST1NaVrrMlrbpCkKEL3Oea0nTfJyxMKdVe0c5nUVzXiGbfeLEP8Almv6n/Ip/wDwkM//ADxj/M1mXVw11cPM4AZ+w/KopUpRldmtevGcLRNDw9JtvXQnh0/Mg/8A666WuJtp2tp0lTBKHOD3rU/4SGb/AJ4x/rRVpSlK6FQrxhC0joq5vxBcmS6EAPyxjJHuf/rYp3/CQz/88Y/zNZU8rTzvK33nOTRSpSjK7CvXjKNokddPoEm/Twv9xyv9f61zFXrDU5LFGVEVgxzzWtWDlGyMKE1Cd2dbSE4rnv8AhIp/+eMf5mmya/O8bIIo13AjIzxXN7GZ3fWafcbbym915XPzIHO3/dGcV01cdYXf2K483y/MO0gDOK0v+Ejb/n1H/fz/AOtV1Kcm1ZGNGtCKfM9WX9bfZpkuDgnA+vIrla0NQ1Zr6ERGIRgNuyGzn9KppbTyDMcMjj/ZQmtaUeSPvGNeXtJ3iRUVoQ6NeS9UWP8A3zircfh2Q8yTqp9FXP8AhVOrBdSFRqPZGNG5jkVx1Ug/lXcDpWTH4ftl+/JI/wCIArVRQiKo6KMCuWtOM7WO7D05U78w6iiisTpCiiigDnvEkeJoZMdV2/5/OsWuk8Rrmzjb0kH8jXN13UXeB5eJVqjCiiitjnCiiigAooooAKKKKACiinJG8hxGjOfRRmi4DaKuRaZeTfdgdfdht/nVyPw/OSPNljUf7OSah1IrdmiozlsjHoroU8Oxf8tJ3P8AugD/ABqxHolig+aNnPqzH+lZuvFbGqwtR7nLdKmjtp5RmOGRge4UkV18VtDCMRRqv0FS4qHiOyNVhO7OTTSL1/8Alhj/AHmAqzH4fuCQZJY1HoMk10lFZuvNmqwtNbmRH4ftlwXkkf2yAP5VZj0iyj5EAJ/2iT/Or1FQ5ye7NVSgtkRR28MX+riRP91QKlooqDS1gooooAKKKKACiiigAooooAz9cXdpsvHQg/rXKV2d9EZrKaNRlmQ4Hv2rAj0G7bljGn1b/CuqjOMYu7OHE05SmnFGXRW7H4d5BkueO4VP65q1HoNov3vMf6tj+VaOvBGKw1RnMU5EeU4jVnP+yM110Wm2kJBjgUEdzz/OrQGKzeI7I1WEfVnIJpl7IPltn/Hj+dWY9BvH+95cf1bJ/SunoqHXkzVYWC3MSLw8mP30zk/7AA/nVqPRLJOsbOfVmNaNFZupN9TVUaa2RXjsbWP7lvED67RmpwABgUtFTds0SS2CiiikMKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/2Q=="><div style="min-width:0"><h1>PM 19 Crew Boat – Simulator Muat, Hidrostatik &amp; Stabilitas</h1><div class="sub">lambung dari Lines Plan + superstruktur dari General Arrangement Rev 09 (visual saja, tidak masuk hidrostatik) · SI: m, ton (t), derajat · alat bantu teknik, bukan sertifikasi kelas</div></div></div>
@@ -152,7 +120,7 @@ else{er.textContent="Kata sandi salah. Periksa huruf besar dan spasi.";var f=doc
   <div class="group" id="sup"></div>
   <div class="group"><button id="mManual" aria-pressed="true">Draft manual</button><button id="mLoad" aria-pressed="false">Kondisi muat</button><button id="rstShip" title="Kembalikan kapal ke posisi awal (tegak, draft awal) tanpa menghapus isian">↺ Posisi awal kapal</button>
     <label class="sub" for="wlv">T (m)</label><input id="wlv" type="number" inputmode="decimal" min="0" max="6.8" step="0.05" value="1.90" style="width:5.5em"></div>
-  <div class="group" id="lay"><button id="tgL" aria-pressed="true" title="Tampilkan/sembunyikan panel kiri">◧</button><button id="tgR" aria-pressed="true" title="Panel kanan">◨</button><button id="tgB" aria-pressed="true" title="Panel bawah">⬓</button><button id="focusb" aria-pressed="false" title="Fokus ke tampilan 3D (sembunyikan semua panel)">Fokus 3D</button><button id="fzm" title="Perkecil teks &amp; panel">A−</button><button id="fzp" title="Perbesar teks &amp; panel">A+</button><button id="lockb" title="Kunci kembali (minta kata sandi)">Kunci</button></div>
+  <div class="group" id="lay"><button id="tgL" aria-pressed="true" title="Tampilkan/sembunyikan panel kiri">◧</button><button id="tgR" aria-pressed="true" title="Panel kanan">◨</button><button id="tgB" aria-pressed="true" title="Panel bawah">⬓</button><button id="focusb" aria-pressed="false" title="Fokus ke tampilan 3D (sembunyikan semua panel)">Fokus 3D</button><button id="fzm" title="Perkecil teks &amp; panel">A−</button><button id="fzp" title="Perbesar teks &amp; panel">A+</button></div>
 </header>
 <aside id="left"></aside>
 <div class="spl v" id="spL" title="Tarik untuk mengubah lebar panel kiri"></div>
@@ -325,7 +293,9 @@ function setAF(g){while(afG.children.length){const c=afG.children[0];afG.remove(
   for(const l of g.legs)add(cylBetween(l[0],l[1],.13,afMatF,10));add(cylBetween(g.bar[0],g.bar[1],.13,afMatF,10));add(cylBetween(g.hinge[0],g.hinge[1],.1,afMatF,10));
   for(const p of g.sheaves){add(cylBetween([p[0],p[1]-.06,p[2]],[p[0],p[1]+.06,p[2]],.22,afMatS,16))}
   for(const r of g.ropes)add(cylBetween(r.a,r.b,r.k==='sling'?.012:.022,r.k==='sling'?afMatL:afMatW,5));
-  for(const h of g.hooks){const m=new THREE.Mesh(new THREE.SphereGeometry(.12,10,8),afMatH);m.position.set(h[0],h[2],h[1]);afG.add(m)}}
+  g.hooks.forEach((h,i)=>{const m=new THREE.Mesh(new THREE.SphereGeometry(.2,12,10),afMatH);m.position.set(h[0],h[2],h[1]);afG.add(m);const pk=new THREE.Mesh(new THREE.SphereGeometry(.55,8,6),new THREE.MeshBasicMaterial({visible:false}));pk.position.copy(m.position);pk.userData.hookId=g.hookIds?g.hookIds[i]:null;afG.add(pk)})}
+function hookPx(){const m=hookPicks()[0];if(!m)return null;hullG.updateMatrixWorld(true);const v=m.position.clone().applyMatrix4(hullG.matrixWorld).project(cam);const r=stage.getBoundingClientRect();return [r.left+(v.x+1)/2*r.width,r.top+(1-v.y)/2*r.height]}
+function hookPicks(){return afG.children.filter(m=>m.userData&&m.userData.hookId!==undefined&&m.userData.hookId!==null)}
 const SUPL=[['bulwark','Bulwark & ekst. buritan'],['tier1','Rumah geladak 1 + mid deck'],['tier2','Rumah geladak 2'],['wheelhouse','Wheelhouse + upper deck'],['windows','Jendela & pintu'],['rails','Pagar, lifebuoy, fire monitor'],['livery','Strip merah-hijau'],['fender','Ban fender'],['mast','Mast & antena'],['deck_eq','Liferaft, RIB, davit'],['bow','Peralatan haluan'],['mainEq','A-frame, winch, crane (open deck)']];
 const wireMat=new THREE.MeshBasicMaterial({color:0xffffff,wireframe:true,transparent:true,opacity:.3});
 const wires=[new THREE.Mesh(shells[0].geometry,wireMat),new THREE.Mesh(shells[1].geometry,wireMat)];wires.forEach(w=>{w.visible=false;hullG.add(w)});
@@ -359,7 +329,7 @@ let pose={h:1.9,phi:0,beta:0};
 let onPose=null;function applyPose(h,phi,beta){pose={h,phi,beta};
   const ex=Eng.toWorld([1,0,0],phi,beta),ey=Eng.toWorld([0,1,0],phi,beta),ez=Eng.toWorld([0,0,1],phi,beta);
   const m=new THREE.Matrix4();m.set(ex[0],ez[0],ey[0],0, ex[2],ez[2],ey[2],-h, ex[1],ez[1],ey[1],0, 0,0,0,1);
-  hullG.matrix.copy(m);hullG.matrixWorldNeedsUpdate=true;hullG.updateMatrixWorld(true);if(onPose)onPose();
+  hullG.matrix.copy(m);{const _y=window.__pmYaw&&window.__pmYaw();if(_y)hullG.matrix.premultiply(_y)}hullG.matrixWorldNeedsUpdate=true;hullG.updateMatrixWorld(true);if(onPose)onPose();
   const n=Eng.planeN(phi,beta),cb=new THREE.Color(css('--bottom')||'#a33a2c'),ch=new THREE.Color(css('--hull')||'#5f7f96');
   for(const at of colorAttrs){const sgn=at===colorAttrs[0]?1:-1;for(let i=0;i<NV;i++){const x=vi[3*i]/100,y=sgn*vi[3*i+1]/100,z=vi[3*i+2]/100;const c=(n[0]*x+n[1]*y+n[2]*z<h)?cb:ch;at.setXYZ(i,c.r,c.g,c.b)}at.needsUpdate=true}
   lidMat.color.set(css('--deck')||'#9aa7ae');draw()}
@@ -455,14 +425,17 @@ function pickMeasure(e){setRay(e);hullG.updateMatrixWorld(true);const hit=ray.in
   if(msPts.length===2){const a=msPts[0],b=msPts[1];msG.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([a,b]),new THREE.LineBasicMaterial({color:0xff00aa,depthTest:false})));
     const dX=b.x-a.x,dY=b.z-a.z,dZ=b.y-a.y;UI.measureText(`A (X ${a.x.toFixed(2)}, Y ${a.z.toFixed(2)}, Z ${a.y.toFixed(2)}) → B (X ${b.x.toFixed(2)}, Y ${b.z.toFixed(2)}, Z ${b.y.toFixed(2)}) · ΔX ${dX.toFixed(2)} ΔY ${dY.toFixed(2)} ΔZ ${dZ.toFixed(2)} · jarak ${Math.hypot(dX,dY,dZ).toFixed(2)} m`)}
   else UI.measureText('Titik A dipilih (X '+p.x.toFixed(2)+', Y '+p.z.toFixed(2)+', Z '+p.y.toFixed(2)+'). Klik titik B.');draw()}
-let drag=null,pinch=null,cdrag=null;const pts=new Map();
+let drag=null,pinch=null,cdrag=null,hdrag=null;const pts=new Map();
 stage.addEventListener('pointerdown',e=>{stage.setPointerCapture(e.pointerId);pts.set(e.pointerId,[e.clientX,e.clientY]);
   if(pts.size===1){if(UI&&UI.carrying()){UI.carryDrop();return}
     if(measuring){pickMeasure(e);return}
-    setRay(e);hullG.updateMatrixWorld(true);const hit=ray.intersectObjects(cargoG.children.filter(m=>m.visible),false)[0];
+    setRay(e);hullG.updateMatrixWorld(true);afG.updateMatrixWorld(true);const hh=e.button===0?ray.intersectObjects(hookPicks(),false)[0]:null;
+    if(hh){const b=bodyRay(),inv=new THREE.Matrix4().copy(hullG.matrixWorld).invert();const nd=cam.getWorldDirection(new THREE.Vector3()).transformDirection(inv);const p=hh.object.position.clone();hdrag={id:hh.object.userData.hookId,n:nd,p};UI.select(hdrag.id);stage.style.cursor='grabbing';return}
+    const hit=ray.intersectObjects(cargoG.children.filter(m=>m.visible),false)[0];
     if(hit&&e.button===0){const id=hit.object.userData.id;UI.select(id);const it=UI.item(id);const b=bodyRay();const t=(it.z-b.o.y)/b.d.y;if(isFinite(t)&&Math.abs(b.d.y)>1e-4){const px=b.o.x+t*b.d.x,py=b.o.z+t*b.d.z;cdrag={id,gx:it.x-px,gy:it.y-py};stage.style.cursor='move';return}}
     drag=[e.clientX,e.clientY,e.shiftKey||e.button===2]}});
 stage.addEventListener('pointermove',e=>{if(!pts.has(e.pointerId))return;const o=pts.get(e.pointerId);pts.set(e.pointerId,[e.clientX,e.clientY]);
+  if(hdrag){setRay(e);const b=bodyRay();const den=b.d.dot(hdrag.n);if(Math.abs(den)>1e-5){const t=hdrag.p.clone().sub(b.o).dot(hdrag.n)/den;const P=b.o.clone().addScaledVector(b.d,t);UI.hookTo(hdrag.id,P.x,P.z,P.y)}return}
   if(cdrag){const it=UI.item(cdrag.id);setRay(e);const b=bodyRay();const t=(it.z-b.o.y)/b.d.y;if(isFinite(t)){UI.dragTo(cdrag.id,b.o.x+t*b.d.x+cdrag.gx,b.o.z+t*b.d.z+cdrag.gy)}return}
   if(pts.size===2){const a=[...pts.values()];const dd=Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1]);if(pinch)dist=Math.min(220,Math.max(12,dist*pinch/dd));pinch=dd;place();draw();return}
   if(!drag)return;const dx=e.clientX-o[0],dy=e.clientY-o[1];
@@ -474,7 +447,7 @@ stage.addEventListener('pointermove',e=>{if(!UI||!UI.carrying()||e.buttons)retur
   const inv=new THREE.Matrix4().copy(hullG.matrixWorld).invert();const p=hit.point.clone().applyMatrix4(inv);const d=ray.ray.direction.clone().transformDirection(inv);
   const n=hit.face.normal.clone();if(hit.object.userData&&hit.object.userData.id!==undefined)n.transformDirection(hit.object.matrix);if(n.dot(d)>0)n.negate();
   UI.carryTo(p.x,p.z,p.y,n.x,n.z,n.y,hit.object.userData.floor)}); // body coords: X,Y,Z and normal (nx,ny,nz)
-const up=e=>{pts.delete(e.pointerId);pinch=null;if(cdrag){const id=cdrag.id;cdrag=null;stage.style.cursor=measuring?'crosshair':'';UI.dragEnd(id)}if(!pts.size)drag=null};
+const up=e=>{pts.delete(e.pointerId);pinch=null;if(hdrag){const id=hdrag.id;hdrag=null;stage.style.cursor='';UI.hookEnd(id)}if(cdrag){const id=cdrag.id;cdrag=null;stage.style.cursor=measuring?'crosshair':'';UI.dragEnd(id)}if(!pts.size)drag=null};
 stage.addEventListener('pointerup',up);stage.addEventListener('pointercancel',up);
 stage.addEventListener('wheel',e=>{e.preventDefault();dist=Math.min(260,Math.max(8,dist*Math.exp(e.deltaY*0.001)));place();draw()},{passive:false});
 stage.addEventListener('contextmenu',e=>e.preventDefault());
@@ -509,7 +482,7 @@ function partLevel(nm,layer){
 const supMeshes=[];supG.traverse(o=>{if(o.isMesh){o.userData.lvl=partLevel(o.name,o.parent.name||'');supMeshes.push(o)}});
 const WALLNAMES=/^(Tier-1|Tier-2|Wheelhouse$|Windows|Doors|Bulwark|Forecastle)/;
 const SLABNAMES=/^(Mid deck|Upper deck|Wheelhouse roof|Stern extension)/;
-function applyInt(){const on=INT.on,f=INT.focus,mx=f===null?9:f;
+function applyInt(){setTimeout(()=>window.__pmDupes&&window.__pmDupes(),0);const on=INT.on,f=INT.focus,mx=f===null?9:f;
   intG.visible=on;
   floorMeshes.forEach(m=>{m.userData.ok=on&&(f===null||m.userData.floor<=f);m.visible=on&&(f===null?true:m.userData.floor===f)});
   partGroups.forEach(m=>{m.visible=on&&(f===null||m.userData.lvl===f)});
@@ -562,7 +535,7 @@ function capShots(shots){const out=[],sv={th:theta,ph:phiC,d:dist,t:target.clone
     applyPose(s.pose.h,s.pose.phi,s.pose.beta);showSea(!!s.sea);if(s.sea)setSea(s.sea);renderer.render(scene,cam);
     const c=document.createElement('canvas');c.width=cv.width;c.height=cv.height;const x=c.getContext('2d');const gr=x.createLinearGradient(0,0,0,c.height);gr.addColorStop(0,'#eef4f8');gr.addColorStop(1,'#cfdde6');x.fillStyle=gr;x.fillRect(0,0,c.width,c.height);x.drawImage(cv,0,0);out.push({url:c.toDataURL('image/jpeg',0.9),w:c.width,h:c.height})}
   theta=sv.th;phiC=sv.ph;dist=sv.d;target.copy(sv.t);place();applyPose(sp.h,sp.phi,sp.beta);showSea(seaV);draw();return out}
-const SCN={showSea,capShots,setSea,camZoom,camFit,setLL,sideHit,setAF,setOnPose:f=>{onPose=f},INT,applyInt,FLZ,COMPD,supG,supLayers,applyPose,syncMesh,dropMesh,buildRulers,draw,resize,place,mG,mB,mM,water,setUI:u=>{UI=u},get pose(){return pose},setView,shells};
+const SCN={hookPx,showSea,capShots,setSea,camZoom,camFit,setLL,sideHit,setAF,setOnPose:f=>{onPose=f},INT,applyInt,FLZ,COMPD,supG,supLayers,applyPose,syncMesh,dropMesh,buildRulers,draw,resize,place,mG,mB,mM,water,setUI:u=>{UI=u},get pose(){return pose},setView,shells};
 /* ===================== STATE ===================== */
 const TYPES={'Umum':'#d9a441','Kontainer':'#c0504d','Kendaraan':'#4f81bd','Peralatan':'#8064a2','Material/curah':'#7f7f7f','Lainnya':'#3fa7b5'};
 const S={rho:1.025,ap:5.04,fp:47.0,thetaF:NaN,vessel:'',demo:false,light:{W:NaN,x:NaN,y:NaN,z:NaN},demoLight:{W:250,x:18,y:0,z:3},mode:'manual',snap:true,sel:null,cur:0,base:0,uid:1,cseq:1,T:1.9,gzStep:5,gzMax:80};
@@ -574,12 +547,12 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 const $=id=>document.getElementById(id);
 function itemById(id){for(const c of conds){const i=c.items.find(x=>x.id===id);if(i)return i}return null}
 /* ===================== MASS PROPERTIES ===================== */
-function tankSync(it){const g=it.tg;if(!g)return;it.x=(g.x0+g.x1)/2;it.y=(g.y0+g.y1)/2;it.z=g.z0+(Math.max(0,Math.min(100,it.fill||0))/100)*(g.z1-g.z0)/2}
+function tankSync(it){const g=it.tg;if(!g)return;if(it.cgm&&it.cgm.on)return;it.x=(g.x0+g.x1)/2;it.y=(g.y0+g.y1)/2;it.z=g.z0+(Math.max(0,Math.min(100,it.fill||0))/100)*(g.z1-g.z0)/2}
 function tankFSM(it){const g=it.tg;if(it.tg&&it.fsmAuto)return it.dens*(g.x1-g.x0)*Math.pow(g.y1-g.y0,3)/12;return it.fsm}
 function cgOf(it){if(it.kind==='cargo'&&it.af&&it.af.on&&!it.comp){const e=it.af.eff||afSheave(2);return [e[0],e[1],e[2]]}if(it.kind==='cargo'){const o=it.cgOver?it.off:[0,0,0];return [it.x+o[0],it.y+o[1],it.z+o[2]]}return [it.x,it.y,it.z]}
 
 /* ===================== A-FRAME / WINCH (3 tali: pulley 1 kiri, 2 tengah, 3 kanan) ===================== */
-const AF={px:-2.55,pz:4.25,L:7.875,by:3.65,dy:0.95,alpha:10.24,w:0,cgf:0.6,sy:[-1,0,1],rope:true};
+const AF={px:-2.55,pz:4.25,L:7.875,by:3.65,dy:0.95,alpha:10.24,w:0,cgf:0.6,sy:[-1,0,1],rope:true,lim:{ymin:-8,ymax:8,xmin:-14,xmax:8,zmin:-1,reach:16}};
 const AFWINCH=[[1.0,-3.2,4.85],[3.4,0,4.85],[1.0,3.2,4.85]];
 let afIterN=0;
 function afTop(){const a=AF.alpha*Math.PI/180;return [AF.px-AF.L*Math.sin(a),AF.pz+AF.L*Math.cos(a)]}
@@ -592,8 +565,14 @@ const afDist=(p,q)=>Math.hypot(p[0]-q[0],p[1]-q[1],p[2]-q[2]);
 function afWorld(phi,beta){const ex=Eng.toWorld([1,0,0],phi,beta),ey=Eng.toWorld([0,1,0],phi,beta),ez=Eng.toWorld([0,0,1],phi,beta);
   return {g:[-ex[2],-ey[2],-ez[2]],R:[[ex[0],ey[0],ez[0]],[ex[1],ey[1],ez[1]],[ex[2],ey[2],ez[2]]]}}
 function afLens(it){const a=afNorm(it),S=[afSheave(1),afSheave(2),afSheave(3)];
-  if(a.auto){const Ht=[S[1][0],a.off,S[1][2]-a.drop];a.l=S.map(p=>afDist(p,Ht))}
-  return {S,l:a.l.slice()}}
+  if(a.auto){const Ht=[isFinite(a.hx)?a.hx:S[1][0],a.off,S[1][2]-a.drop];a.l=S.map(p=>afDist(p,Ht))}
+  return {S,l:a.l.slice(),Ht:a.auto?[isFinite(a.hx)?a.hx:S[1][0],a.off,S[1][2]-a.drop]:null}}
+/* batas jangkauan kait (dapat dikonfigurasi di AF.lim) */
+function afClamp(X,Y,Z){const L=AF.lim,S3=[afSheave(1),afSheave(2),afSheave(3)];const ztop=S3[1][2]-0.3;let x=Math.max(L.xmin,Math.min(L.xmax,X)),y=Math.max(L.ymin,Math.min(L.ymax,Y)),z=Math.max(L.zmin,Math.min(ztop,Z));
+  const mx=(x,y,z)=>Math.max(...S3.map(p=>Math.hypot(p[0]-x,p[1]-y,p[2]-z)));let lim=false;if(mx(x,y,z)>L.reach){lim=true;const c=S3[1];let lo=0,hi=1;for(let i=0;i<30;i++){const m=(lo+hi)/2;if(mx(c[0]+(x-c[0])*m,c[1]+(y-c[1])*m,c[2]+(z-c[2])*m)<=L.reach)lo=m;else hi=m}x=c[0]+(x-c[0])*lo;y=c[1]+(y-c[1])*lo;z=c[2]+(z-c[2])*lo}
+  return {x,y,z,lim:lim||x!==X||y!==Y||z!==Z}}
+function afStatus(it){if(it.released)return 'released';const a=it.af;if(!afOn(it))return 'resting';if(it.afDrag)return 'lifting';const hz=it.Hh/2,zd=zDeck(it.x);return (!isFinite(zd)||it.z-hz>zd+0.05)?'suspended':'attached'}
+const AFST={resting:'resting (di dek)',attached:'attached (terpasang, di dek)',lifting:'lifting (sedang ditarik)',suspended:'suspended (menggantung)',released:'released (dilepas ke luar kapal)'};
 /* titik terendah (arah gravitasi dunia) di irisan 3 bola berpusat di pulley, jari-jari = panjang tali.
    Optimum LP-bola: salah satu dari dasar bola tunggal, titik terendah lingkaran irisan 2 bola. */
 function afLowest(S,l,g){const sub=(p,q)=>[p[0]-q[0],p[1]-q[1],p[2]-q[2]],dot=(p,q)=>p[0]*q[0]+p[1]*q[1]+p[2]*q[2];
@@ -606,7 +585,8 @@ function afLowest(S,l,g){const sub=(p,q)=>[p[0]-q[0],p[1]-q[1],p[2]-q[2]],dot=(p
   let best=null,bs=-1e9;for(const H of cand){if(viol(H)<=1e-4){const sc=dot(H,g);if(sc>bs){bs=sc;best=H}}}
   if(!best){let bv=1e9;for(const H of cand){const v=viol(H);if(v<bv){bv=v;best=H}}}
   return best}
-function afSolve(it,phi,beta){const {S,l}=afLens(it),{g,R}=afWorld(phi,beta);
+function afSolve(it,phi,beta){const {S,l,Ht}=afLens(it),{g,R}=afWorld(phi,beta);
+  if(Ht&&it.af.hold!==false){const dist=S.map(p=>afDist(p,Ht));return {S,l,H:Ht,g,R,dist,taut:[true,true,true],slack:[0,0,0],mode:'lock',eff:Ht}}
   const H=afLowest(S,l,g);
   const dist=S.map(p=>afDist(p,H)),taut=dist.map((d,i)=>d>=l[i]-0.01),slack=l.map((x,i)=>Math.max(0,x-dist[i]));
   const nt=taut.filter(Boolean).length;let mode,eff;
@@ -621,11 +601,11 @@ function afUpdate(it,phi,beta,store){const r=afSolve(it,phi,beta),a=it.af;const 
 function afEqPose(c){const e=c.res&&c.res.c&&c.res.c.eq;return e?{phi:e.phi,beta:e.beta}:{phi:0,beta:0}}
 function afApply(){const c=cond();const p=SCN.pose||{phi:0,beta:0};
   for(const k of conds){const ep=afEqPose(k);for(const it of k.items)if(afOn(it)){afNorm(it);afUpdate(it,ep.phi,ep.beta,'eff');if(k===c)afUpdate(it,p.phi,p.beta)}}
-  const t=afTop();const g={legs:[],bar:[[t[0],-(AF.by-AF.dy),t[1]],[t[0],AF.by-AF.dy,t[1]]],hinge:[[AF.px,-AF.by,AF.pz],[AF.px,AF.by,AF.pz]],sheaves:[],ropes:[],hooks:[]};
+  const t=afTop();const g={legs:[],bar:[[t[0],-(AF.by-AF.dy),t[1]],[t[0],AF.by-AF.dy,t[1]]],hinge:[[AF.px,-AF.by,AF.pz],[AF.px,AF.by,AF.pz]],sheaves:[],ropes:[],hooks:[],hookIds:[]};
   for(const sg of[-1,1])g.legs.push([[AF.px,sg*AF.by,AF.pz],[t[0],sg*(AF.by-AF.dy),t[1]]]);
   const lifted=c.items.filter(afOn);
   for(let i=1;i<=3;i++){const sp=afSheave(i);g.sheaves.push(sp);if(AF.rope)g.ropes.push({a:AFWINCH[i-1],b:sp,k:'wire'})}
-  if(AF.rope)for(const it of lifted){const a=it.af,H=a.H,gb=a.gb;g.hooks.push(H);
+  if(AF.rope)for(const it of lifted){const a=it.af,H=a.H,gb=a.gb;g.hooks.push(H);g.hookIds.push(it.id);
     for(let i=0;i<3;i++){const sp=afSheave(i+1),d=a.dist[i],e=a.slack[i];const N=e>0.003?18:1;const sag=e>0.003?Math.sqrt(3*d*e/8):0;let prev=sp;
       for(let k=1;k<=N;k++){const u=k/N,q=[sp[0]+(H[0]-sp[0])*u+gb[0]*sag*4*u*(1-u),sp[1]+(H[1]-sp[1])*u+gb[1]*sag*4*u*(1-u),sp[2]+(H[2]-sp[2])*u+gb[2]*sag*4*u*(1-u)];g.ropes.push({a:prev,b:q,k:'wire'});prev=q}}
     for(const sx of[-1,1])for(const sy of[-1,1]){const lc=[sx*it.L/2,sy*it.Wd/2,it.Hh/2],R=a.Rm;g.ropes.push({a:H,b:[it.x+R[0][0]*lc[0]+R[0][1]*lc[1]+R[0][2]*lc[2],it.y+R[1][0]*lc[0]+R[1][1]*lc[1]+R[1][2]*lc[2],it.z+R[2][0]*lc[0]+R[2][1]*lc[1]+R[2][2]*lc[2]],k:'sling'})}
@@ -635,7 +615,7 @@ function afAfterEq(res){const c=cond();if(!res||!res.c||!res.c.eq)return;let ch=
   for(const it of c.items)if(afOn(it)){const o=it.af.eff?it.af.eff.slice():null;afUpdate(it,res.c.eq.phi,res.c.eq.beta,'eff');if(!o||afDist(o,it.af.eff)>0.02)ch=true}
   if(ch&&afIterN<4){afIterN++;requestCalc(0)}else afIterN=0}
 function afInfo(it){const a=it.af;if(!a||!a.taut)return '';const nm=['1 (kiri/PS)','2 (tengah)','3 (kanan/SB)'];
-  return a.taut.map((t,i)=>`Tali ${nm[i]}: ${a.l[i].toFixed(2)} m · ${t?'<b style="color:var(--ok,#2a7)">tegang</b>':'<span style="color:var(--bad)">kendor '+a.slack[i].toFixed(2)+' m</span>'}`).join('<br>')+`<br>Kait: X ${a.H[0].toFixed(2)} · Y ${a.H[1].toFixed(2)} · Z ${a.H[2].toFixed(2)} m<br>`+(a.mode==='lock'?'Terkunci ≥2 tali: berat bekerja di kait (posisi tetap terhadap kapal).':'Menggantung bebas di satu tali: berat bekerja di pulley (VCG efektif = tinggi pulley).')}
+  return a.taut.map((t,i)=>`Tali ${nm[i]}: ${a.l[i].toFixed(2)} m · ${t?'<b style="color:var(--ok,#2a7)">tegang</b>':'<span style="color:var(--bad)">kendor '+a.slack[i].toFixed(2)+' m</span>'}`).join('<br>')+`<br>Kait: X ${a.H[0].toFixed(2)} · Y ${a.H[1].toFixed(2)} · Z ${a.H[2].toFixed(2)} m<br>Pusat barang: X ${it.x.toFixed(2)} · Y ${it.y.toFixed(2)} · Z ${it.z.toFixed(2)} m · Status: <b>${AFST[afStatus(it)]}</b>${a.limHit?' <span style="color:var(--bad)">· di batas jangkauan</span>':''}<br>`+(a.mode==='lock'?'Terkunci ≥2 tali: berat bekerja di kait (posisi tetap terhadap kapal).':'Menggantung bebas di satu tali: berat bekerja di pulley (VCG efektif = tinggi pulley).')}
 
 /* ===================== LOAD LINE (Sertifikat Garis Muat BKI, PAN MARINE 19) ===================== */
 const LL={ms:3,L:45.24,FWA:23,dl:300,fb:{T:1889,S:1929,W:1969,WNA:2019},zone:'S',xm:NaN,show:true,lines:true,ym:NaN};
@@ -668,7 +648,7 @@ function llHtml(){const st=llStatus();const z=LL.zone;
   ${Object.keys(LL.fb).map(k=>`<label class="f">Freeboard ${k} (mm)<input type="number" step="any" data-llfb="${k}" value="${LL.fb[k]}"></label>`).join('')}<label class="f">FWA (mm)<input type="number" step="any" data-ll="FWA" value="${LL.FWA}"></label><label class="f">Skala tanda di 3D (× ukuran asli)<input type="number" step="any" min="1" data-ll="ms" value="${LL.ms}"></label></div>
   <div class="note" style="margin-top:4px">Diambil dari sertifikat: L 45,24 m · tipe B · kapal baru · T 1889 · S 1929 · W 1969 · WNA 2019 mm · garis T 40 mm di atas S, W 40 mm di bawah S, WNA 90 mm di bawah S · FWA 23 mm · dek line 300 mm di bawah sisi atas pelat dek utama. Tinggi dek di sisi diambil dari model Lines Plan (Z ${zDeck(llXm()).toFixed(2)} m dari baseline). Posisi midship default = FP − L/2 dan perlu dikonfirmasi karena AP/FP model belum pasti.</div></details></div>`;
   return h}
-function weightOf(it){if(it.kind==='tank'){if(!(it.fill>0))return 0;return it.cap*it.fill/100*it.dens}if(it.kind==='cargo')return it.w+(it.ld||0);return it.w}
+function weightOf(it){if(it.kind==='tank'){if(!(it.fill>0))return 0;return it.cap*it.fill/100*it.dens}if(it.kind==='cargo')return it.released?0:it.w+(it.ld||0);return it.w}
 function lightship(){const L=S.demo?S.demoLight:S.light;const ok=[L.W,L.x,L.y,L.z].every(isFinite)&&L.W>0;return {...L,ok,src:S.demo?'ASUMSI DEMO (bukan data kapal)':'input pengguna'}}
 function weights(c){const rows=[],missing=[];let W=0,Mx=0,My=0,Mz=0,fsm=0,fsmMissing=[],wc=0,wt=0,wl=0,wi=0,wa=0;
   const L=lightship();
@@ -824,7 +804,12 @@ function editorHtml(it){if(!it)return '<div class="note">Pilih item di daftar (a
     ${it.af.on?`<div class="grid3" style="margin-top:6px">${F(it.af,'drop','Tinggi angkat (tali tengah)','m',{scope:'af'})}${F(it.af,'off','Posisi Y kait (kiri − · kanan +)','m',{scope:'af'})}${F(it.af,'rig','Tinggi sling','m',{scope:'af'})}</div><div class="note">Pengaturan lengkap (slider, panjang tali per winch, status tegang/kendor) ada di panel A-frame.</div>`:''}`}
   else if(it.kind==='tank'){h=`<div class="grid2">${F(it,'name','Nama','',{type:'text',scope:'item'})}${F(it,'fluid','Cairan','',{type:'select',opts:FLUIDS,scope:'item'})}</div>
     <div class="grid3" style="margin-top:6px">${F(it,'cap','Kapasitas','m³',sc)}${F(it,'fill','Isi','%',sc)}${F(it,'dens','Densitas','t/m³',sc)}</div>
-    <h3>Titik berat isi tangki pada isi saat ini</h3><div class="grid3">${F(it,'x','LCG','m',{scope:'item',dis:!!it.tg})}${F(it,'y','TCG','m',{scope:'item',dis:!!it.tg})}${F(it,'z','VCG','m',{scope:'item',dis:!!it.tg})}</div>
+    ${(()=>{const tv={get vol(){return isFinite(it.cap)?it.cap*(it.fill||0)/100:NaN},set vol(v){if(isFinite(it.cap)&&it.cap>0)it.fill=Math.max(0,Math.min(100,v/it.cap*100))}},tw={get wt(){return weightOf(it)},set wt(v){if(isFinite(it.cap)&&it.cap>0&&it.dens>0)it.fill=Math.max(0,Math.min(100,v/it.dens/it.cap*100))}};
+    return `<div class="grid3" style="margin-top:6px">${F(tv,'vol','Volume cairan aktual','m³',sc)}${F(tw,'wt','Berat cairan','t',sc)}<div class="note">Level isi: ${isFinite(it.fill)?it.fill.toFixed(1):'–'} %${it.tg?' · tinggi ≈ '+((it.tg.z1-it.tg.z0)*(it.fill||0)/100).toFixed(2)+' m':''}</div></div>`})()}
+    <h3>Titik berat cairan (LCG · TCG · VCG, m) — dapat diinput langsung</h3>${it.tg?`<label class="f" style="flex-direction:row;align-items:center;gap:6px"><input type="checkbox" data-r="${REG.length}" data-k="on"${it.cgm&&it.cgm.on?' checked':''}>CG cairan manual (override rumus otomatis dari box)${(it.cgm=it.cgm||{on:false},REG.push({obj:it.cgm,key:'on',o:{type:'check',scope:'item',re:1}}),'')}</label>`:''}
+    <div class="grid3" style="margin-top:6px">${F(it,'x','LCG','m',{scope:'item',dis:!!it.tg&&!(it.cgm&&it.cgm.on)})}${F(it,'y','TCG','m',{scope:'item',dis:!!it.tg&&!(it.cgm&&it.cgm.on)})}${F(it,'z','VCG','m',{scope:'item',dis:!!it.tg&&!(it.cgm&&it.cgm.on)})}</div>
+    ${it.tg?`<div class="note">Pusat geometri box (tangki penuh): X ${((it.tg.x0+it.tg.x1)/2).toFixed(3)} · Y ${((it.tg.y0+it.tg.y1)/2).toFixed(3)} · Z ${((it.tg.z0+it.tg.z1)/2).toFixed(3)} m. CG cairan otomatis (prismatik): X ${((it.tg.x0+it.tg.x1)/2).toFixed(3)} · Y ${((it.tg.y0+it.tg.y1)/2).toFixed(3)} · Z ${(it.tg.z0+Math.max(0,Math.min(100,it.fill||0))/100*(it.tg.z1-it.tg.z0)/2).toFixed(3)} m — hanya benar bila tangki prismatik dan muka cairan rata; kapal heel/trim memindahkan CG cairan (efek ini masuk koreksi free surface). Struktur tangki kosong termasuk lightship, bukan berat di sini.</div>`:''}
+    <div class="note">Konvensi: X dari stn 0, + ke haluan · Y + ke starboard (SB), 0 di centerline · Z + ke atas dari baseline (Z = 0 garis dasar).</div>
     <div class="grid2" style="margin-top:6px">${F(it,'fsm','Free-surface moment','t·m',{scope:'item',dis:!!(it.tg&&it.fsmAuto)})}<div class="note">Berat = kapasitas × isi × densitas.</div></div>
     ${it.tg?`<h3>Geometri tangki (box dari GA, m)</h3><div class="grid3">${F(it.tg,'x0','X awal','m',sc)}${F(it.tg,'x1','X akhir','m',sc)}${F(it.tg,'z0','Z dasar','m',sc)}${F(it.tg,'y0','Y min','m',sc)}${F(it.tg,'y1','Y maks','m',sc)}${F(it.tg,'z1','Z atas','m',sc)}</div>
     <div class="group" style="margin-top:6px"><button class="sm" data-act="capbox">Kapasitas = volume box (${it.volBox?((it.tg.x1-it.tg.x0)*(it.tg.y1-it.tg.y0)*(it.tg.z1-it.tg.z0)).toFixed(2):''} m³)</button><button class="sm" data-act="fill100">Isi 100 %</button><button class="sm" data-act="fill0">Kosong</button></div>
@@ -892,6 +877,8 @@ const UIobj={carrying:()=>!!S.carry,carryId:()=>S.carry&&S.carry.id,carryDrop:()
     SCN.syncMesh(it,{sel:true,bad:false});syncEditor();renderMassSummary();renderOverlay();SCN.draw()},
   item:itemById,select:id=>{if(S.sel!==id){S.sel=id;renderLeft();refreshMeshes()}},
   dragTo(id,x,y){const it=itemById(id);if(afOn(it))return;if(it.tg){const dx=(it.tg.x1-it.tg.x0)/2,dy=(it.tg.y1-it.tg.y0)/2;const cx=(it.tg.x0+it.tg.x1)/2,cy=(it.tg.y0+it.tg.y1)/2;it.tg.x0+=x-cx;it.tg.x1+=x-cx;it.tg.y0+=y-cy;it.tg.y1+=y-cy;tankSync(it)}else{it.x=x;it.y=y;if(S.snap||it.comp)snapZ(it)}SCN.syncMesh(it,{sel:true,bad:false});syncEditor();renderMassSummary();renderOverlay();SCN.draw()},
+  hookTo(id,X,Y,Z){const it=itemById(id);if(!it||!afOn(it))return;const a=afNorm(it);const c=afClamp(X,Y,Z);const S2=afSheave(2);a.auto=true;a.hx=c.x;a.off=c.y;a.drop=S2[2]-c.z;a.limHit=c.lim;it.afDrag=true;afApply();const n=$('afi-'+it.id);if(n)n.innerHTML=afInfo(it);renderMassSummary();afIterN=0;requestCalc(150)},
+  hookEnd(id){const it=itemById(id);if(it)it.afDrag=false;afterEdit('af');renderAfPanel()},
   dragEnd(id){afterEdit('cargo')},refresh:()=>{refreshMeshes();renderIntPanel&&renderIntPanel();renderAfPanel()},intRender:()=>renderIntPanel(),measureText(t){$('ovBR').dataset.m=t;renderOverlay()}};
 SCN.setUI(UIobj);
 $('snapb').onclick=e=>{S.snap=!S.snap;e.target.setAttribute('aria-pressed',S.snap);if(S.snap){cond().items.filter(i=>i.kind==='cargo').forEach(snapZ)}afterEdit('cargo')};
@@ -935,14 +922,18 @@ function renderAfPanel(){const el=$('afPanel');if(!el)return;const c=cond();cons
   <h3>Posisi pulley di crossbar (Y, m)</h3><div class="grid3">${[0,1,2].map(i=>`<label class="f">Pulley ${i+1}<input type="number" step="any" data-afsy="${i}" value="${AF.sy[i]}"></label>`).join('')}</div>
   <h3>Berat winch &amp; offshore crane (t)</h3><div class="grid2">${wRow('Winch PS','Winch PS')}${wRow('Winch tengah','Winch tengah')}${wRow('Winch SB','Winch SB')}${wRow('Offshore crane','Offshore crane')}</div>
   <h3>Beban terangkat (${lifted.length})</h3>`;
-  const lo=AF.sy[0]+0.1,hi=AF.sy[2]-0.1;
+  const lo=AF.lim.ymin,hi=AF.lim.ymax;
   h+=lifted.length?lifted.map(i=>{const a=afNorm(i);return `<div class="cardbox" style="margin-bottom:6px"><div style="display:flex;justify-content:space-between"><b>${esc(i.name)}</b><span class="note">${(i.w+(i.ld||0)).toFixed(2)} t</span></div>
     <label class="f">Naik/turun — tali pulley 2 (tinggi kait di bawah pulley) <span class="u">(m)</span><input type="range" min="0" max="14" step="0.1" data-afd="${i.id}" value="${a.drop}"><input type="number" step="any" data-afdn="${i.id}" value="${+a.drop.toFixed(2)}"></label>
     <label class="f">Geser kiri ← → kanan — tali pulley 1 / 3 (Y kait) <span class="u">(m)</span><input type="range" min="${lo}" max="${hi}" step="0.05" data-afo="${i.id}" value="${a.off}"><input type="number" step="any" data-afon="${i.id}" value="${+a.off.toFixed(2)}"></label>
-    <label class="f" style="flex-direction:row;align-items:center;gap:6px"><input type="checkbox" data-afauto="${i.id}"${a.auto?' checked':''}>Koordinasi otomatis (3 winch bergerak serempak → beban naik tegak lurus)</label>
+    <label class="f">Geser longitudinal — posisi X kait <span class="u">(m, + haluan)</span><input type="range" min="${AF.lim.xmin}" max="${AF.lim.xmax}" step="0.05" data-afhx="${i.id}" value="${isFinite(a.hx)?a.hx:afSheave(2)[0]}"><input type="number" step="any" data-afhxn="${i.id}" value="${+(isFinite(a.hx)?a.hx:afSheave(2)[0]).toFixed(2)}"></label>
+    <div class="note">Tip: seret bola oranye (kait) langsung di tampilan 3D — kait &amp; barang mengikuti kursor pada bidang tegak lurus arah pandang. Ganti tampak (Samping/Atas/Depan) untuk menggerakkan sumbu tertentu.</div>
+    <label class="f" style="flex-direction:row;align-items:center;gap:6px"><input type="checkbox" data-afauto="${i.id}"${a.auto?' checked':''}>Koordinasi otomatis: kait ditahan di posisi X/Y/Z yang diminta (winch kaku, mengikuti kursor). Matikan = panjang tali manual, beban menggantung bebas dan berayun ke titik terendah</label>
     ${a.auto?'':`<div class="grid3">${[0,1,2].map(k=>`<label class="f">Tali ${k+1}<span class="u"> (m)</span><input type="number" step="any" data-afl="${i.id}|${k}" value="${+(a.l[k]||0).toFixed(3)}"></label>`).join('')}</div>`}
     <div class="note" id="afi-${i.id}" style="margin-top:4px">${afInfo(i)}</div>
-    <div class="grid3" style="margin-top:4px"><label class="f">Berat <span class="u">(t)</span><input type="number" step="any" data-afwt="${i.id}" value="${i.w}"></label><label class="f">Tinggi sling <span class="u">(m)</span><input type="number" step="any" data-afrig="${i.id}" value="${a.rig}"></label><button class="sm" data-afrel="${i.id}" style="align-self:end">Turunkan ke dek</button></div></div>`}).join(''):'<div class="note">Belum ada beban yang digantung.</div>';
+    <div class="grid3" style="margin-top:4px"><label class="f">Berat <span class="u">(t)</span><input type="number" step="any" data-afwt="${i.id}" value="${i.w}"></label><label class="f">Tinggi sling <span class="u">(m)</span><input type="number" step="any" data-afrig="${i.id}" value="${a.rig}"></label><button class="sm" data-afrel="${i.id}" style="align-self:end">Turunkan ke dek</button></div><div class="group" style="margin-top:4px"><button class="sm" data-afrls="${i.id}" title="Hanya bila kait berada di luar kapal: berat dikeluarkan dari perhitungan">Lepas ke luar kapal</button></div></div>`}).join(''):'<div class="note">Belum ada beban yang digantung.</div>';
+  const rel=c.items.filter(i=>i.released);if(rel.length)h+=`<h3>Barang yang sudah dilepas (${rel.length})</h3>`+rel.map(i=>`<div class="note">${esc(i.name)} — ${(i.w+(i.ld||0)).toFixed(2)} t, di luar sistem kapal <button class="sm" data-afbk="${i.id}">Ambil kembali</button></div>`).join('');
+  h+=`<h3>Jangkauan kait (dapat diatur)</h3><div class="grid3">${[['xmin','X min'],['xmax','X maks'],['ymin','Y min'],['ymax','Y maks'],['zmin','Z min'],['reach','Panjang tali maks']].map(([k,l])=>`<label class="f">${l} <span class="u">(m)</span><input type="number" step="any" data-aflim="${k}" value="${AF.lim[k]}"></label>`).join('')}</div><div class="note">Nilai awal batas jangkauan adalah asumsi simulasi (bukan data A-frame PM 19); sesuaikan dengan spesifikasi winch/A-frame.</div>`;
   h+=`<div class="group" style="margin-top:6px"><button class="sm" id="afAdd">+ Beban baru di A-frame</button>${S.sel&&itemById(S.sel)&&itemById(S.sel).kind==='cargo'&&!itemById(S.sel).comp&&!afOn(itemById(S.sel))?'<button class="sm" id="afSel">Gantung boks terpilih</button>':''}<button class="sm" id="afRst">Reset A-frame</button></div>`;
   el.innerHTML=h;
   const upd=()=>{afApply();afterEdit('af')};
@@ -956,6 +947,11 @@ function renderAfPanel(){const el=$('afPanel');if(!el)return;const c=cond();cons
   el.querySelectorAll('[data-afdn]').forEach(r=>r.onchange=()=>{const it=itemById(+r.dataset.afdn);it.af.drop=Math.max(0,num(r.value)||0);renderAfPanel();live(it)});
   el.querySelectorAll('[data-afo]').forEach(r=>r.oninput=()=>{const it=itemById(+r.dataset.afo);it.af.off=num(r.value);const n=el.querySelector(`[data-afon="${r.dataset.afo}"]`);if(n)n.value=it.af.off;live(it)});
   el.querySelectorAll('[data-afon]').forEach(r=>r.onchange=()=>{const it=itemById(+r.dataset.afon);it.af.off=Math.max(lo,Math.min(hi,num(r.value)||0));renderAfPanel();live(it)});
+  el.querySelectorAll('[data-afhx]').forEach(r=>r.oninput=()=>{const it=itemById(+r.dataset.afhx);it.af.hx=Math.max(AF.lim.xmin,Math.min(AF.lim.xmax,num(r.value)));const n=el.querySelector(`[data-afhxn="${r.dataset.afhx}"]`);if(n)n.value=it.af.hx;live(it)});
+  el.querySelectorAll('[data-afhxn]').forEach(r=>r.onchange=()=>{const it=itemById(+r.dataset.afhxn);it.af.hx=Math.max(AF.lim.xmin,Math.min(AF.lim.xmax,num(r.value)||0));renderAfPanel();live(it)});
+  el.querySelectorAll('[data-aflim]').forEach(r=>r.onchange=()=>{const v=num(r.value);if(isFinite(v))AF.lim[r.dataset.aflim]=v;renderAfPanel();afApply()});
+  el.querySelectorAll('[data-afrls]').forEach(r=>r.onclick=()=>{const it=itemById(+r.dataset.afrls);const a=it.af;const ye=yEdge(a.H[0]);const out=!isFinite(ye)||Math.abs(a.H[1])>ye+it.Wd/2+0.05;if(!out){toast('Kait masih di atas kapal — geser keluar lambung dulu sebelum melepas','warn');return}it.released=true;a.on=false;it.visible=false;S.sel=null;renderLeft();afApply();afterEdit('item')});
+  el.querySelectorAll('[data-afbk]').forEach(r=>r.onclick=()=>{const it=itemById(+r.dataset.afbk);it.released=false;it.visible=true;it.x=AF.px+2;it.y=0;snapZ(it);renderLeft();afApply();afterEdit('item')});
   el.querySelectorAll('[data-afauto]').forEach(r=>r.onchange=()=>{const it=itemById(+r.dataset.afauto);if(!r.checked){afLens(it)}it.af.auto=r.checked;renderAfPanel();live(it)});
   el.querySelectorAll('[data-afl]').forEach(r=>r.onchange=()=>{const [id,k]=r.dataset.afl.split('|');const it=itemById(+id);it.af.l[+k]=Math.max(0.1,num(r.value)||0.1);renderAfPanel();live(it)});
   el.querySelectorAll('[data-afrig]').forEach(r=>r.onchange=()=>{const it=itemById(+r.dataset.afrig);it.af.rig=Math.max(0,num(r.value)||0);live(it)});
@@ -1396,6 +1392,611 @@ async function rpMake(){if(RP.busy)return;RP.busy=true;const st=$('uwPdfSt'),btn
 async function rpSave(blob,name){let dl=null;try{if(window.claude&&window.claude.use)dl=await window.claude.use('downloads')}catch(e){}
   if(dl){await dl.save({filename:name,data:blob});return}
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},4000)}
+/* ===================== EKSTENSI 1: UNDO/REDO, BERKAS (JSON/EXCEL), PANDUAN ===================== */
+const TABX={};const EXT_STATE=n=>{const o=n==='VY'?VY:n==='SK'?SK:n==='ST'?ST:n==='PR'?PRP:BK;return JSON.parse(JSON.stringify(o,jrep))};
+/* ---------- pembantu umum ---------- */
+async function loadScript(url){if(loadScript.c[url])return loadScript.c[url];loadScript.c[url]=new Promise((res,rej)=>{const s=document.createElement('script');s.src=url;s.onload=res;s.onerror=()=>{delete loadScript.c[url];rej(new Error('Gagal memuat '+url))};document.head.appendChild(s)});return loadScript.c[url]}
+loadScript.c={};
+const nowStamp=()=>{const d=new Date(),p=n=>String(n).padStart(2,'0');return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}_${p(d.getHours())}${p(d.getMinutes())}`};
+function toast(msg,kind){let t=$('toast');if(!t){t=document.createElement('div');t.id='toast';t.setAttribute('role','status');document.body.appendChild(t)}t.textContent=msg;t.className='show '+(kind||'');clearTimeout(toast.t);toast.t=setTimeout(()=>{t.className=''},4200)}
+/* semua kondisi dihitung penuh (kesetimbangan + kurva GZ); dipakai ekspor/booklet */
+async function ensureAllRes(onProg,force){const out=[];let i=0;for(const k of conds){i++;if(!force&&k.res&&k.res.state==='full'&&k.res.t&&Date.now()-k.res.t<600000&&!k._dirty){out.push(k);continue}
+    if(onProg)onProg(`Menghitung ${k.name} (${i}/${conds.length})…`);const r=await computeCond(k,{onProg:(a,b)=>{if(onProg)onProg(`${k.name}: GZ ${a}/${b} (${i}/${conds.length})`)}});k.res=r;out.push(k)}return out}
+/* ---------- riwayat undo/redo ---------- */
+const HIST={stack:[],i:-1,last:'',pending:false,dirtyAt:0,quiet:0,max:60};
+function histBtns(){const u=$('undob'),r=$('redob');if(u){u.disabled=!(HIST.i>0||HIST.pending);u.title='Urungkan (Ctrl+Z)'+(HIST.i>0?' — '+HIST.i+' langkah':'')}if(r){r.disabled=!(HIST.i<HIST.stack.length-1);r.title='Ulangi (Ctrl+Y)'+(HIST.i<HIST.stack.length-1?' — '+(HIST.stack.length-1-HIST.i)+' langkah':'')}}
+function histPush(s){HIST.stack.length=HIST.i+1;HIST.stack.push(s);if(HIST.stack.length>HIST.max)HIST.stack.shift();HIST.i=HIST.stack.length-1;histBtns()}
+function histTick(){if(S.carry||!HIST.stack.length)return;let s;try{s=snapshotState()}catch(e){return}
+  if(Date.now()<HIST.quiet){HIST.last=s;HIST.pending=false;return}
+  if(s!==HIST.last){HIST.last=s;HIST.dirtyAt=Date.now();if(!HIST.pending){HIST.pending=true;histBtns()}}
+  else if(HIST.pending&&Date.now()-HIST.dirtyAt>700){HIST.pending=false;histPush(s)}}
+function histCommit(){if(HIST.pending){HIST.pending=false;try{histPush(snapshotState())}catch(e){}}}
+function histUndo(){histCommit();if(HIST.i>0){HIST.i--;restoreState(HIST.stack[HIST.i],{hist:true});toast('Urungkan: langkah '+HIST.i+' / '+(HIST.stack.length-1))}else toast('Tidak ada yang bisa diurungkan')}
+function histRedo(){histCommit();if(HIST.i<HIST.stack.length-1){HIST.i++;restoreState(HIST.stack[HIST.i],{hist:true});toast('Ulangi: langkah '+HIST.i+' / '+(HIST.stack.length-1))}else toast('Tidak ada yang bisa diulangi')}
+/* ---------- terapkan state (dari undo, import) ---------- */
+function applyStateObj(o){const mode=S.mode;Object.assign(S,o.S);S.mode=mode;if(o.AF)Object.assign(AF,o.AF);if(o.LL)Object.assign(LL,o.LL);if(o.UW)Object.assign(UW,o.UW);if(o.VY&&typeof VY!=='undefined')Object.assign(VY,o.VY);if(o.SK&&typeof SK!=='undefined')Object.assign(SK,o.SK);if(o.ST&&typeof ST!=='undefined')Object.assign(ST,o.ST);if(o.BK&&typeof BK!=='undefined')Object.assign(BK,o.BK);if(o.PR&&typeof PRP!=='undefined')Object.assign(PRP,o.PR);
+  conds.length=0;let mx=0;for(const c of o.conds){c.res=null;c.items.forEach(i=>{mx=Math.max(mx,i.id||0)});conds.push(c)}
+  S.uid=mx+1;conds.forEach(ensureDeckComps);S.sel=null;S.carry=null;S.cur=Math.min(S.cur||0,conds.length-1);S.base=Math.min(S.base||0,conds.length-1)}
+function restoreState(src,opts){opts=opts||{};if(S.carry)endCarry(false);if(anim){cancelAnimationFrame(anim);anim=null}
+  let o=typeof src==='string'?JSON.parse(src,jrev):src;if(o&&o.state&&o.pm19)o=o.state;
+  if(!o||o.v!==2||!Array.isArray(o.conds)||!o.conds.length)throw new Error('Format berkas tidak dikenali (bukan proyek PM 19).');
+  applyStateObj(o);$('wlv').value=S.T.toFixed(2);$('llb').setAttribute('aria-pressed',LL.show);buildRulersNow();renderLeft();refreshMeshes();afApply();llDraw();
+  if(S.mode==='manual')SCN.applyPose(S.T,0,0);renderAll(true);requestCalc(0);
+  HIST.quiet=Date.now()+1200;HIST.pending=false;if(!opts.hist){HIST.last=snapshotState();histPush(HIST.last)}else{HIST.last=snapshotState()}histBtns()}
+/* ---------- berkas: JSON ---------- */
+async function exportJSON(){histCommit();const txt=`{"pm19":"project","app":"PM19 Hull Viewer","exported":"${new Date().toISOString()}","state":${snapshotState()}}`;
+  await rpSave(new Blob([txt],{type:'application/json'}),`PM19_proyek_${nowStamp()}.json`);toast('Proyek diekspor ke JSON')}
+function pickFile(accept){return new Promise(res=>{let i=$('fileIn');if(i)i.remove();i=document.createElement('input');i.type='file';i.id='fileIn';i.accept=accept;i.style.display='none';document.body.appendChild(i);i.onchange=()=>res(i.files&&i.files[0]||null);i.addEventListener('cancel',()=>res(null));i.click()})}
+async function importJSON(){const f0=await pickFile('.json,application/json');if(!f0)return;try{const txt=await f0.text();restoreState(txt);toast(`Proyek "${f0.name}" dimuat. Kondisi: ${conds.length}`,'ok')}catch(e){toast('Gagal impor: '+e.message,'bad')}}
+/* ---------- berkas: Excel (SheetJS) ---------- */
+const XLSX_URL='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+const XLS_HOOKS=[];
+const MUAT_COLS=[['Kondisi','cond'],['Jenis (cargo/tank/load)','kind'],['Nama','name'],['Berat (t)','w'],['X (m)','x'],['Y (m)','y'],['Z (m)','z'],['Panjang (m)','L'],['Lebar (m)','Wd'],['Tinggi (m)','Hh'],['Fluida','fluid'],['Densitas (t/m3)','dens'],['Kapasitas (m3)','cap'],['Isi (%)','fill'],['FSM (t.m)','fsm'],['Tampak (1/0)','visible']];
+const KOMP_COLS=[['Kondisi','cond'],['Nama komponen','name'],['Level','lvl'],['Berat komponen (t)','w'],['Isi / beban (t)','ld']];
+function xv(v){return typeof v==='number'&&!isFinite(v)?'':v}
+async function exportExcel(say){say=say||(()=>{});say('Memuat pustaka Excel…');await loadScript(XLSX_URL);const X=window.XLSX;const wb=X.utils.book_new();
+  say('Menghitung semua kondisi…');const L=await ensureAllRes(say);const add=(name,aoa,w)=>{const ws=X.utils.aoa_to_sheet(aoa);if(w)ws['!cols']=w.map(x=>({wch:x}));X.utils.book_append_sheet(wb,ws,name.slice(0,31))};
+  add('Petunjuk',[['PM 19 Hull Viewer — ekspor proyek'],['Dibuat',new Date().toLocaleString('id-ID')],[''],['Sheet "Kapal", "Muatan" dan "Komponen" dapat diubah lalu diimpor kembali lewat Berkas → Impor Excel.'],['Sheet lain (Hasil, Kriteria, GZ, Hidrostatik, Kekuatan, Seakeeping, Rute) adalah hasil hitung dan diabaikan saat impor.'],['Kolom kosong = tidak diubah. Kondisi baru dibuat bila nama kondisi belum ada.'],['Angka memakai titik desimal. Satuan: m, ton (t), derajat.'],[''],['Estimasi alat bantu rekayasa; bukan dokumen sertifikasi.']],[110]);
+  add('Kapal',[['Parameter','Nilai'],['rho (t/m3)',S.rho],['AP X (m)',S.ap],['FP X (m)',S.fp],['Sudut downflooding (deg)',xv(S.thetaF)],['Lightship W (t)',xv(S.light.W)],['Lightship LCG (m)',xv(S.light.x)],['Lightship TCG (m)',xv(S.light.y)],['Lightship VCG (m)',xv(S.light.z)],['Pakai lightship ASUMSI (1/0)',S.demo?1:0],['Tipe kapal / regulasi',S.vessel||'']],[30,16]);
+  const mu=[MUAT_COLS.map(c=>c[0])],ko=[KOMP_COLS.map(c=>c[0])];
+  for(const k of conds){for(const it of k.items){if(it.comp){ko.push([k.name,it.name,it.lvl,xv(it.w),xv(it.ld||0)]);continue}
+      mu.push(MUAT_COLS.map(([h,key])=>key==='cond'?k.name:key==='visible'?(it.visible===false?0:1):xv(it[key])===undefined?'':xv(it[key])))}}
+  add('Muatan',mu,[22,14,26,10,9,9,9,10,10,10,14,12,12,9,10,10]);add('Komponen',ko,[22,30,7,16,14]);
+  const rs=[['Parameter','Satuan',...L.map(k=>k.name)]];for(const r of ROWS){if(r[0][0]==='#'){rs.push(['['+r[0].slice(1)+']','']);continue}rs.push([r[0],r[2],...L.map(k=>{const m=metrics(k.res);const v=m&&m[r[1]];return v===undefined||!isFinite(v)?'':+(+v).toFixed(r[3]+1)})])}
+  add('Hasil',rs,[40,8,...L.map(()=>18)]);
+  const kr=[['Kondisi','Kriteria','Batas','Hasil','Status','Acuan','Keterangan']];for(const k of L){let rows=[];try{rows=evalCriterion(k.res)}catch(e){}for(const r of rows)kr.push([k.name,r.crit,r.req,r.calc,r.status==='NE'?'NOT EVALUATED':r.status,r.reg,r.expl])}
+  add('Kriteria',kr,[22,40,18,30,14,36,70]);
+  const gz=[['Heel (deg)',...L.map(k=>k.name+' GZ (m)')]];const mx=Math.max(...L.map(k=>k.res.curve?k.res.curve.length:0));for(let i=0;i<mx;i++){const row=[L[0].res.curve[i]?L[0].res.curve[i].deg:''];for(const k of L)row.push(k.res.curve&&k.res.curve[i]?+k.res.curve[i].GZ.toFixed(4):'');gz.push(row)}add('GZ',gz,[12,...L.map(()=>20)]);
+  const hy=[['T (m)','Volume (m3)','Displacement (t)','LCB (m)','KB (m)','BMT (m)','KMT (m)','BML (m)','Awp (m2)','LCF (m)','TPC (t/cm)','MCT (t.m/cm)','WSA (m2)']];for(const r of hydroTable(0.5,3.0,0.1,S.rho))hy.push([r.T,+r.V.toFixed(3),+r.disp.toFixed(3),+r.LCB.toFixed(3),+r.KB.toFixed(3),+r.BMT.toFixed(3),+r.KMT.toFixed(3),+r.BML.toFixed(2),+r.Awp.toFixed(2),+r.LCF.toFixed(3),+r.TPC.toFixed(3),+r.MCT.toFixed(3),+r.S.toFixed(2)]);add('Hidrostatik',hy,[8,12,15,10,9,9,9,10,10,10,11,13,10]);
+  for(const h of XLS_HOOKS){try{await h(wb,X,add,L,say)}catch(e){console.error(e)}}
+  say('Menyusun berkas…');const out=X.write(wb,{bookType:'xlsx',type:'array'});await rpSave(new Blob([out],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}),`PM19_proyek_${nowStamp()}.xlsx`);toast('Excel diekspor','ok')}
+async function importExcel(say){say=say||(()=>{});const f0=await pickFile('.xlsx,.xls');if(!f0)return;try{say('Memuat pustaka Excel…');await loadScript(XLSX_URL);const X=window.XLSX;const wb=X.read(await f0.arrayBuffer(),{type:'array'});
+    const rows=n=>wb.Sheets[n]?X.utils.sheet_to_json(wb.Sheets[n],{defval:''}):null;const rep={cond:0,add:0,upd:0,comp:0,ship:0,skip:[]};const sn=wb.SheetNames;
+    const kap=rows('Kapal');if(kap){const m={};kap.forEach(r=>m[String(r['Parameter']).trim()]=r['Nilai']);const g=(k,fn)=>{if(m[k]!==undefined&&m[k]!==''){const v=num(m[k]);if(isFinite(v)){fn(v);rep.ship++}}};
+      g('rho (t/m3)',v=>S.rho=v);g('AP X (m)',v=>S.ap=v);g('FP X (m)',v=>S.fp=v);g('Sudut downflooding (deg)',v=>S.thetaF=v);g('Lightship W (t)',v=>S.light.W=v);g('Lightship LCG (m)',v=>S.light.x=v);g('Lightship TCG (m)',v=>S.light.y=v);g('Lightship VCG (m)',v=>S.light.z=v);
+      if(m['Pakai lightship ASUMSI (1/0)']!==undefined&&m['Pakai lightship ASUMSI (1/0)']!==''){S.demo=+m['Pakai lightship ASUMSI (1/0)']===1;rep.ship++}if(m['Tipe kapal / regulasi']){S.vessel=String(m['Tipe kapal / regulasi']);rep.ship++}}
+    const getCond=name=>{name=String(name).trim();if(!name)return cond();let c=conds.find(k=>k.name===name);if(!c){c={id:conds.length+1+S.cseq++,name,items:makeInterior(),res:null};conds.push(c);rep.cond++}return c};
+    const mu=rows('Muatan');if(mu)for(const r of mu){const kind=String(r['Jenis (cargo/tank/load)']).trim().toLowerCase();const nm=String(r['Nama']).trim();if(!nm||!['cargo','tank','load'].includes(kind)){rep.skip.push('Muatan: baris tanpa nama/jenis valid');continue}
+      const c=getCond(r['Kondisi']);let it=c.items.find(i=>i.kind===kind&&i.name===nm&&!i.comp);let isNew=false;if(!it){const keep=S.cur;it=newItemFor(c,kind);it.name=nm;c.items.push(it);isNew=true}
+      for(const [h,key] of MUAT_COLS){if(['cond','kind','name'].includes(key))continue;const raw=r[h];if(raw===''||raw===undefined)continue;if(key==='fluid'){it.fluid=String(raw);continue}if(key==='visible'){it.visible=+raw!==0;continue}const v=num(raw);if(!isFinite(v))continue;if(['L','Wd','Hh','w','x','y','z','dens','cap','fill','fsm'].includes(key)){if(key==='fsm'&&it.tg)it.fsmAuto=false;it[key]=v}}
+      if(it.kind==='cargo'&&isNew){snapZ(it)}isNew?rep.add++:rep.upd++}
+    const ko=rows('Komponen');if(ko)for(const r of ko){const c=getCond(r['Kondisi']);const nm=String(r['Nama komponen']).trim();const it=c.items.find(i=>i.comp&&i.name===nm);if(!it){rep.skip.push('Komponen tidak ditemukan: '+nm);continue}const w=num(r['Berat komponen (t)']),ld=num(r['Isi / beban (t)']);if(isFinite(w))it.w=w;if(isFinite(ld))it.ld=ld;rep.comp++}
+    if(!kap&&!mu&&!ko)throw new Error('Tidak ada sheet "Kapal", "Muatan" atau "Komponen" — pakai berkas hasil ekspor aplikasi ini.');
+    conds.forEach(k=>{k.res=null});S.sel=null;renderLeft();refreshMeshes();renderAll(true);requestCalc(0);HIST.quiet=Date.now()+1200;HIST.last=snapshotState();histPush(HIST.last);
+    toast(`Impor Excel: ${rep.upd} item diubah, ${rep.add} ditambah, ${rep.comp} komponen, ${rep.cond} kondisi baru, ${rep.ship} parameter kapal${rep.skip.length?' · '+rep.skip.length+' baris dilewati':''}`,rep.skip.length?'warn':'ok');if(rep.skip.length)console.warn(rep.skip.slice(0,20))}catch(e){toast('Gagal impor Excel: '+e.message,'bad')}}
+function newItemFor(c,kind){const save=S.cur;const idx=conds.indexOf(c);if(idx>=0)S.cur=idx;try{return newItem(kind)}finally{S.cur=save}}
+/* ---------- tabel hidrostatik (dipakai Excel & booklet) ---------- */
+function hydroTable(t0,t1,st,rho){const out=[];for(let T=t0;T<=t1+1e-9;T+=st){const h=Eng.hydroAt(H,+T.toFixed(4),rho);const KMT=h.KB+h.BMT;out.push({T:+T.toFixed(3),V:h.V,disp:h.disp,LCB:h.LCB,KB:h.KB,BMT:h.BMT,KMT,BML:h.BML,Awp:h.Awp,LCF:h.LCF,S:h.S,TPC:h.Awp*rho/100,MCT:h.disp*h.BML/(100*(S.fp-S.ap)),lid:h.lidCut})}return out}
+/* ---------- UI: tombol & menu ---------- */
+(function(){const g=$('lay');
+  g.insertAdjacentHTML('beforeend','<button id="undob" disabled>↶ Undo</button><button id="redob" disabled>↷ Redo</button><span class="menu"><button id="filemb" aria-haspopup="true" aria-expanded="false">Berkas ▾</button><div id="filemenu" role="menu" hidden><button role="menuitem" data-a="exj">Ekspor proyek (JSON)</button><button role="menuitem" data-a="imj">Impor proyek (JSON)</button><hr><button role="menuitem" data-a="exx">Ekspor Excel (.xlsx)</button><button role="menuitem" data-a="imx">Impor Excel (muatan)</button><hr><button role="menuitem" data-a="book">Booklet stabilitas (PDF)…</button></div></span><button id="guideb" title="Panduan penggunaan">? Panduan</button>');
+  $('undob').onclick=histUndo;$('redob').onclick=histRedo;
+  const mb=$('filemb'),mn=$('filemenu');const closeM=()=>{mn.hidden=true;mb.setAttribute('aria-expanded','false')};
+  mb.onclick=e=>{e.stopPropagation();mn.hidden=!mn.hidden;mb.setAttribute('aria-expanded',String(!mn.hidden))};document.addEventListener('click',e=>{if(!mn.contains(e.target))closeM()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM()});
+  mn.onclick=async e=>{const a=e.target.dataset&&e.target.dataset.a;if(!a)return;closeM();const say=m=>toast(m);try{if(a==='exj')await exportJSON();else if(a==='imj')await importJSON();else if(a==='exx')await exportExcel(say);else if(a==='imx')await importExcel(say);else if(a==='book'){gotoTab('book')}}catch(er){toast('Gagal: '+(er&&er.message||er),'bad')}};
+  $('guideb').onclick=()=>gotoTab('guide');
+  document.addEventListener('keydown',e=>{const t=e.target,typing=t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.tagName==='SELECT'||t.isContentEditable);if(typing)return;
+    if((e.ctrlKey||e.metaKey)&&!e.shiftKey&&e.key.toLowerCase()==='z'){e.preventDefault();histUndo()}else if((e.ctrlKey||e.metaKey)&&(e.key.toLowerCase()==='y'||(e.shiftKey&&e.key.toLowerCase()==='z'))){e.preventDefault();histRedo()}});
+  setInterval(histTick,350);setTimeout(()=>{HIST.stack=[snapshotState()];HIST.i=0;HIST.last=HIST.stack[0];histBtns()},1800)})();
+function gotoTab(k){if($('app').classList.contains('hb')){$('tgB').click()}TAB=k;renderTabs();try{$('bot').scrollIntoView({block:'nearest'})}catch(e){}}
+/* ---------- tab Panduan ---------- */
+function readiness(){const wt=weights(cond()),L=lightship(),items=[];const ok=(b,t,hint)=>items.push({ok:b,t,hint});
+  ok(L.ok&&!S.demo,'Lightship PM 19 terisi dari data asli (bukan ASUMSI demo)',S.demo?'Sekarang memakai lightship ASUMSI demo — hasil tidak boleh dipakai untuk pengajuan.':'Isi displacement, LCG, TCG, VCG di panel kiri → Lightship (hasil inclining test / weight estimate).');
+  ok(isFinite(S.thetaF),'Sudut downflooding θf terisi','Diperlukan agar kriteria luas GZ dinilai dengan benar (IS Code 2.2.1).');
+  ok(S.vessel&&S.vessel!=='Belum dikonfirmasi','Tipe kapal / regulasi dikonfirmasi','Pilih di panel kiri bagian Lightship.');
+  ok(Math.abs(S.fp-S.ap-41.958)>0.5||false,'AP/FP dikonfirmasi dari gambar umum','AP/FP sekarang asumsi (AP 5,04 · FP 47). Ubah sesuai dokumen kapal.');
+  ok(conds.length>=2,'Minimal dua kondisi muat (mis. berangkat & tiba)','Pakai "Duplikat & edit" di panel kiri untuk membuat kondisi tiba, ballast, dll.');
+  const tanks=conds.some(c=>c.items.some(i=>i.kind==='tank'&&i.fill>0));ok(tanks,'Isi tangki (BBM/air tawar/ballast) diisi pada kondisi muat','Isi persentase tangki agar berat cairan dan free surface terhitung.');
+  ok(typeof ST!=='undefined'&&(ST.SWBMhog>0||ST.Z>0),'Batas kekuatan memanjang dari kelas diisi','Isi di tab Kekuatan memanjang (batas SWBM/SF atau modulus penampang).');
+  return items}
+TABX.guide={html(){const R=readiness(),done=R.filter(x=>x.ok).length;
+  const sec=(t,b)=>`<details class="gd"><summary>${t}</summary><div class="gdb">${b}</div></details>`;
+  return `<div class="gdw"><div class="banner ${done===R.length?'good':'warn'}"><b>Kesiapan data untuk booklet resmi: ${done} / ${R.length}</b></div>
+  <ul class="rdy">${R.map(x=>`<li class="${x.ok?'ok':'no'}"><span class="mk">${x.ok?'✓':'✗'}</span><span><b>${x.t}</b>${x.ok?'':`<br><span class="note">${x.hint}</span>`}</span></li>`).join('')}</ul>
+  ${sec('Mulai cepat (5 langkah)',`<ol><li><b>Data kapal</b> (panel kiri): isi AP/FP, densitas air, sudut downflooding, dan <b>lightship</b> (displacement, LCG, TCG, VCG). Tanpa lightship asli, semua hasil berstatus ASUMSI.</li><li><b>Kondisi muat</b>: pilih kondisi di panel kiri. Tambahkan cargo, tangki, atau beban dengan tombol di "Inventaris muatan", atau isi komponen interior di tab 3D "Tampak dalam".</li><li>Lihat hasil di <b>panel kanan</b> (draft, trim, GM, status kriteria) dan tab <b>Kurva GZ</b>.</li><li>Buat kondisi lain dengan <b>Duplikat &amp; edit</b> (berangkat, tiba, ballast, dll.) lalu banding di tab <b>Perbandingan kondisi</b>.</li><li>Buka tab <b>Booklet</b> untuk PDF resmi atau presentasi.</li></ol>`)}
+  ${sec('Peta tampilan',`<ul><li><b>Header</b>: pilihan tampak 3D, tampilan (wireframe, garis air, sumbu), mode <i>Draft manual</i> / <i>Kondisi muat</i>, tombol Undo/Redo, menu Berkas.</li><li><b>Panel kiri</b>: data kapal, kondisi muat, inventaris, editor item.</li><li><b>Tampilan 3D</b>: seret untuk memutar, scroll untuk zoom; tombol ＋ － Fit di pojok kanan atas.</li><li><b>Panel kanan</b>: ringkasan hidrostatik, load line, kriteria.</li><li><b>Panel bawah</b> (tab): hasil lanjutan. Seret garis pemisah untuk mengubah ukuran, atau tombol ⤢ di baris tab untuk membesarkan.</li></ul>`)}
+  ${sec('Tab di panel bawah',`<ul><li><b>Kurva GZ</b> — lengan penegak vs sudut heel.</li><li><b>Perbandingan kondisi</b> — semua kondisi berdampingan; tombol <i>Hitung semua kondisi</i>.</li><li><b>Muatan &amp; momen</b>, <b>Detail hitungan</b>, <b>Peringatan</b>.</li><li><b>Jalan &amp; gelombang</b> — simulasi kapal berjalan: hambatan, daya, BBM; laporan PDF.</li><li><b>Propulsi &amp; manuver</b> — 3 main engine, gearbox 2,535:1, control head, tampak atas kapal berjalan, efek dinamis pada sikap.</li><li><b>Kekuatan memanjang</b> — gaya geser dan momen lengkung per station tiap kondisi.</li><li><b>Seakeeping</b> — RAO heave/pitch/roll dan kenyamanan penumpang.</li><li><b>Rute &amp; biaya</b> — jarak, ETA, BBM per trip, biaya, kecepatan ekonomis vs cepat.</li><li><b>Booklet</b> — PDF stabilitas resmi dan presentasi.</li><li><b>Uji validasi</b> — pemeriksaan mesin hitung.</li></ul>`)}
+  ${sec('Undo/redo, simpan, dan berkas',`<ul><li><b>Undo/Redo</b>: tombol ↶ ↷ atau Ctrl+Z / Ctrl+Y (di luar kolom teks). Menyimpan sampai 60 langkah; perubahan beruntun digabung per jeda ±0,7 detik.</li><li><b>Autosave</b>: otomatis ke penyimpanan browser (kondisi muat, parameter kapal, simulasi, rute, booklet).</li><li><b>Ekspor JSON</b>: seluruh proyek; <b>Impor JSON</b> memulihkannya (bisa di-undo).</li><li><b>Ekspor Excel</b>: sheet Kapal, Muatan, Komponen (dapat diedit lalu diimpor lagi) plus Hasil, Kriteria, GZ, Hidrostatik, Kekuatan, Seakeeping, Rute.</li><li><b>Duplikasi kondisi</b>: tombol "Duplikat &amp; edit" memakai salinan penuh kondisi aktif.</li></ul>`)}
+  ${sec('Booklet resmi vs presentasi',`<p><b>Resmi</b>: format buku stabilitas — sampul, daftar isi, data umum, dasar perhitungan, tabel hidrostatik, kurva silang (KN), setiap kondisi (daftar bobot, hasil, kriteria lulus/gagal, tabel dan kurva GZ), kekuatan memanjang, ringkasan, rumus, dan lembar pengesahan. <b>Presentasi</b>: ringkas, berupa grafik dan penjelasan bahasa sederhana.</p><p>Bila lightship masih ASUMSI atau data wajib kosong, setiap halaman diberi cap <b>DRAFT</b>. Booklet resmi baru layak diajukan setelah daftar kesiapan di atas terpenuhi dan diperiksa oleh naval architect yang berwenang.</p>`)}
+  ${sec('Metode dan rujukan ringkas',`<ul><li>Hidrostatik: pemotongan mesh lambung tertutup oleh bidang air; kesetimbangan Newton (draft, heel, trim). GZ pada displacement tetap dengan trim bebas.</li><li>Kriteria: IMO IS Code 2008 Part A bab 2 (kriteria umum). Kriteria cuaca &amp; kriteria khusus tipe belum diimplementasi.</li><li>Kekuatan memanjang: distribusi berat dikurangi buoyancy; SF = ∫(w−b)dx, BM = ∫SF dx.</li><li>Hambatan: Holtrop–Mennen (1984); gelombang STAWAVE-1 (ISO 15016); BBM dari kurva SFOC.</li><li>Seakeeping: teori strip sederhana (relative motion), Lewis-form pendekatan; kenyamanan dengan MSDV (ISO 2631-1) dan kriteria NORDFORSK.</li></ul>`)}
+  ${sec('Batasan yang perlu diingat',`<ul><li>Lightship, AP/FP, θf, data mesin, dan batas kelas harus diisi dari dokumen kapal; nilai awal adalah asumsi.</li><li>Distribusi berat lightship pada kekuatan memanjang diasumsikan (trapesium) karena rincian per blok tidak ada.</li><li>Seakeeping dan hambatan adalah estimasi tingkat desain awal, belum divalidasi dengan uji model.</li><li>Alat bantu rekayasa; bukan pengganti perhitungan resmi yang disetujui kelas.</li></ul>`)}
+  ${sec('Pintasan &amp; tips',`<ul><li>Ctrl+Z / Ctrl+Y: undo / redo. Esc: membatalkan mode "taruh muatan". Scroll: zoom 3D.</li><li>Tombol <b>Fokus 3D</b> menyembunyikan semua panel.</li><li>Tanda ⚠ di inventaris = muatan bertabrakan/keluar deck.</li></ul>`)}</div>`},bind(){}};
+
+document.addEventListener('click',e=>{if(e.target&&e.target.id==='bmax'){const ap=$('app');ap.classList.toggle('bmax');e.target.setAttribute('aria-pressed',String(ap.classList.contains('bmax')));try{SCN.resize()}catch(er){}}});
+/* ===================== EKSTENSI 2: KEKUATAN MEMANJANG (SF & BM air tenang) ===================== */
+const ST={SFlim:NaN,Mhog:NaN,Msag:NaN,Z:NaN,sig:NaN,Mwh:NaN,Mws:NaN,nsec:41,lsAssumed:true,cls:'BKI / kelas (isi dari Rules)'};
+const GRAV=9.80665;
+let STR_CACHE={};
+function hullXRange(){let a=1e9,b=-1e9;const X=H.X;for(let i=0;i<H.nv;i++){const x=X[3*i];if(x<a)a=x;if(x>b)b=x}return [a,b]}
+/* luas penampang tercelup pada bidang x=c; bidang air n.p=h (koordinat lambung) */
+function secAreaAt(c,n,h){return secGeom(c,n,h).A}
+function secGeom(c,n,h){const X=H.X,I=H.I,Ty=H.Ty,nt=H.nt;const segs=[];
+  for(let t=0;t<nt;t++){const i0=I[3*t],i1=I[3*t+1],i2=I[3*t+2];const x0=X[3*i0],x1=X[3*i1],x2=X[3*i2];
+    if((x0>c&&x1>c&&x2>c)||(x0<c&&x1<c&&x2<c))continue;const P=[i0,i1,i2],pts=[];
+    for(let k=0;k<3;k++){const a=P[k],b=P[(k+1)%3],xa=X[3*a],xb=X[3*b];if((xa-c)*(xb-c)<0||(xa===c&&xb!==c)){const u=(c-xa)/(xb-xa);pts.push([X[3*a+1]+u*(X[3*b+1]-X[3*a+1]),X[3*a+2]+u*(X[3*b+2]-X[3*a+2])])}}
+    if(pts.length<2)continue;
+    const ax=[X[3*i1]-X[3*i0],X[3*i1+1]-X[3*i0+1],X[3*i1+2]-X[3*i0+2]],bx=[X[3*i2]-X[3*i0],X[3*i2+1]-X[3*i0+1],X[3*i2+2]-X[3*i0+2]];
+    const ny=ax[2]*bx[0]-ax[0]*bx[2],nz=ax[0]*bx[1]-ax[1]*bx[0];let p=pts[0],q=pts[1];const dy=-nz,dz=ny;if((q[0]-p[0])*dy+(q[1]-p[1])*dz<0){const tmp=p;p=q;q=tmp}
+    segs.push([p,q])}
+  const dd=p=>n[0]*c+n[1]*p[0]+n[2]*p[1]-h;let A=0;const cross=(p,q)=>p[0]*q[1]-p[1]*q[0];const ex=[],en=[];const tdir=[n[2],-n[1]],tl=Math.hypot(tdir[0],tdir[1])||1;const sp=p=>(p[0]*tdir[0]+p[1]*tdir[1])/tl;
+  let Dm=0,Bm=0;for(const [p,q] of segs){const dp=dd(p),dq=dd(q);if(dp>0&&dq>0)continue;let a=p,b=q;if(dp>0||dq>0){const u=dp/(dp-dq),m=[p[0]+u*(q[0]-p[0]),p[1]+u*(q[1]-p[1])];if(dp>0){a=m;en.push(m)}else{b=m;ex.push(m)}}Dm=Math.max(Dm,-dd(a),-dd(b));A+=cross(a,b)}
+  const all=[...ex.map(p=>({p,t:'x'})),...en.map(p=>({p,t:'e'}))].sort((u,v)=>sp(u.p)-sp(v.p));
+  // sambungkan setiap titik keluar ke titik masuk terdekat di garis air (urut berurutan)
+  for(let i=0;i+1<all.length;i+=2){const u=all[i],v=all[i+1];if(u.t===v.t)continue;const e1=u.t==='x'?u.p:v.p,e2=u.t==='x'?v.p:u.p;A+=cross(e1,e2);Bm+=Math.abs(sp(e1)-sp(e2))}
+  return {A:Math.abs(A)/2,B:Bm,D:Dm}}
+/* distribusi berat per meter (t/m) pada grid x */
+function itemXExt(it){if(it.tg)return [it.tg.x0,it.tg.x1];if(it.kind==='cargo'){const he=halfExt(it);const g=cgOf(it);return [g[0]-he[0],g[0]+he[0]]}const g=cgOf(it);return [g[0]-1,g[0]+1]}
+function weightDist(c,xs,x0,x1){const wt=weights(c),n=xs.length,q=new Array(n).fill(0),dx=xs[1]-xs[0];const notes=[];
+  const add=(w,xa,xb)=>{if(!(w>0))return;if(xb-xa<dx)xa=(xa+xb)/2-dx/2,xb=xa+dx;const dens=w/(xb-xa);for(let i=0;i<n;i++){const cl=Math.max(xs[i]-dx/2,x0),cr=Math.min(xs[i]+dx/2,x1),l=Math.max(cl,xa),r=Math.min(cr,xb);if(r>l)q[i]+=dens*(r-l)/(cr-cl)}};
+  const L=wt.L;if(L.ok){const xm=(x0+x1)/2,len=x1-x0;let cc=6*(L.x-xm)/len;if(Math.abs(cc)>0.98){cc=Math.sign(cc)*0.98;notes.push('LCG lightship di luar sepertiga tengah — distribusi trapesium dibatasi (momen sisa masuk koreksi penutupan).')}
+    for(let i=0;i<n;i++){q[i]+=L.W/len*(1+cc*2*(xs[i]-xm)/len)}}
+  for(const it of c.items){if(it.tg)tankSync(it);const w=weightOf(it);if(!isFinite(w)||w<=0)continue;const e=itemXExt(it);add(w,Math.max(x0,e[0]),Math.min(x1,e[1]))}
+  if(AF.w>0){const g=afCG();add(AF.w,g[0]-1,g[0]+1)}
+  return {q,notes,W:wt.W,L}}
+/* hitung SF/BM satu kondisi */
+function strengthOf(c){const res=c.res;if(!res||!res.c)return {err:'Kondisi belum dihitung (lightship kosong atau belum ada hasil).'};
+  const [x0,x1]=hullXRange(),N=Math.max(21,Math.round(ST.nsec)|0),dx=(x1-x0)/(N-1),xs=[];for(let i=0;i<N;i++)xs.push(x0+i*dx);
+  const eq=res.c.eq,n=Eng.planeN(eq.phi,eq.beta),A=xs.map(x=>secAreaAt(x,n,eq.h));
+  const wd=weightDist(c,xs,x0,x1),w=wd.q;const b=A.map(a=>S.rho*a);
+  const sum=a=>(a.reduce((s,v)=>s+v,0)-(a[0]+a[a.length-1])/2)*dx;const Wt=sum(w),Bt=sum(b);
+  // integrasi trapesium: q = w - b ; SF dari buritan; BM = ∫SF
+  const SF=[0],BM=[0];for(let i=1;i<N;i++){const q0=w[i-1]-b[i-1],q1=w[i]-b[i];SF.push(SF[i-1]+(q0+q1)/2*dx);BM.push(BM[i-1]+(SF[i-1]+SF[i])/2*dx)}
+  const sfE=SF[N-1],bmE=BM[N-1],Lh=x1-x0;
+  const SFc=SF.map((v,i)=>(v-sfE*(i/(N-1)))*GRAV),BMc=BM.map((v,i)=>(v-bmE*(i/(N-1)))*GRAV),SFraw=SF.map(v=>v*GRAV),BMraw=BM.map(v=>v*GRAV);
+  let hog=0,sag=0,hx=NaN,sx=NaN,sfmax=0,sfx=NaN;BMc.forEach((v,i)=>{if(v>hog){hog=v;hx=xs[i]}if(-v>sag){sag=-v;sx=xs[i]}});SFc.forEach((v,i)=>{if(Math.abs(v)>sfmax){sfmax=Math.abs(v);sfx=xs[i]}});
+  const mid=(S.ap+S.fp)/2,Lpp=S.fp-S.ap;const mi=Math.round((mid-x0)/dx);
+  const out={xs,w,b,SF:SFc,BM:BMc,SFraw,BMraw,Wt,Bt,resid:{W:Wt-Bt,sf:sfE*GRAV,bm:bmE*GRAV},hog,sag,hx,sx,sfmax,sfx,BMmid:BMc[mi],Lpp,x0,x1,notes:wd.notes,L:wd.L};
+  out.sigma=isFinite(ST.Z)&&ST.Z>0?Math.max(hog+(isFinite(ST.Mwh)?ST.Mwh:0),sag+(isFinite(ST.Mws)?ST.Mws:0))*1e3/ST.Z:NaN;
+  out.chk=strCheck(out);return out}
+function strCheck(o){const R=[];const ne=(n,req,calc,why)=>R.push({crit:n,req,calc,status:'NE',expl:why});
+  const T=(n,val,lim,unit)=>{if(!isFinite(lim)){ne(n,'batas belum diisi',f(val,0)+' '+unit,'Isi batas dari Rules/kelas pada kotak input di atas.')}else R.push({crit:n,req:'≤ '+f(lim,0)+' '+unit,calc:f(val,0)+' '+unit,status:val<=lim?'PASS':'FAIL',expl:''})};
+  T('Momen lengkung air tenang — hogging',o.hog,ST.Mhog,'kN·m');T('Momen lengkung air tenang — sagging',o.sag,ST.Msag,'kN·m');T('Gaya geser air tenang maksimum',o.sfmax,ST.SFlim,'kN');
+  if(isFinite(ST.Z)&&ST.Z>0){if(isFinite(ST.sig))T('Tegangan lengkung total (SWBM+WBM)/Z',o.sigma,ST.sig,'N/mm²');else ne('Tegangan lengkung total (SWBM+WBM)/Z','σ izin belum diisi',f(o.sigma,1)+' N/mm²','Isi tegangan izin untuk pembanding.')}
+  return R}
+function strAll(){const out=[];for(const k of conds){const s=strengthOf(k);out.push({c:k,s})}return out}
+/* ---------- UI ---------- */
+const STCOL=['#0088c8','#107828','#c4621a','#7a4fb0','#b8334a','#667','#0a8f8f','#a08000'];
+function strChartSet(list,opt){opt=opt||{};const ok=list.filter(e=>e.s&&!e.s.err);if(!ok.length)return '';const stn=x=>(x-S.ap)/(S.fp-S.ap)*20;
+  const mk=(key,lab,lim1,lim2,unit)=>{let mn=0,mx=0;const ser=ok.map((e,i)=>({n:e.c.name,c:STCOL[i%STCOL.length],pts:e.s.xs.map((x,j)=>[stn(x),e.s[key][j]])}));ser.forEach(s=>s.pts.forEach(p=>{mn=Math.min(mn,p[1]);mx=Math.max(mx,p[1])}));
+    const hl=[];if(isFinite(lim1)){hl.push({y:lim1,label:lim2===undefined?'batas +':'batas hogging',c:'#b8334a'});mx=Math.max(mx,lim1)}if(lim2!==undefined&&isFinite(lim2)){hl.push({y:-lim2,label:'batas sagging',c:'#b8334a'});mn=Math.min(mn,-lim2)}
+    if(key==='SF'&&isFinite(lim1)){hl.push({y:-lim1,label:'batas −',c:'#b8334a'});mn=Math.min(mn,-lim1)}
+    return rpChart({w:opt.w||640,h:opt.h||270,series:ser,hl,xlab:'Station (0 = AP, 20 = FP)',ylab:lab,ymin:mn*1.08,xmin:Math.min(...ser[0].pts.map(p=>p[0])),xmax:Math.max(...ser[0].pts.map(p=>p[0])),vl:[{x:10,label:'⊕ midship',c:'#99a'}]})};
+  return {sf:mk('SF','Gaya geser air tenang (kN)',ST.SFlim,undefined,'kN'),bm:mk('BM','Momen lengkung air tenang (kN·m) — hogging +',ST.Mhog,ST.Msag,'kN·m')}}
+function strTable(s,every){const stn=x=>((x-S.ap)/(S.fp-S.ap)*20);let rows='';for(let i=0;i<s.xs.length;i+=every||1){rows+=`<tr><td class="n">${f(s.xs[i],2)}</td><td class="n">${f(stn(s.xs[i]),1)}</td><td class="n">${f(s.w[i],2)}</td><td class="n">${f(s.b[i],2)}</td><td class="n">${f(s.SF[i],0)}</td><td class="n">${f(s.BM[i],0)}</td></tr>`}
+  return `<table><thead><tr><th class="n">x (m)</th><th class="n">Stn</th><th class="n">w (t/m)</th><th class="n">b (t/m)</th><th class="n">SF (kN)</th><th class="n">BM (kN·m)</th></tr></thead><tbody>${rows}</tbody></table>`}
+function strInputs(){const I=(k,l,u)=>`<label>${l}<input data-st="${k}" value="${isFinite(ST[k])?ST[k]:''}" placeholder="${u}"></label>`;
+  return `<div class="xh">Batas dari kelas (isi dari Rules BKI / dokumen kelas — nilai awal kosong, tidak ada angka bawaan)</div><div class="xin">${I('Mhog','SWBM hogging izin','kN·m')}${I('Msag','SWBM sagging izin','kN·m')}${I('SFlim','Gaya geser air tenang izin','kN')}${I('Z','Modulus penampang midship Z','cm³')}${I('sig','Tegangan lengkung izin σ','N/mm²')}${I('Mwh','Momen gelombang hogging (opsional)','kN·m')}${I('Mws','Momen gelombang sagging (opsional)','kN·m')}<label>Jumlah section<input data-st="nsec" value="${ST.nsec}"></label></div>`}
+TABX.str={html(){const list=STR_CACHE.list;
+  let h=`<div class="note">Distribusi berat dikurangi buoyancy per meter pada sikap setimbang (draft, trim, heel) tiap kondisi. SF = ∫(w−b)dx dari buritan, BM = ∫SF dx; ditutup dengan koreksi linier agar SF dan BM nol di ujung. Hogging positif.</div>${strInputs()}<div class="group"><button id="strRun" class="sm">Hitung semua kondisi</button><span id="strSt" class="note">${list?'Hasil dari '+new Date(STR_CACHE.t).toLocaleTimeString('id-ID'):'Belum dihitung.'}</span></div>`;
+  if(list){h+=`<div class="banner warn">Distribusi berat <b>lightship diasumsikan trapesium</b> (rincian per blok tidak tersedia). Hasil indikatif — bukan perhitungan kelas. Penampang buoyancy dari mesh lambung.</div>`;
+    const ok=list.filter(e=>e.s&&!e.s.err);for(const e of list)if(e.s.err)h+=`<div class="banner na">${esc(e.c.name)}: ${esc(e.s.err)}</div>`;
+    if(ok.length){const ch=strChartSet(list);h+=`<div class="charts">${ch.sf}${ch.bm}</div>`;
+      h+=`<div class="tw"><table><thead><tr><th>Kondisi</th><th class="n">Hogging maks (kN·m)</th><th class="n">@ stn</th><th class="n">Sagging maks (kN·m)</th><th class="n">SF maks (kN)</th><th class="n">σ total (N/mm²)</th><th>Sisa penutupan</th><th>Status</th></tr></thead><tbody>${ok.map(e=>{const s=e.s,st=s.chk.some(r=>r.status==='FAIL')?'FAIL':s.chk.every(r=>r.status==='NE')?'NE':s.chk.some(r=>r.status==='NE')?'NE':'PASS';const sx=x=>f((x-S.ap)/(S.fp-S.ap)*20,1);
+        return `<tr><td>${esc(e.c.name)}</td><td class="n">${f(s.hog,0)}</td><td class="n">${sx(s.hx)}</td><td class="n">${f(s.sag,0)}</td><td class="n">${f(s.sfmax,0)}</td><td class="n">${f(s.sigma,1)}</td><td class="note">ΔW ${f(s.resid.W,2)} t · SF ${f(s.resid.sf,0)} kN · BM ${f(s.resid.bm,0)} kN·m</td><td><span class="pill ${st}">${st==='NE'?'NOT EVALUATED':st}</span></td></tr>`}).join('')}</tbody></table></div>`;
+      const cur=ok.find(e=>e.c===cond())||ok[0];h+=`<details class="gd"><summary>Tabel per station — ${esc(cur.c.name)}</summary><div class="gdb tw">${strTable(cur.s,2)}</div></details>`;
+      if(cur.s.notes.length)h+=cur.s.notes.map(n=>`<div class="note">• ${esc(n)}</div>`).join('')}}
+  return h},
+ bind(){document.querySelectorAll('[data-st]').forEach(i=>i.onchange=()=>{const k=i.dataset.st;const v=num(i.value);ST[k]=k==='nsec'?(isFinite(v)?Math.max(21,Math.min(121,v)):41):(i.value.trim()===''?NaN:v);STR_CACHE.list=null;renderTabBody()});
+  const b=$('strRun');if(b)b.onclick=async()=>{b.disabled=true;try{await ensureAllRes(m=>{$('strSt').textContent=m},false);$('strSt').textContent='Menghitung SF/BM…';await sleep(10);STR_CACHE.list=strAll();STR_CACHE.t=Date.now()}catch(e){toast('Gagal: '+e.message,'bad')}b.disabled=false;renderTabBody()}}};
+XLS_HOOKS.push(async(wb,X,add,L,say)=>{say('Menghitung kekuatan memanjang…');const rows=[['Kondisi','Station','x (m)','w (t/m)','b (t/m)','SF (kN)','BM (kN·m)']];const sm=[['Kondisi','Hogging maks (kN·m)','Sagging maks (kN·m)','SF maks (kN)','σ total (N/mm2)','Sisa penutupan SF (kN)','Sisa penutupan BM (kN·m)']];
+  for(const k of L){const s=strengthOf(k);if(s.err)continue;s.xs.forEach((x,i)=>rows.push([k.name,+((x-S.ap)/(S.fp-S.ap)*20).toFixed(2),+x.toFixed(3),+s.w[i].toFixed(3),+s.b[i].toFixed(3),+s.SF[i].toFixed(1),+s.BM[i].toFixed(1)]));sm.push([k.name,+s.hog.toFixed(0),+s.sag.toFixed(0),+s.sfmax.toFixed(0),isFinite(s.sigma)?+s.sigma.toFixed(1):'',+s.resid.sf.toFixed(1),+s.resid.bm.toFixed(1)])}
+  add('Kekuatan ringkas',sm,[22,18,18,14,14,20,22]);add('Kekuatan',rows,[22,9,9,10,10,11,12])});
+/* ===================== EKSTENSI 3: SEAKEEPING DASAR (teori strip sederhana + kriteria kenyamanan) ===================== */
+const SK={Hs:1.5,Tp:6,gam:1,mu:180,U:NaN,zr:0.06,kxx:0.35,kyy:0.25,xp:0.65,zp:3.0,hrs:2,cat:3,Lw:NaN};
+const SKCAT=[{n:'Kerja manual ringan',az:0.20,ay:0.10,ro:6},{n:'Kerja manual berat',az:0.15,ay:0.07,ro:4},{n:'Kerja intelektual',az:0.10,ay:0.05,ro:3},{n:'Penumpang transit',az:0.05,ay:0.04,ro:2.5},{n:'Kapal pesiar',az:0.02,ay:0.03,ro:2}];
+let SK_CACHE={};
+/* kompleks */
+const cx={add:(a,b)=>[a[0]+b[0],a[1]+b[1]],mul:(a,b)=>[a[0]*b[0]-a[1]*b[1],a[0]*b[1]+a[1]*b[0]],sub:(a,b)=>[a[0]-b[0],a[1]-b[1]],div:(a,b)=>{const d=b[0]*b[0]+b[1]*b[1];return[(a[0]*b[0]+a[1]*b[1])/d,(a[1]*b[0]-a[0]*b[1])/d]},abs:a=>Math.hypot(a[0],a[1])};
+/* penampang Lewis: added mass infinity per meter */
+function lewisA(b,d,A){if(!(b>0.05&&d>0.02))return 0;const sg=Math.min(0.99,Math.max(0.5,A/(b*d))),H0=Math.max(0.2,Math.min(5,b/(2*d)));const r=(H0-1)/(H0+1);const c1=(3+4*sg/Math.PI)+(1-4*sg/Math.PI)*r*r;const disc=9-2*c1;
+  let a1,a3;if(disc<0){a1=0;a3=0}else{a3=(-c1+3+Math.sqrt(disc))/c1;a1=(1+a3)*r}
+  const M=b/(2*(1+a1+a3));return S.rho*(Math.PI/2)*M*M*((1+a1)*(1+a1)+3*a3*a3)}
+/* data penampang untuk satu kondisi */
+function skSections(c){const res=c.res;if(!res||!res.c)return null;const eq=res.c.eq,n=Eng.planeN(eq.phi,eq.beta);const [x0,x1]=hullXRange(),N=31,dx=(x1-x0)/(N-1);const sec=[];
+  for(let i=0;i<N;i++){const x=x0+i*dx,g=secGeom(x,n,eq.h);sec.push({x,A:g.A,B:g.B,D:g.D,a:g.B>0.05?lewisA(g.B,g.A/Math.max(g.B,1e-6),g.A):0})}
+  const xg=res.wt.G[0];return {sec,dx,xg,W:res.wt.W,GM:res.c.GMTcorr,GML:res.c.GML,Awp:res.c.Awp,V:res.c.V,Tm:res.c.Tmean,Tf:res.c.Tf,Ta:res.c.Ta,Lpp:S.fp-S.ap,Bmax:Math.max(...sec.map(s=>s.B)),eq}}
+/* RAO heave/pitch (kopel) pada kecepatan U (m/s), arah mu (deg, 180 = haluan) */
+function skRAO(D,w,U,mu){const g=9.80665,k=w*w/g,cm=Math.cos(mu*Math.PI/180),we=w-k*U*cm;const M=D.W,Ip=M*Math.pow(SK.kyy*D.Lpp,2);
+  let K0=[0,0],K1=[0,0],K2=[0,0],F0=[0,0],F1=[0,0];let c33=0,c35=0,c55=0;
+  for(const s of D.sec){if(!(s.B>0.05))continue;const xi=s.x-D.xg;const dbar=s.A/s.B,Abar=2*Math.sin(Math.min(Math.PI/2,0.5*w*w*s.B/g))*Math.exp(-w*w*dbar/g),Np=S.rho*g*g*Abar*Abar/Math.pow(Math.max(w,0.05),3);
+    const K=[S.rho*g*s.B-we*we*s.a,we*Np];const att=Math.exp(-k*dbar*(cm===0?1:1)),ph=-k*xi*cm;const E=[att*Math.cos(ph),att*Math.sin(ph)];const KE=cx.mul(K,E);
+    const q=D.dx;K0=cx.add(K0,[K[0]*q,K[1]*q]);K1=cx.add(K1,[K[0]*xi*q,K[1]*xi*q]);K2=cx.add(K2,[K[0]*xi*xi*q,K[1]*xi*xi*q]);F0=cx.add(F0,[KE[0]*q,KE[1]*q]);F1=cx.add(F1,[KE[0]*xi*q,KE[1]*xi*q]);}
+  const A11=[K0[0]-we*we*M,K0[1]],A12=K1,A21=K1,A22=[K2[0]-we*we*Ip,K2[1]];const det=cx.sub(cx.mul(A11,A22),cx.mul(A12,A21));
+  const z=cx.div(cx.sub(cx.mul(F0,A22),cx.mul(A12,F1)),det),th=cx.div(cx.sub(cx.mul(A11,F1),cx.mul(A21,F0)),det);
+  return {w,we,z,th,heave:cx.abs(z),pitch:cx.abs(th)/Math.max(k,1e-9),k}}
+/* roll: 1 DOF, gelombang dari arah mu */
+function skRoll(D,w,U,mu){const g=9.80665,k=w*w/g,cm=Math.cos(mu*Math.PI/180),sm=Math.sin(mu*Math.PI/180),we=Math.abs(w-k*U*cm);
+  const GM=Math.max(D.GM,0.01),kxx=SK.kxx*D.Bmax;const w0=Math.sqrt(g*GM)/kxx;const alpha=k*sm*Math.exp(-k*D.Tm/2);
+  const re=w0*w0-we*we,im=2*SK.zr*w0*we;const H=w0*w0/Math.hypot(re,im);return {w0,T0:2*Math.PI/w0,roll:H*Math.abs(alpha)/Math.max(k,1e-9)}}
+function jonswap(w,Hs,Tp,gam){const wp=2*Math.PI/Tp,sg=w<=wp?0.07:0.09;const r=Math.exp(-Math.pow(w-wp,2)/(2*sg*sg*wp*wp));return 5/16*Hs*Hs*Math.pow(wp,4)/Math.pow(w,5)*Math.exp(-1.25*Math.pow(wp/w,4))*Math.pow(gam,r)}
+function wfMS(f){ // pembobot motion-sickness: pendekatan kasar (bukan tabel ISO 2631-1)
+  if(f<=0.05||f>=0.63)return 0;if(f<0.1)return (f-0.05)/0.05;if(f<=0.315)return 1;return 1-(f-0.315)/(0.63-0.315)}
+function seakeep(c){const D=skSections(c);if(!D)return {err:'Kondisi belum dihitung (lightship kosong atau belum ada hasil).'};
+  const U=(isFinite(SK.U)?SK.U:(UW&&isFinite(UW.V)?UW.V:0))*0.514444,mu=SK.mu,g=9.80665;const ws=[];for(let w=0.2;w<=3.6001;w+=0.02)ws.push(+w.toFixed(3));
+  const Hs=SK.Hs,Tp=SK.Tp;let sc=1;{let m0=0;for(const w of ws)m0+=jonswap(w,Hs,Tp,SK.gam)*0.02;sc=Hs*Hs/16/m0}
+  const xe=Math.min(S.fp,D.sec[D.sec.length-1].x-0.05);const pxp=S.ap+SK.xp*D.Lpp-D.xg,xb=xe-D.xg;const fbFP=(typeof zDeck==='function'&&isFinite(zDeck(xe)))?zDeck(xe)-(D.eq.h+xe*Math.sin(D.eq.beta)):NaN;
+  const tab=[],tab0=[];let m0h=0,m0p=0,m0a=0,m0r=0,m0ay=0,m0rel=0,m2a=0,m2rel=0,m0aw=0,m2h=0,m2p=0;
+  for(const w of ws){const r=skRAO(D,w,U,mu),r0=skRAO(D,w,0,180),rb=skRoll(D,w,U,90),rm=skRoll(D,w,U,mu);const Sz=sc*jonswap(w,Hs,Tp,SK.gam);
+    const s=cx.add(r.z,[pxp*r.th[0],pxp*r.th[1]]);const acc=r.we*r.we*cx.abs(s);const sb=cx.add(r.z,[xb*r.th[0],xb*r.th[1]]);const ph=-r.k*xb*Math.cos(mu*Math.PI/180);const Eb=[Math.cos(ph),Math.sin(ph)];const rel=cx.abs(cx.sub(Eb,sb));
+    const phi=rm.roll*r.k,ay=(g+r.we*r.we*SK.zp)*phi;
+    tab.push({w,we:r.we,T:2*Math.PI/w,lam:2*Math.PI*g/(w*w),heave:r.heave,pitch:r.pitch,roll:rm.roll,rollB:rb.roll,acc,ay:(g+r.we*r.we*SK.zp)*rm.roll*r.k,rel});tab0.push({w,heave:r0.heave,pitch:r0.pitch});
+    const dw=0.02;m0h+=r.heave*r.heave*Sz*dw;m0p+=Math.pow(r.pitch*r.k,2)*Sz*dw;m0a+=acc*acc*Sz*dw;m0r+=Math.pow(phi,2)*Sz*dw;m0ay+=ay*ay*Sz*dw;m0rel+=rel*rel*Sz*dw;m2a+=r.we*r.we*acc*acc*Sz*dw;m2rel+=r.we*r.we*rel*rel*Sz*dw;m2h+=r.we*r.we*r.heave*r.heave*Sz*dw;m2p+=r.we*r.we*Math.pow(r.pitch*r.k,2)*Sz*dw;
+    const f=r.we/(2*Math.PI);m0aw+=Math.pow(acc*wfMS(f),2)*Sz*dw}
+  const rmsAz=Math.sqrt(m0a),rmsAy=Math.sqrt(m0ay),rmsRoll=Math.sqrt(m0r)/Math.PI*180,rmsPitch=Math.sqrt(m0p)/Math.PI*180,sigHeave=2*Math.sqrt(m0h),sigPitch=2*rmsPitch,sigRoll=2*rmsRoll;
+  const Tz=m2rel>0?2*Math.PI*Math.sqrt(m0rel/m2rel):NaN,Tza=m2a>0?2*Math.PI*Math.sqrt(m0a/m2a):NaN;
+  const probDeck=isFinite(fbFP)&&m0rel>0?Math.exp(-fbFP*fbFP/(2*m0rel)):NaN,probSlam=m0rel>0?Math.exp(-D.Tf*D.Tf/(2*m0rel)):NaN;
+  const T=SK.hrs*3600,msdv=Math.sqrt(m0aw)*Math.sqrt(T),sick=msdv/3;
+  const cat=SKCAT[SK.cat]||SKCAT[3];
+  const lim=[{n:'Percepatan vertikal RMS (g)',v:rmsAz/g,l:cat.az},{n:'Percepatan lateral RMS (g)',v:rmsAy/g,l:cat.ay},{n:'Roll RMS (°)',v:rmsRoll,l:cat.ro}];
+  lim.forEach(q=>{q.st=q.v<=q.l?'PASS':'FAIL';q.Hlim=SK.Hs*q.l/Math.max(q.v,1e-9)});
+  // frekuensi alami
+  let a33=0,a55=0,c33=0,c55=0;for(const s of D.sec){const xi=s.x-D.xg;a33+=s.a*D.dx;a55+=s.a*xi*xi*D.dx;c33+=S.rho*g*s.B*D.dx;c55+=S.rho*g*s.B*xi*xi*D.dx}
+  const Tn3=2*Math.PI*Math.sqrt((D.W+a33)/Math.max(c33,1e-9)),Tn5=2*Math.PI*Math.sqrt((D.W*Math.pow(SK.kyy*D.Lpp,2)+a55)/Math.max(c55,1e-9)),Tn4=skRoll(D,1,U,90).T0;
+  return {D,U,mu,tab,tab0,rmsAz,rmsAy,rmsRoll,rmsPitch,sigHeave,sigPitch,sigRoll,Tz,Tza,fbFP,probDeck,probSlam,msdv,sick,cat,lim,Tn3,Tn5,Tn4,
+    emergePerH:isFinite(Tz)?3600/Tz*probSlam:NaN,deckPerH:isFinite(Tz)&&isFinite(probDeck)?3600/Tz*probDeck:NaN,pxp,xb,stats:{m0h,m0p,m0rel}}}
+/* ---------- UI ---------- */
+function skInputs(){const I=(k,l,u,ph)=>`<label>${l}<input data-sk="${k}" value="${isFinite(SK[k])?SK[k]:''}" placeholder="${ph||u||''}"></label>`;
+  return `<div class="xin">${I('Hs','Tinggi gelombang signifikan Hs (m)')}${I('Tp','Periode puncak Tp (s)')}${I('gam','JONSWAP γ (1 = Pierson–Moskowitz)')}${I('mu','Arah gelombang μ (° ; 180 = haluan)')}${I('U','Kecepatan kapal (kn)','kn','ikut tab Jalan & gelombang')}${I('zr','Rasio redaman roll ζ (asumsi)')}${I('kxx','Radius girasi roll kxx / B')}${I('kyy','Radius girasi pitch kyy / L')}${I('xp','Posisi titik komfort (fraksi L dari AP)')}${I('zp','Tinggi titik di atas sumbu roll (m)')}${I('hrs','Lama paparan (jam)')}<label>Kategori kenyamanan<select data-sk="cat">${SKCAT.map((c,i)=>`<option value="${i}"${i===SK.cat?' selected':''}>${c.n}</option>`).join('')}</select></label></div>`}
+function skCharts(R,o){o=o||{};const ser=(k,n,c,d)=>({n,c,dash:d,pts:R.tab.map(t=>[t.w,t[k]])});const x={xlab:'Frekuensi gelombang ω (rad/s)',xmin:0.2,xmax:3.6,w:o.w||640,h:o.h||250};
+  const hv=rpChart({...x,series:[ser('heave','heave, kapal berjalan','#0088c8'),{n:'heave, diam (haluan)',c:'#107828',dash:1,pts:R.tab0.map(t=>[t.w,t.heave])}],ylab:'RAO heave (m/m)'});
+  const pt=rpChart({...x,series:[ser('pitch','pitch, kapal berjalan','#0088c8'),{n:'pitch, diam (haluan)',c:'#107828',dash:1,pts:R.tab0.map(t=>[t.w,t.pitch])}],ylab:'RAO pitch (sudut/kemiringan gelombang)'});
+  const rl=rpChart({...x,series:[ser('rollB','roll, gelombang samping (90°)','#c4621a'),ser('roll','roll, arah '+R.mu+'°','#7a4fb0')],ylab:'RAO roll (sudut/kemiringan gelombang)'});
+  const ac=rpChart({...x,series:[ser('acc','percepatan vertikal (m/s² per m)','#b8334a'),ser('rel','gerak relatif haluan (m/m)','#0088c8')],ylab:'RAO percepatan / gerak relatif'});
+  return {hv,pt,rl,ac}}
+function skRows(R){const f1=(v,d)=>f(v,d);return [['Periode alami heave / pitch / roll',`${f1(R.Tn3,2)} s / ${f1(R.Tn5,2)} s / ${f1(R.Tn4,2)} s`],['Heave signifikan (2·σ)',f1(R.sigHeave,2)+' m'],['Pitch signifikan',f1(R.sigPitch,2)+' °'],['Roll signifikan (gel. dari '+R.mu+'°)',f1(R.sigRoll,2)+' °'],['Percepatan vertikal RMS di titik komfort',f1(R.rmsAz/9.80665,3)+' g'],['Periode zero-crossing gerak relatif haluan',f1(R.Tz,1)+' s'],['Freeboard haluan (deck – draft FP)',f1(R.fbFP,2)+' m'],['Peluang deck basah per gelombang',isFinite(R.probDeck)?(R.probDeck*100).toFixed(2)+' %':'–'],['Deck basah / jam',f1(R.deckPerH,1)],['Peluang slamming (keel muncul) per gelombang',(R.probSlam*100).toFixed(2)+' %'],['Slamming / jam',f1(R.emergePerH,1)],['MSDVz ('+SK.hrs+' jam)',f1(R.msdv,1)+' m/s^1,5'],['Estimasi penumpang mabuk laut',f1(R.sick,1)+' %']]}
+TABX.sk={html(){const R=SK_CACHE.R,c=cond();let h=`<div class="note">Teori strip sederhana (bentuk Lewis tiap section, added mass tak bergantung frekuensi, tanpa suku kecepatan U-dA/dx), heave–pitch terkopel, roll 1-DOF; kondisi aktif: <b>${esc(c.name)}</b>. Indikatif ±20–30 % — belum divalidasi uji model.</div>${skInputs()}<div class="group"><button id="skRun" class="sm">Hitung seakeeping</button><span id="skSt" class="note">${R&&!R.err?'Hasil untuk '+esc(R.name):''}</span></div>`;
+  if(R&&R.err)h+=`<div class="banner na">${esc(R.err)}</div>`;else if(R){const ch=skCharts(R);h+=`<div class="banner ${R.lim.every(q=>q.st==='PASS')?'good':'warn'}">Kategori <b>${esc(R.cat.n)}</b>, Hs = ${SK.Hs} m, Tp = ${SK.Tp} s, U = ${f(R.U/0.514444,1)} kn, arah ${R.mu}°</div>
+    <div class="tw"><table><thead><tr><th>Kriteria (NORDFORSK 1987, indikatif)</th><th class="n">Hasil</th><th class="n">Batas</th><th>Status</th><th class="n">Hs maks (m) pada Tp ini</th></tr></thead><tbody>${R.lim.map(q=>`<tr><td>${q.n}</td><td class="n">${f(q.v,3)}</td><td class="n">${q.l}</td><td><span class="pill ${q.st}">${q.st}</span></td><td class="n">${f(q.Hlim,2)}</td></tr>`).join('')}</tbody></table></div>
+    <div class="charts">${ch.hv}${ch.pt}${ch.rl}${ch.ac}</div>${rpKV(skRows(R)).replace('class="kv"','class="kv" style="max-width:640px"')}`}
+  return h},bind(){document.querySelectorAll('[data-sk]').forEach(i=>i.onchange=()=>{const k=i.dataset.sk;const v=num(i.value);SK[k]=k==='cat'?(+i.value|0):(i.value.trim()===''&&k==='U'?NaN:(isFinite(v)?v:SK[k]));SK_CACHE.R=null;renderTabBody()});
+  const b=$('skRun');if(b)b.onclick=async()=>{b.disabled=true;$('skSt').textContent='Menghitung…';await sleep(20);try{const c=cond();if(!c.res||!c.res.c){await computeCond(c,{noGZ:true}).then(r=>{c.res=r})}const R=seakeep(c);R.name=c.name;SK_CACHE.R=R}catch(e){SK_CACHE.R={err:e.message}}b.disabled=false;renderTabBody()}}};
+XLS_HOOKS.push(async(wb,X,add,L,say)=>{const R=seakeep(cond());if(R.err)return;add('Seakeeping RAO',[['omega (rad/s)','omega_e (rad/s)','T (s)','lambda (m)','heave (m/m)','pitch (-)','roll gel. '+R.mu+' (-)','roll 90 (-)','acc (m/s2/m)','relatif haluan (m/m)'],...R.tab.map(t=>[t.w,+t.we.toFixed(3),+t.T.toFixed(2),+t.lam.toFixed(1),+t.heave.toFixed(4),+t.pitch.toFixed(4),+t.roll.toFixed(4),+t.rollB.toFixed(4),+t.acc.toFixed(4),+t.rel.toFixed(4)])],[10,12,8,10,11,10,14,10,12,18]);
+  add('Seakeeping ringkas',[['Parameter','Nilai'],...skRows(R),...R.lim.map(q=>[q.n+' (batas '+q.l+')',+q.v.toFixed(4)+' '+q.st])],[48,30])});
+/* ===================== EKSTENSI 4: RUTE & BIAYA PELAYARAN ===================== */
+const VY={legs:[{name:'Pelabuhan A → Platform B',nm:40,Hs:1.0,cur:0},{name:'Platform B → Pelabuhan A',nm:40,Hs:1.0,cur:0}],Veco:NaN,Vfast:NaN,resPct:15,resH:2,price:NaN,crewDay:NaN,feeStop:NaN,charter:NaN,portH:1.5,dep:'06:00',mgn:1.0};
+let VY_CACHE={};
+const vyV0=()=>{const p0=uwStaticPose();return p0};
+/* satu pelayaran (semua leg) pada kecepatan V (kn) */
+function vyRun(Vk,p0){const KNn=0.514444;const hw0=UW.Hw;let t=0,fuel=0,dist=0,over=false,legs=[];
+  try{for(const L of VY.legs){UW.Hw=Math.max(0,L.Hs||0);const e=uwEval(Vk*KNn,p0),f=uwFuel(e.BHP,Vk*KNn);let sog=Vk+(L.cur||0);if(sog<0.5)sog=0.5;
+      const loss=UW.Hw>0&&typeof uwSpeedLoss==='function'?0:0;const th=L.nm/sog;const fl=f.Lh*th*VY.mgn;if(f.load>1)over=true;t+=th;fuel+=fl;dist+=L.nm;legs.push({name:L.name,nm:L.nm,sog,th,fuel:fl,load:f.load,Lh:f.Lh})}}finally{UW.Hw=hw0}
+  return {V:Vk,t,fuel,dist,over,legs}}
+function vyCost(r){const dens=(UW.fdens||0.85);const stops=VY.legs.length;const port=VY.portH*stops;const T=r.t+port;const fuelRes=r.fuel*VY.resPct/100+(r.legs.length?r.fuel/r.t*VY.resH:0);
+  const cFuel=isFinite(VY.price)?r.fuel*VY.price:NaN,cCrew=isFinite(VY.crewDay)?VY.crewDay*T/24:NaN,cFee=isFinite(VY.feeStop)?VY.feeStop*stops:NaN,cCh=isFinite(VY.charter)?VY.charter*T/24:NaN;
+  const known=[cFuel,cCrew,cFee,cCh].filter(isFinite),tot=known.length?known.reduce((a,b)=>a+b,0):NaN;
+  return {T,port,fuelRes,fuelTot:r.fuel+fuelRes,mass:(r.fuel+fuelRes)*dens/1000,cFuel,cCrew,cFee,cCh,tot,perNm:isFinite(tot)?tot/r.dist:NaN,complete:[VY.price,VY.crewDay,VY.feeStop,VY.charter].every(isFinite)}}
+function vyAnalyse(){const p0=vyV0();if(!p0)return {err:'Pose kapal belum tersedia (isi lightship / hitung kondisi dulu).'};if(!VY.legs.length)return {err:'Tambahkan minimal satu leg.'};
+  const sweep=[];for(let k=4;k<=30;k+=0.5){const r=vyRun(k,p0),c=vyCost(r);sweep.push({r,c})}
+  const ok=sweep.filter(s=>!s.r.over);if(!ok.length)return {err:'Tidak ada kecepatan yang masih di bawah MCR pada kondisi/gelombang ini.'};
+  let eco=ok.reduce((a,b)=>b.r.fuel<a.r.fuel?b:a);const vmax=ok[ok.length-1].r.V;
+  const pick=(V)=>{const r=vyRun(V,p0);return {r,c:vyCost(r)}};
+  const Ve=isFinite(VY.Veco)?VY.Veco:Math.round(vmax*0.7*2)/2,Vf=isFinite(VY.Vfast)?VY.Vfast:Math.max(Ve+1,Math.floor(vmax*0.9));
+  const E=pick(Ve),Fa=pick(Vf);let best=null;if(ok.every(s=>isFinite(s.c.tot)))best=ok.reduce((a,b)=>b.c.tot<a.c.tot?b:a);
+  return {p0,sweep,ok,eco:E,fast:Fa,vmax,ecoFuelMin:eco.r.V,best}}
+function vyEta(T){const m=/^(\d{1,2}):(\d{2})$/.exec(VY.dep||'');let h=m?+m[1]:6,mi=m?+m[2]:0;const tot=h*60+mi+Math.round(T*60);const d=Math.floor(tot/1440),r=tot%1440;return `${String(Math.floor(r/60)).padStart(2,'0')}:${String(r%60).padStart(2,'0')}${d?' (+'+d+' hari)':''}`}
+const fmtH=t=>{const h=Math.floor(t),m=Math.round((t-h)*60);return `${h} j ${String(m).padStart(2,'0')} m`};
+const rp0=v=>isFinite(v)?'Rp '+Math.round(v).toLocaleString('id-ID'):'–';
+function vyTable(A){const rows=[['Kecepatan dinas (kn)',A.eco.r.V,A.fast.r.V],['Waktu layar',fmtH(A.eco.r.t),fmtH(A.fast.r.t)],['Waktu total + sandar',fmtH(A.eco.c.T),fmtH(A.fast.c.T)],['ETA (berangkat '+VY.dep+')',vyEta(A.eco.c.T),vyEta(A.fast.c.T)],['BBM layar (L)',f(A.eco.r.fuel,0),f(A.fast.r.fuel,0)],['BBM + cadangan (L)',f(A.eco.c.fuelTot,0),f(A.fast.c.fuelTot,0)],['Massa BBM + cadangan (t)',f(A.eco.c.mass,2),f(A.fast.c.mass,2)],['Biaya BBM',rp0(A.eco.c.cFuel),rp0(A.fast.c.cFuel)],['Biaya kru',rp0(A.eco.c.cCrew),rp0(A.fast.c.cCrew)],['Biaya sandar / pelabuhan',rp0(A.eco.c.cFee),rp0(A.fast.c.cFee)],['Sewa / charter',rp0(A.eco.c.cCh),rp0(A.fast.c.cCh)],['Total per trip'+(A.eco.c.complete?'':' (parsial)'),rp0(A.eco.c.tot),rp0(A.fast.c.tot)],['Biaya per mil laut',rp0(A.eco.c.perNm),rp0(A.fast.c.perNm)],['Beban mesin (maks per leg)',f(Math.max(...A.eco.r.legs.map(l=>l.load))*100,0)+' %',f(Math.max(...A.fast.r.legs.map(l=>l.load))*100,0)+' %']];return rows}
+function vyChart(A,w,h){const ser=[{n:'BBM per trip (L)',c:'#0088c8',ax:1,pts:A.ok.map(s=>[s.r.V,s.r.fuel])},{n:'Waktu total (jam)',c:'#107828',ax:2,pts:A.ok.map(s=>[s.r.V,s.c.T])}];if(A.ok.every(s=>isFinite(s.c.tot)))ser.push({n:'Biaya total (juta Rp)',c:'#c4621a',ax:1,pts:A.ok.map(s=>[s.r.V,s.c.tot/1e6])});
+  return rpChart({w:w||640,h:h||270,series:ser.slice(0,2),xlab:'Kecepatan (kn)',ylab:'BBM per trip (L)',ylab2:'Waktu total (jam)',vl:[{x:A.eco.r.V,label:'ekonomis',c:'#107828'},{x:A.fast.r.V,label:'cepat',c:'#b8334a'}]})}
+function vyCostChart(A,w,h){if(!A.ok.every(s=>isFinite(s.c.tot)))return '';return rpChart({w:w||640,h:h||260,series:[{n:'Biaya total per trip (juta Rp)',c:'#c4621a',pts:A.ok.map(s=>[s.r.V,s.c.tot/1e6])},{n:'Biaya BBM (juta Rp)',c:'#0088c8',dash:1,pts:A.ok.map(s=>[s.r.V,s.c.cFuel/1e6])}],xlab:'Kecepatan (kn)',ylab:'Biaya per trip (juta Rp)',vl:[{x:A.best.r.V,label:'optimum '+A.best.r.V+' kn',c:'#107828'}]})}
+TABX.voy={html(){const A=VY_CACHE.A;const I=(k,l,ph)=>`<label>${l}<input data-vy="${k}" value="${isFinite(VY[k])?VY[k]:''}" placeholder="${ph||''}"></label>`;
+  let h=`<div class="note">Hambatan, daya dan BBM memakai model tab "Jalan & gelombang" (kondisi muat aktif: <b>${esc(cond().name)}</b>, mesin &amp; SFOC dari tab tersebut). Arus: + searah (menambah SOG). Harga dan biaya <b>tidak punya nilai bawaan</b> — isi sendiri; biaya yang kosong tidak dihitung.</div>
+  <div class="xh">Leg pelayaran</div><div class="tw"><table><thead><tr><th>Leg</th><th class="n">Jarak (nm)</th><th class="n">Hs (m)</th><th class="n">Arus (kn)</th><th></th></tr></thead><tbody>${VY.legs.map((l,i)=>`<tr><td><input data-vl="${i}:name" value="${esc(l.name)}" style="width:100%"></td><td class="n"><input data-vl="${i}:nm" value="${l.nm}" size="6"></td><td class="n"><input data-vl="${i}:Hs" value="${l.Hs}" size="5"></td><td class="n"><input data-vl="${i}:cur" value="${l.cur}" size="5"></td><td><button class="sm" data-vdel="${i}">×</button></td></tr>`).join('')}</tbody></table></div><div class="group"><button class="sm" id="vyAdd">+ Leg</button></div>
+  <div class="xin">${I('Veco','Kecepatan ekonomis (kn)','otomatis (~70% Vmaks)')}${I('Vfast','Kecepatan cepat (kn)','otomatis (~90% Vmaks)')}${I('resPct','Cadangan BBM (%)')}${I('resH','Cadangan tambahan (jam pada laju yang sama)')}${I('portH','Waktu sandar per pemberhentian (jam)')}${I('mgn','Faktor margin BBM (1 = tanpa)')}<label>Jam berangkat<input data-vy="dep" value="${VY.dep}"></label>${I('price','Harga BBM (Rp/L)')}${I('crewDay','Biaya kru (Rp/hari)')}${I('feeStop','Biaya sandar (Rp/pemberhentian)')}${I('charter','Sewa/charter (Rp/hari)')}</div>
+  <div class="group"><button id="vyRun" class="sm">Hitung rute &amp; biaya</button></div>`;
+  if(A&&A.err)h+=`<div class="banner na">${esc(A.err)}</div>`;else if(A){const dBBM=(A.fast.c.fuelTot/A.eco.c.fuelTot-1)*100,dT=(1-A.fast.c.T/A.eco.c.T)*100;
+    h+=`<div class="banner good">Kecepatan cepat ${A.fast.r.V} kn menghemat waktu ${f(dT,0)} % tetapi memakai BBM ${f(dBBM,0)} % lebih banyak daripada ekonomis ${A.eco.r.V} kn.${A.best?` Biaya total terendah pada ${A.best.r.V} kn.`:''}</div>
+    <div class="tw"><table><thead><tr><th>Parameter</th><th class="n">Ekonomis</th><th class="n">Cepat</th></tr></thead><tbody>${vyTable(A).map(r=>`<tr><td>${r[0]}</td><td class="n">${r[1]}</td><td class="n">${r[2]}</td></tr>`).join('')}</tbody></table></div>
+    <div class="charts">${vyChart(A)}${vyCostChart(A)}</div>
+    <div class="xh">Rincian per leg (ekonomis)</div><div class="tw"><table><thead><tr><th>Leg</th><th class="n">nm</th><th class="n">SOG (kn)</th><th class="n">Jam</th><th class="n">BBM (L)</th><th class="n">Beban mesin</th></tr></thead><tbody>${A.eco.r.legs.map(l=>`<tr><td>${esc(l.name)}</td><td class="n">${l.nm}</td><td class="n">${f(l.sog,1)}</td><td class="n">${f(l.th,2)}</td><td class="n">${f(l.fuel,0)}</td><td class="n">${f(l.load*100,0)} %</td></tr>`).join('')}</tbody></table></div>`;
+    if(A.eco.r.over||A.fast.r.over)h+=`<div class="banner bad">Salah satu kecepatan melebihi MCR pada leg tertentu — hasil tidak realistis.</div>`;
+    h+=`<div class="note">Cadangan = % BBM trip + jam tambahan pada laju rata-rata. Tangki saat ini: ${f(uwFuelOnBoard?uwFuelOnBoard().L:NaN,0)} L terisi pada kondisi aktif${A&&isFinite(uwFuelOnBoard().L)&&uwFuelOnBoard().L<A.eco.c.fuelTot?' — <b>kurang dari kebutuhan ekonomis + cadangan</b>':''}.</div>`}
+  return h},
+ bind(){document.querySelectorAll('[data-vy]').forEach(i=>i.onchange=()=>{const k=i.dataset.vy;if(k==='dep')VY.dep=i.value;else{const v=num(i.value);VY[k]=i.value.trim()===''?NaN:v}VY_CACHE.A=null;renderTabBody()});
+  document.querySelectorAll('[data-vl]').forEach(i=>i.onchange=()=>{const [n,k]=i.dataset.vl.split(':');VY.legs[+n][k]=k==='name'?i.value:(isFinite(num(i.value))?num(i.value):0);VY_CACHE.A=null});
+  document.querySelectorAll('[data-vdel]').forEach(b=>b.onclick=()=>{VY.legs.splice(+b.dataset.vdel,1);VY_CACHE.A=null;renderTabBody()});
+  $('vyAdd').onclick=()=>{VY.legs.push({name:'Leg '+(VY.legs.length+1),nm:20,Hs:1,cur:0});VY_CACHE.A=null;renderTabBody()};
+  $('vyRun').onclick=()=>{try{VY_CACHE.A=vyAnalyse()}catch(e){VY_CACHE.A={err:e.message}}renderTabBody()}}};
+XLS_HOOKS.push(async(wb,X,add,L,say)=>{let A;try{A=vyAnalyse()}catch(e){return}if(A.err)return;add('Rute',[['Parameter','Ekonomis','Cepat'],...vyTable(A)],[34,22,22]);add('Rute vs kecepatan',[['V (kn)','Waktu (j)','BBM (L)','BBM+cad (L)','Biaya total (Rp)'],...A.ok.map(s=>[s.r.V,+s.c.T.toFixed(2),+s.r.fuel.toFixed(0),+s.c.fuelTot.toFixed(0),isFinite(s.c.tot)?Math.round(s.c.tot):''])],[8,10,10,12,16])});
+/* ===================== EKSTENSI 5: BOOKLET STABILITAS (PDF resmi & presentasi) ===================== */
+const BK={ship:'PM 19 (Pan Marine 19) — Crew Boat 50 m',owner:'PT Pan Maritime Wira Pawitra',yard:'',cls:'BKI',docNo:'',rev:'0',by:'',chk:'',apr:'',inc:{kn:true,str:true,sk:false,voy:false},busy:false};
+const BKSEC=['Data umum','Dasar perhitungan','Tabel hidrostatik','Kurva silang (KN)','Kondisi muat','Kekuatan memanjang','Ringkasan','Rumus','Pengesahan'];
+function bkDraft(){const r=[];if(S.demo||!lightship().ok)r.push('Lightship masih ASUMSI/kosong');if(!isFinite(S.thetaF))r.push('Sudut downflooding θf belum diisi');if(!S.vessel||S.vessel==='Belum dikonfirmasi')r.push('Tipe kapal/regulasi belum dikonfirmasi');return r}
+/* kurva silang KN */
+async function knTable(say){const L=conds.map(k=>k.res&&k.res.wt?k.res.wt.W:NaN).filter(isFinite);const lo=Math.max(30,Math.min(...L)*0.8),hi=Math.max(...L)*1.15;const Ws=[];for(let i=0;i<5;i++)Ws.push(+(lo+(hi-lo)*i/4).toFixed(0));
+  const angs=[];for(let a=0;a<=80;a+=10)angs.push(a);const out=Ws.map(W=>({W,kn:[]}));let n=0;
+  for(const o of out){const T=Eng.uprightDraft(H,o.W,S.rho),hy=Eng.hydroAt(H,T,S.rho);let h0=T,b0=0;
+    for(const a of angs){if(say)say(`KN ${++n}/${out.length*angs.length}`);const e=Eng.equilibrium(H,o.W,[hy.LCB,0,0],S.rho,{fixPhi:a*Math.PI/180,h0,beta0:b0});h0=e.h;b0=e.beta;o.kn.push(e.GZ);if(n%6===0)await sleep(0)}}
+  return {Ws,angs,out}}
+/* ---------- blok HTML ---------- */
+const bkN=(v,d)=>isFinite(v)?(+v).toFixed(d):'–';
+const stPill=s=>`<b style="color:${s==='PASS'?'#107828':s==='FAIL'?'#a8261c':'#4b6671'}">${s==='NE'?'NOT EVALUATED':s}</b>`;
+function bkGzChart(k,w,h){const r=k.res;const ser=[{n:'GZ '+k.name,c:'#0088c8',pts:r.curve.map(p=>[p.deg,p.GZ])}];const mn=Math.min(0,...r.curve.map(p=>p.GZ));
+  return rpChart({w:w||680,h:h||270,series:ser,xlab:'Sudut heel (°)',ylab:'GZ (m)',ymin:mn*1.1,xmin:0,xmax:S.gzMax,hl:[{y:0.2,label:'GZ 0,20 m',c:'#b8334a'}],vl:[{x:30,label:'30°',c:'#667'},{x:40,label:'40°',c:'#667'}],marks:[{x:r.gz.max.deg,y:r.gz.max.GZ}]})}
+function bkMetricTable(k){const m=metrics(k.res);return rpKV([['Displacement',bkN(m.W,2)+' t'],['Draft rata-rata / haluan / buritan',`${bkN(m.Tm,3)} / ${bkN(m.Tf,3)} / ${bkN(m.Ta,3)} m`],['Trim (Ta−Tf)',bkN(m.trim,3)+' m'],['Heel',bkN(m.heel,2)+' °'],['LCG / TCG / VCG (KG)',`${bkN(m.LCG,3)} / ${bkN(m.TCG,3)} / ${bkN(m.VCG,3)} m`],['LCB / KB',`${bkN(m.LCB,3)} / ${bkN(m.KB,3)} m`],['KMT / BMT',`${bkN(m.KMT,3)} / ${bkN(m.BMT,3)} m`],['Koreksi free surface GG′',bkN(m.GG,3)+' m'],['GM transversal terkoreksi',bkN(m.GMTc,3)+' m'],['GZ maks / pada sudut',`${bkN(m.gzmax,3)} m / ${bkN(m.gzang,1)}°`],['Sudut vanishing stability',bkN(m.van,1)+' °'],['Luas 0–30° / 0–40°(θf)',`${bkN(m.A30,4)} / ${bkN(m.A40,4)} m·rad`]])}
+function bkLoadTable(k){const wt=weights(k);const rows=wt.rows.filter(r=>r.w>0).map(r=>[rpEsc(r.name),bkN(r.w,2),bkN(r.x,3),bkN(r.y,3),bkN(r.z,3),bkN(r.w*r.x,1),bkN(r.w*r.z,1)]);rows.push(['<b>Total</b>',`<b>${bkN(wt.W,2)}</b>`,bkN(wt.G[0],3),bkN(wt.G[1],3),bkN(wt.G[2],3),bkN(wt.Mx,1),bkN(wt.Mz,1)]);
+  return rpTbl(['Item','w (t)','LCG (m)','TCG (m)','VCG (m)','w·X','w·Z'],rows,'sweep')}
+function bkCritTable(k){const R=evalCriterion(k.res);return rpTbl(['Kriteria','Batas','Hasil','Status','Acuan'],R.map(r=>[rpEsc(r.crit),r.req,r.calc,stPill(r.status),rpEsc(r.reg)]),'sweep')}
+function bkGzTable(k){const c=k.res.curve.filter(p=>p.deg%10===0||p.deg%5===0);return rpTbl(['Heel (°)',...c.map(p=>p.deg)],[['GZ (m)',...c.map(p=>bkN(p.GZ,3))],['Trim (°)',...c.map(p=>bkN(p.trim,2))]],'sweep')}
+function bkOverall(k){const R=evalCriterion(k.res);return R.some(r=>r.status==='FAIL')?'FAIL':R.filter(r=>r.status==='PASS').length>=4&&!R.some(r=>r.status==='NE'&&/GM awal|Luas|GZ|Sudut GZ/.test(r.crit))?'PASS':'NE'}
+function bkBlocks(type,K,hy,kn,str,sk,voy,logo){const B=[],dr=bkDraft(),dt=new Date().toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});const resmi=type==='resmi';const L=lightship();
+  const sec=(n,t)=>`<h2>${n?n+'. ':''}${t}</h2>`;
+  B.push({pb:1,h:`<div style="text-align:center;margin-top:50px">${logo?`<img src="${logo}" style="height:70px">`:''}<div class="ctag" style="margin-top:30px">${rpEsc(BK.owner).toUpperCase()}</div><h1 style="font-size:34px;margin:30px 0 4px">${resmi?'STABILITY BOOKLET':'RINGKASAN STABILITAS'}</h1><div class="csub">${resmi?'Buku Stabilitas — Kondisi Muat & Kriteria Stabilitas Utuh':'Presentasi hasil: grafik dan penjelasan'}</div><h3 style="font-size:20px;margin:30px 0">${rpEsc(BK.ship)}</h3>
+  ${rpKV([['Nomor dokumen',rpEsc(BK.docNo||'—')],['Revisi',rpEsc(BK.rev)],['Kelas / Regulasi',rpEsc(BK.cls)+' · IMO IS Code 2008 (Part A, Bab 2)'],['Galangan / pembuat',rpEsc(BK.yard||'—')],['Tanggal',dt],['Disusun / diperiksa / disetujui',`${rpEsc(BK.by||'—')} / ${rpEsc(BK.chk||'—')} / ${rpEsc(BK.apr||'—')}`]]).replace('class="kv"','class="kv" style="width:78%;margin:0 auto;text-align:left"')}</div>
+  ${dr.length?`<div class="warn" style="margin-top:30px"><b>DRAFT — belum layak diajukan.</b> ${dr.map(rpEsc).join('; ')}.</div>`:''}`});
+  if(resmi){B.push({pb:1,h:`${sec('','Daftar isi')}<ol>${BKSEC.filter((s,i)=>!(i===3&&!BK.inc.kn)&&!(i===5&&!BK.inc.str)).map(s=>`<li>${s}</li>`).join('')}</ol><p class="note">Halaman mengikuti urutan di atas. Setiap halaman membawa header dokumen, nomor halaman, dan cap DRAFT bila data wajib belum lengkap.</p>`});
+    B.push({pb:1,h:`${sec(1,'Data umum')}${rpKV([['Nama kapal',rpEsc(BK.ship)],['Pemilik',rpEsc(BK.owner)],['Tipe kapal / layanan',rpEsc(S.vessel||'belum dikonfirmasi')],['Panjang AP–FP',bkN(S.fp-S.ap,2)+' m (AP '+bkN(S.ap,2)+' m, FP '+bkN(S.fp,2)+' m dari stn 0)'],['Panjang & lebar lambung (mesh)',(()=>{const [a,b]=hullXRange();return bkN(b-a,2)+' m'})()],['Densitas air',bkN(S.rho,3)+' t/m³'],['Lightship',`${bkN(L.W,2)} t · LCG ${bkN(L.x,3)} · TCG ${bkN(L.y,3)} · VCG ${bkN(L.z,3)} m — ${rpEsc(L.src)}`],['Sudut downflooding θf',isFinite(S.thetaF)?S.thetaF+' °':'belum diisi'],['Jumlah kondisi muat',K.length]])}
+  <h3>Daftar kondisi muat</h3>${rpTbl(['No','Kondisi','Δ (t)','GMTc (m)','Status'],K.map((k,i)=>{const m=metrics(k.res);return [i+1,rpEsc(k.name),bkN(m.W,2),bkN(m.GMTc,3),stPill(bkOverall(k))]}))}`});
+    B.push({pb:1,h:`${sec(2,'Dasar perhitungan')}<ul><li><b>Geometri</b>: mesh lambung tertutup dari Lines Plan; hidrostatik dari pemotongan mesh oleh bidang air (volume, centroid, luas waterplane, momen inersia).</li><li><b>Kesetimbangan</b>: draft, trim, dan heel dicari dengan iterasi Newton sehingga ρ·V = Δ dan B segaris dengan G.</li><li><b>Kurva GZ</b>: heel dipaksa tiap ${S.gzStep}° pada displacement tetap, trim bebas; GZ dikoreksi free surface dengan GG′ = Σ(ρ·i)/Δ (pendekatan wall-sided pada koreksi GZ: GG′·sin φ).</li><li><b>Kriteria</b>: IMO IS Code 2008 Part A bab 2.2 (luas 0–30°, 0–40°, 30–40°, GZ ≥ 0,20 m, sudut GZ maks ≥ 25°, GM ≥ 0,15 m). Kriteria cuaca (2.3) dan kriteria tipe kapal khusus belum dievaluasi.</li><li><b>Free surface</b>: tangki parsial memakai FSM input atau otomatis dari dimensi tangki.</li><li><b>Integrasi</b>: interpolasi Hermite kubik pada titik GZ, integrasi Simpson.</li></ul>${dr.length?`<div class="warn"><b>Keterbatasan data</b>: ${dr.map(rpEsc).join('; ')}. Hasil tidak boleh dipakai untuk persetujuan kelas sebelum data tersebut dilengkapi dan diperiksa oleh naval architect yang berwenang.</div>`:''}`});
+    const hr=hy.map(r=>[bkN(r.T,2),bkN(r.disp,1),bkN(r.LCB,3),bkN(r.KB,3),bkN(r.KMT,3),bkN(r.TPC,3),bkN(r.MCT,2),bkN(r.LCF,3),bkN(r.Awp,1),bkN(r.S,1)]);
+    B.push({pb:1,h:`${sec(3,'Tabel hidrostatik')}<p class="note">Sikap tegak, trim nol, ρ = ${bkN(S.rho,3)} t/m³. KMT = KB + BMT. TPC = Awp·ρ/100. MCT ≈ Δ·BML/(100·L).</p>${rpTbl(['T (m)','Δ (t)','LCB (m)','KB (m)','KMT (m)','TPC (t/cm)','MCT (t·m/cm)','LCF (m)','Awp (m²)','WSA (m²)'],hr.slice(0,28),'sweep')}`});
+    if(hr.length>28)B.push({h:rpTbl(['T (m)','Δ (t)','LCB (m)','KB (m)','KMT (m)','TPC (t/cm)','MCT (t·m/cm)','LCF (m)','Awp (m²)','WSA (m²)'],hr.slice(28),'sweep')});
+    if(kn)B.push({pb:1,h:`${sec(4,'Kurva silang (KN)')}<p class="note">KN = lengan penegak terhadap keel (KG = 0, TCG = 0), trim bebas, sikap awal tanpa trim. GZ = KN − KG·sin φ.</p>${rpTbl(['Δ (t)',...kn.angs.map(a=>a+'°')],kn.out.map(o=>[bkN(o.W,0),...o.kn.map(v=>bkN(v,3))]),'sweep')}${rpChart({w:680,h:280,series:kn.out.map((o,i)=>({n:'Δ '+bkN(o.W,0)+' t',c:STCOL[i],pts:kn.angs.map((a,j)=>[a,o.kn[j]])})),xlab:'Heel (°)',ylab:'KN (m)',xmin:0,xmax:80})}`})}
+  K.forEach((k,i)=>{const nm=rpEsc(k.name);
+    if(resmi){B.push({pb:1,h:`<h2>5.${i+1} ${nm}</h2><h3>Ringkasan hasil</h3>${bkMetricTable(k)}`});B.push({h:`<h3>Daftar bobot (kondisi muat)</h3>${bkLoadTable(k)}`});
+      B.push({pb:1,h:`<h2>${'5.'+(i+1)} ${nm} — kriteria stabilitas</h2>${bkCritTable(k)}<h3>Kurva GZ</h3><div class="fig">${bkGzChart(k)}</div><h3>Tabel GZ</h3>${bkGzTable(k)}`})}
+    else{const m=metrics(k.res),ov=bkOverall(k);B.push({pb:1,h:`<h2>${nm}</h2><div class="two"><div style="flex:3">${bkGzChart(k,520,250)}</div><div style="flex:2">${rpKV([['Displacement',bkN(m.W,1)+' t'],['Draft rata-rata',bkN(m.Tm,2)+' m'],['Trim',bkN(m.trim,2)+' m'],['GM terkoreksi',bkN(m.GMTc,2)+' m'],['GZ maks',bkN(m.gzmax,2)+' m @ '+bkN(m.gzang,0)+'°'],['Vanishing',bkN(m.van,0)+' °']])}</div></div><p>${bkExplain(k)}</p>${bkCritTable(k)}`})}});
+  if(str){B.push({pb:1,h:`${sec(resmi?6:'','Kekuatan memanjang')}<div class="warn">Lightship diasumsikan berdistribusi trapesium; batas kelas diisi pengguna. Indikatif.</div>${str.sf}${str.bm}${str.tbl}`})}
+  if(sk&&!sk.err){const ch=skCharts(sk,{w:680,h:240});B.push({pb:1,h:`${sec('','Seakeeping dasar — kondisi '+rpEsc(sk.name))}<p class="note">Teori strip sederhana; Hs ${SK.Hs} m, Tp ${SK.Tp} s, arah ${sk.mu}°.</p>${ch.hv}${ch.pt}`});B.push({h:`${ch.rl}${rpKV(skRows(sk))}`})}
+  if(voy&&!voy.err){B.push({pb:1,h:`${sec('','Rute & biaya pelayaran')}<div class="two"><div style="flex:1">${vyChart(voy,330,230)}</div><div style="flex:1">${vyCostChart(voy,330,230)||''}</div></div>${rpTbl(['Parameter','Ekonomis','Cepat'],vyTable(voy),'sweep')}`})}
+  B.push({pb:1,h:`${sec(resmi?7:'','Ringkasan hasil seluruh kondisi')}${rpTbl(['Kondisi','Δ (t)','Tm (m)','Trim (m)','GMTc (m)','GZmax (m)','Status'],K.map(k=>{const m=metrics(k.res);return [rpEsc(k.name),bkN(m.W,1),bkN(m.Tm,3),bkN(m.trim,3),bkN(m.GMTc,3),bkN(m.gzmax,3),stPill(bkOverall(k))]}))}
+    ${rpChart({w:680,h:250,series:K.map((k,i)=>({n:k.name,c:STCOL[i%STCOL.length],pts:k.res.curve.map(p=>[p.deg,p.GZ])})),xlab:'Heel (°)',ylab:'GZ (m)',ymin:-0.2,xmin:0,xmax:S.gzMax,hl:[{y:0.2,label:'0,20 m',c:'#b8334a'}]})}
+    <p>${bkConclusion(K)}</p>`});
+  if(resmi){B.push({pb:1,h:`${sec(8,'Rumus yang dipakai')}${eq(`GZ = ${fr('(B<sub>y</sub> − G<sub>y</sub>)','1')}·cos φ + … , &nbsp; GM<sub>T</sub> = KB + BM<sub>T</sub> − KG − GG′`,'1')}${eq(`BM<sub>T</sub> = ${fr('I<sub>T</sub>','∇')} , &nbsp; GG′ = ${fr('Σ ρ<sub>f</sub>·i<sub>x</sub>','Δ')}`,'2')}${eq(`A<sub>θ1–θ2</sub> = ∫<sub>θ1</sub><sup>θ2</sup> GZ(θ) dθ`,'3')}${eq(`TPC = ${fr('ρ·A<sub>wp</sub>','100')} , &nbsp; MCT ≈ ${fr('Δ·BM<sub>L</sub>','100·L')}`,'4')}${eq(`SF(x) = ∫<sub>0</sub><sup>x</sup> (w − b) dx , &nbsp; BM(x) = ∫<sub>0</sub><sup>x</sup> SF dx`,'5')}<p class="note">Kriteria: A(0–30°) ≥ 0,055 m·rad; A(0–40° atau θf) ≥ 0,09 m·rad; A(30–40°) ≥ 0,03 m·rad; GZ(≥30°) ≥ 0,20 m; θGZmax ≥ 25°; GM<sub>0</sub> ≥ 0,15 m (IMO IS Code 2008, 2.2).</p>`});
+    B.push({pb:1,h:`${sec(9,'Lembar pengesahan')}${rpTbl(['Peran','Nama','Tanda tangan','Tanggal'],[['Disusun',rpEsc(BK.by||''),'<br><br>',''],['Diperiksa',rpEsc(BK.chk||''),'<br><br>',''],['Disetujui',rpEsc(BK.apr||''),'<br><br>',''],['Surveyor kelas','','<br><br>','']])}<p class="note">Dokumen ini dibuat oleh alat bantu rekayasa. Pengajuan ke kelas memerlukan verifikasi data, pemeriksaan oleh naval architect berwenang, dan perhitungan yang disetujui kelas.</p>`})}
+  else B.push({pb:1,h:`${sec('','Catatan & batasan')}<ul><li>Alat bantu rekayasa tahap desain awal, bukan dokumen sertifikasi.</li>${dr.map(d=>`<li><b>${rpEsc(d)}</b></li>`).join('')}<li>Kriteria cuaca dan kriteria tipe khusus belum dievaluasi.</li><li>Seakeeping dan hambatan adalah estimasi; belum divalidasi uji model.</li></ul>`});
+  return B}
+function bkExplain(k){const m=metrics(k.res),R=evalCriterion(k.res),fails=R.filter(r=>r.status==='FAIL');return `Pada kondisi ini kapal berdisplacement ${bkN(m.W,1)} t dengan GM terkoreksi ${bkN(m.GMTc,2)} m dan lengan penegak maksimum ${bkN(m.gzmax,2)} m pada heel ${bkN(m.gzang,0)}°. ${fails.length?'Kriteria yang tidak terpenuhi: '+fails.map(r=>rpEsc(r.crit)).join(', ')+'.':'Semua kriteria yang dapat dievaluasi terpenuhi.'}${m.GMTc<0.5?' GM relatif kecil — kapal cenderung lambat kembali tegak.':m.GMTc>2.5?' GM besar — kapal kaku, roll cepat dan kurang nyaman.':''}`}
+function bkConclusion(K){const f=K.filter(k=>bkOverall(k)==='FAIL').map(k=>rpEsc(k.name));return f.length?`Kondisi yang <b>tidak memenuhi</b> kriteria: ${f.join(', ')}. Perlu perubahan muatan/ballast sebelum dipakai.`:`Semua ${K.length} kondisi memenuhi kriteria yang dievaluasi (di luar kriteria yang berstatus NOT EVALUATED).`}
+/* paginasi & PDF */
+async function bkPdf(type,say){if(BK.busy)return;BK.busy=true;let ifr=null;try{say('Memuat pustaka PDF…');const libP=rpLoad();
+    say('Menghitung semua kondisi…');const K=await ensureAllRes(say,true);const bad=K.filter(k=>!k.res||k.res.state!=='full');if(bad.length)throw new Error('Kondisi belum bisa dihitung (lightship/lengkapi data): '+bad.map(k=>k.name).join(', '));
+    const hmax=Math.max(...K.map(k=>k.res.c.Tmean))+0.6,hy=hydroTable(0.6,Math.min(3.2,Math.max(1.6,hmax)),0.1,S.rho);
+    let kn=null;if(type==='resmi'&&BK.inc.kn){kn=await knTable(say)}
+    let str=null;if(BK.inc.str){say('Kekuatan memanjang…');await sleep(10);const list=strAll();const ch=strChartSet(list,{w:680,h:260});const ok=list.filter(e=>e.s&&!e.s.err);if(ok.length)str={sf:ch.sf,bm:ch.bm,tbl:`<p class="note">Hogging/sagging maks per kondisi (kN·m): ${ok.map(e=>rpEsc(e.c.name)+' '+bkN(e.s.hog,0)+'/'+bkN(e.s.sag,0)).join(' · ')}. Batas kelas ${isFinite(ST.Mhog)?'diisi pengguna':'<b>belum diisi — NOT EVALUATED</b>'}.</p>`}}
+    let sk=null;if(BK.inc.sk){say('Seakeeping…');await sleep(10);const c=cond();sk=seakeep(c);sk.name=c.name}
+    let voy=null;if(BK.inc.voy){say('Rute & biaya…');await sleep(10);try{voy=vyAnalyse()}catch(e){voy=null}}
+    const logo=(document.querySelector('img.logo')||{}).src||'';
+    const blocks=bkBlocks(type,K,hy,kn,str,sk,voy,logo);await libP;say('Menyusun halaman…');await sleep(20);
+    ifr=document.createElement('iframe');ifr.setAttribute('aria-hidden','true');ifr.style.cssText='position:fixed;left:-12000px;top:0;width:900px;height:1300px;border:0;visibility:hidden';document.body.appendChild(ifr);const doc=ifr.contentDocument;doc.open();doc.write('<!doctype html><html><head><meta charset="utf-8"></head><body style="margin:0;background:#fff"></body></html>');doc.close();
+    const root=doc.createElement('div');root.className='rp';root.style.cssText='width:794px;background:#fff';const sty=doc.createElement('style');sty.textContent=RP_CSS+'.rp .wm{position:absolute;left:0;right:0;top:420px;text-align:center;font-size:84px;font-weight:bold;color:rgba(190,40,30,.13);transform:rotate(-28deg);letter-spacing:.08em;pointer-events:none}.rp .sweep td,.rp .sweep th{font-size:9.6px}';root.appendChild(sty);
+    const meas=doc.createElement('div');meas.style.cssText='width:698px;position:absolute;left:0;top:0;visibility:hidden';root.appendChild(meas);doc.body.appendChild(root);
+    const els=blocks.map(b=>{const d=doc.createElement('div');d.innerHTML=b.h;meas.appendChild(d);return d});await Promise.all([...meas.querySelectorAll('img')].map(i=>i.decode?i.decode().catch(()=>{}):Promise.resolve()));
+    const MAXH=1123-58-48,pages=[];let cur=[],chh=0;for(let i=0;i<blocks.length;i++){const hh=els[i].getBoundingClientRect().height+4;if(cur.length&&(blocks[i].pb||chh+hh>MAXH)){pages.push(cur);cur=[];chh=0}cur.push(i);chh+=hh}if(cur.length)pages.push(cur);
+    const N=pages.length,dr=bkDraft(),pdf=new window.jspdf.jsPDF({unit:'mm',format:'a4',orientation:'portrait',compress:true});const ttl=type==='resmi'?'Stability Booklet':'Ringkasan Stabilitas';
+    for(let pi=0;pi<N;pi++){say(`Membuat halaman ${pi+1}/${N}…`);await sleep(20);const pg=doc.createElement('div');pg.className='pg';
+      pg.innerHTML=`<div class="hd"><span>${rpEsc(BK.ship)} — ${ttl}</span><span>${rpEsc(BK.docNo||'')} Rev ${rpEsc(BK.rev)}</span></div><div class="ct"></div>${dr.length?'<div class="wm">DRAFT</div>':''}<div class="ft"><span>${dr.length?'DRAFT — data belum lengkap/asumsi':'Estimasi alat bantu rekayasa'}</span><span>Halaman ${pi+1} / ${N}</span></div>`;
+      const ct=pg.querySelector('.ct');for(const j of pages[pi]){const c=doc.createElement('div');c.innerHTML=blocks[j].h;c.style.marginBottom='4px';ct.appendChild(c)}
+      root.appendChild(pg);await Promise.all([...pg.querySelectorAll('img')].map(i=>i.decode?i.decode().catch(()=>{}):Promise.resolve()));
+      const cv=await window.html2canvas(pg,{scale:2,backgroundColor:'#ffffff',logging:false,useCORS:true,width:794,height:1123});if(pi)pdf.addPage();pdf.addImage(cv.toDataURL('image/jpeg',0.92),'JPEG',0,0,210,297,undefined,'FAST');root.removeChild(pg)}
+    say('Menyimpan…');const blob=pdf.output('blob'),name=`PM19_${type==='resmi'?'StabilityBooklet_Resmi':'Stabilitas_Presentasi'}${dr.length?'_DRAFT':''}_${nowStamp()}.pdf`;
+    let r='ok';try{await rpSave(blob,name)}catch(e){r=e&&e.code==='declined'?'declined':'err:'+(e&&e.message)}
+    BK.last={name,pages:N,size:blob.size,result:r};say(r==='ok'?`✔ ${name} (${N} halaman, ${(blob.size/1048576).toFixed(1)} MB)`:r==='declined'?'Penyimpanan dibatalkan.':'Gagal menyimpan: '+r.slice(4))}
+  catch(e){say('Gagal: '+(e&&e.message||e));console.error(e)}finally{if(ifr&&ifr.parentNode)ifr.parentNode.removeChild(ifr);BK.busy=false}}
+TABX.book={html(){const dr=bkDraft(),R=readiness();const I=(k,l)=>`<label>${l}<input data-bk="${k}" value="${rpEsc(BK[k])}"></label>`;
+  return `<div class="banner ${dr.length?'warn':'good'}">${dr.length?'<b>Cap DRAFT akan dipasang di setiap halaman</b>: '+dr.map(esc).join('; ')+'.':'Data wajib terisi — booklet tanpa cap DRAFT (tetap perlu diperiksa naval architect).'}</div>
+  <div class="xin">${I('ship','Nama kapal')}${I('owner','Pemilik')}${I('yard','Galangan')}${I('cls','Kelas')}${I('docNo','Nomor dokumen')}${I('rev','Revisi')}${I('by','Disusun oleh')}${I('chk','Diperiksa oleh')}${I('apr','Disetujui oleh')}</div>
+  <div class="group"><label><input type="checkbox" data-bki="kn"${BK.inc.kn?' checked':''}> Kurva silang KN (resmi)</label><label><input type="checkbox" data-bki="str"${BK.inc.str?' checked':''}> Kekuatan memanjang</label><label><input type="checkbox" data-bki="sk"${BK.inc.sk?' checked':''}> Seakeeping</label><label><input type="checkbox" data-bki="voy"${BK.inc.voy?' checked':''}> Rute &amp; biaya</label></div>
+  <div class="group" style="margin-top:8px"><button id="bkR" class="sm">Unduh PDF resmi</button><button id="bkP" class="sm">Unduh PDF presentasi</button><span id="bkSt" class="note">${BK.last?esc(BK.last.name):''}</span></div>
+  <div class="note">Resmi: sampul, daftar isi, data umum, dasar hitung, hidrostatik, KN, tiap kondisi (bobot, hasil, kriteria, GZ), ringkasan, rumus, pengesahan. Presentasi: grafik dan penjelasan per kondisi. Semua ${conds.length} kondisi dihitung ulang otomatis (±beberapa detik per kondisi). Kesiapan data: ${R.filter(x=>x.ok).length}/${R.length} — lihat tab Panduan.</div>`},
+ bind(){document.querySelectorAll('[data-bk]').forEach(i=>i.onchange=()=>{BK[i.dataset.bk]=i.value});document.querySelectorAll('[data-bki]').forEach(i=>i.onchange=()=>{BK.inc[i.dataset.bki]=i.checked});
+  const go=t=>async()=>{const st=$('bkSt');const say=m=>{const e=$('bkSt');if(e)e.textContent=m};$('bkR').disabled=$('bkP').disabled=true;await bkPdf(t,say);if($('bkR'))$('bkR').disabled=$('bkP').disabled=false};$('bkR').onclick=go('resmi');$('bkP').onclick=go('presentasi')}};
+window.__X={ST,SK,VY,BK,strengthOf,strAll,seakeep,skRAO,skSections,vyAnalyse,secGeom,HIST,histUndo,histRedo,ensureAllRes,knTable,bkPdf,exportExcel,restoreState,snapshotState,hullXRange,readiness};
+/* ===================== EKSTENSI 6: PROPULSI 3 MESIN, THROTTLE & MANUVER ===================== */
+/* Konvensi: X maju, Y starboard, Z atas (koordinat kapal); heading ψ searah jarum jam dari Utara; r > 0 = belok ke starboard. */
+const PRP={ratio:2.535,etaG:0.97,idle:600,rpmMax:NaN,D:1.1,etaO:0.6,tauE:1.2,tauC:1.5,shiftMax:1000,kAst:0.7,Rast:1.3,arm:NaN,Cd:0.6,Yv:0.25,Ty:1.5,tded:0.1,wake:0.1,ts:1,mAddX:0.05,mAddY:0.6,kzz:0.27,sync:true,
+  eng:[{name:'Port / kiri',dir:0,rpm:600,fwdRot:-1,ast:'rev'},{name:'Center / tengah',dir:0,rpm:600,fwdRot:1,ast:'rev'},{name:'Starboard / kanan',dir:0,rpm:600,fwdRot:1,ast:'rev'}]};
+const PS={run:false,t:0,ship:{X:0,Y:0,psi:0,u:0,v:0,r:0},trail:[],E:[0,1,2].map(()=>({rpm:600,clutch:0,gear:'N',inhibit:false,ang:0,out:0,thr:0,Pe:0,Qin:0,Qout:0,rot:0})),tab:null,pre:null,dyn:null,last:0,root:null,cv:null};
+const prRpmMax=()=>isFinite(PRP.rpmMax)?PRP.rpmMax:UW.rpmE;
+function prHullGeo(){const xs=[];let B=0;for(let x=-1;x<=47;x+=0.5){const y=yEdge(x);if(isFinite(y)){B=Math.max(B,2*y);xs.push(x)}}return {B,x0:xs[0]||0,x1:xs[xs.length-1]||46}}
+/* tabel hambatan air tenang R(V) + kalibrasi propeller */
+function prPrep(){const p0=uwStaticPose();if(!p0)return null;const key=[p0.h.toFixed(3),p0.beta.toFixed(4),p0.phi.toFixed(3),UW.etaD,UW.McrE,UW.rpmE,PRP.D,PRP.etaO,PRP.etaG,PRP.tded,PRP.wake,S.rho].join('|');if(PS.pre&&PS.pre.key===key)return PS.pre;
+  const hw=UW.Hw;UW.Hw=0;const R=[],kn=0.5;let vmax=0;try{let over=0;for(let k=0;k<=80;k++){const V=k*kn*KN;let e,f;if(k===0){R.push(0);continue}e=uwEval(V,p0);f=uwFuel(e.BHP,V);if(f.load>1&&!vmax)vmax=(k-1)*kn;R.push(e.RT);if(vmax&&k*kn>vmax+4)break}}finally{UW.Hw=hw}
+  const e0=uwEval(0.05,p0),disp=e0.disp,L=S.fp-S.ap,Tm=midDraft(p0),Rt=V=>{const k=V/KN/kn,i=Math.min(R.length-2,Math.floor(k)),f=k-i;return k>=R.length-1?R[R.length-1]*Math.pow(V/((R.length-1)*kn*KN),2):R[i]+(R[i+1]-R[i])*f};
+  const rho=S.rho*1000,Pd=UW.McrE*1000*PRP.etaG,T0=Math.pow(PRP.etaO*Pd,2/3)*Math.pow(rho*Math.PI*PRP.D*PRP.D/2,1/3);
+  const Vm=(vmax||R.length*kn/2)*KN,Rm=Rt(Vm);const br=1-Rm/(3*(1-PRP.tded)*T0);let ok=true,Vp;if(br>0.08)Vp=(1-PRP.wake)*Vm/br;else{ok=false;Vp=1.6*Vm}
+  PS.pre={key,p0,disp,L,Tm,R,Rt,T0,Vp,Vmax:Vm,ok,Bg:prHullGeo(),KG:null};return PS.pre}
+const prArm=pre=>isFinite(PRP.arm)?PRP.arm:0.22*pre.Bg.B;
+/* satu langkah dinamika */
+function prStep(dt){const pre=PS.pre;if(!pre)return;const S0=PS.ship,rho=S.rho*1000,m=pre.disp*1000,mx=m*(1+PRP.mAddX),my=m*(1+PRP.mAddY),Iz=m*Math.pow(PRP.kzz*pre.L,2)*1.2,rmax=prRpmMax(),Pmax=UW.McrE*1000;
+  let Fx=0,Nz=0;const arm=prArm(pre),ys=[-arm,0,arm];
+  PRP.eng.forEach((c,i)=>{const e=PS.E[i];const want=c.dir>0?'A':c.dir<0?'S':'N';
+    // modul gearbox + solenoid
+    if(want!==e.gear){if(e.gear!=='N'){e.clutch=Math.max(0,e.clutch-dt/PRP.tauC);if(e.clutch<0.02){e.gear='N';e.clutch=0}}
+      else{if(e.rpm<=PRP.shiftMax){e.gear=want;e.inhibit=false}else e.inhibit=true}}else e.inhibit=false;
+    if(e.gear!=='N'&&want===e.gear)e.clutch=Math.min(1,e.clutch+dt/PRP.tauC);
+    // ECM: perintah rpm
+    const cmd=Math.max(PRP.idle,Math.min(rmax,c.rpm));e.rpm+=(cmd-e.rpm)*Math.min(1,dt/PRP.tauE);e.cmd=cmd;
+    const out=e.rpm/PRP.ratio*e.clutch;e.out=out;
+    const sgn=e.gear==='A'?1:e.gear==='S'?-1:0;
+    e.rot=e.gear==='A'?c.fwdRot:e.gear==='S'?(c.ast==='rev'?-c.fwdRot:c.fwdRot):0;
+    e.ang=(e.ang+e.rot*out*6*dt)%360;
+    const nrel=out/(rmax/PRP.ratio);const Va=(1-PRP.wake)*S0.u;
+    let T=0;if(sgn!==0){const kd=sgn>0?1:PRP.kAst;T=sgn*kd*pre.T0*(nrel*nrel-(sgn*Va/pre.Vp)*nrel);if(sgn*T<-0.5*pre.T0*nrel*nrel)T=-sgn*0.5*pre.T0*nrel*nrel}
+    e.thr=T;e.Pe=Pmax*Math.pow(e.rpm/rmax,3)*(0.08+0.92*e.clutch);e.Qin=e.Pe/(2*Math.PI*Math.max(e.rpm,1)/60);e.Qout=e.Qin*PRP.ratio*PRP.etaG*(e.clutch>0.02?1:0);
+    Fx+=T*(1-PRP.tded);Nz+=-T*(1-PRP.tded)*ys[i]});
+  const u=S0.u,v=S0.v,r=S0.r,L=pre.L,Tm=pre.Tm;const Ru=Math.sign(u)*pre.Rt(Math.abs(u))*(u<0?PRP.Rast:1);
+  const Yv=-0.5*rho*L*Tm*PRP.Cd*v*Math.abs(v)-0.5*rho*L*L*Math.abs(u)*PRP.Yv*v;
+  const Nd=-rho*PRP.Cd*Tm*r*Math.abs(r)*Math.pow(L,4)/64-Iz*Math.abs(u)/(PRP.Ty*L)*r;
+  const du=(Fx-Ru+my*v*r)/mx,dv=(Yv-mx*u*r)/my,dr=(Nz+Nd)/Iz;
+  S0.u+=du*dt;S0.v+=dv*dt;S0.r+=dr*dt;S0.psi+=S0.r*dt;
+  S0.X+=(S0.u*Math.sin(S0.psi)+S0.v*Math.cos(S0.psi))*dt;S0.Y+=(S0.u*Math.cos(S0.psi)-S0.v*Math.sin(S0.psi))*dt;PS.t+=dt;
+  PS.fx=Fx;PS.nz=Nz;PS.Ru=Ru}
+/* efek dinamis terhadap sikap (estimasi) */
+function prDyn(){const pre=PS.pre,res=cond().res;if(!pre||!res||!res.c)return null;const u=Math.abs(PS.ship.u),e=uwEval(u,pre.p0),s0=uwEval(0.05,pre.p0);const m=metrics(res);
+  const KG=m.VCG,GM=m.GMTc,rr=PS.ship.r,uu=PS.ship.u;let heelT=0;if(GM>0.02)heelT=-Math.atan(uu*rr*(KG-m.Tm/2)/(9.80665*GM))/RAD;
+  return {dTf:e.Tf-s0.Tf,dTa:e.Ta-s0.Ta,dTm:e.Tm-s0.Tm,dtrim:(e.Ta-e.Tf)-(s0.Ta-s0.Tf),Tf:e.Tf,Ta:e.Ta,heelT,Fn:e.at.Fn,m}}
+/* ---------- UI ---------- */
+const rotTxt=r=>r>0?'⟳ CW (searah jarum jam)':r<0?'⟲ CCW (berlawanan)':'— diam';
+function prBuild(){if(PS.root)return PS.root;const R=document.createElement('div');R.className='prw';PS.root=R;
+  R.innerHTML=`<div class="banner warn" id="prBan"></div>
+  <div class="note">Simulasi dinamika sederhana (surge–sway–yaw, 3 propeller, tanpa kemudi). Parameter hidrodinamika dan propeller adalah <b>asumsi simulasi</b> — hasil berupa estimasi, bukan prediksi performa yang tervalidasi.</div>
+  <div class="group" style="margin:8px 0;flex-wrap:wrap"><button class="sm" id="prRun">▶ Mulai</button><button class="sm" id="prRst">⟲ Reset posisi</button><label>Kecepatan waktu <select id="prTs"><option>0.5</option><option selected>1</option><option>2</option><option>5</option><option>10</option></select>×</label><label><input type="checkbox" id="prSync" checked> Sinkronkan 3 mesin</label>
+   <span class="note">Preset:</span><button class="sm" data-pre="ahead">Semua maju</button><button class="sm" data-pre="astern">Semua mundur</button><button class="sm" data-pre="neutral">Netral</button><button class="sm" data-pre="port">Belok PS (diff)</button><button class="sm" data-pre="stbd">Belok SB (diff)</button></div>
+  <div id="p3Ui"></div>
+  <div class="prgrid"><canvas id="prCv" width="560" height="420"></canvas><div id="prEng"></div></div>
+  <div id="prRead"></div>
+  <details class="gd"><summary>Parameter &amp; asumsi (dapat diubah)</summary><div class="gdb" id="prPar"></div></details>
+  <details class="gd"><summary>Rumus, asumsi, dan data yang masih dibutuhkan</summary><div class="gdb" id="prDoc"></div></details>`;
+  const E=R.querySelector('#prEng');E.innerHTML=PRP.eng.map((c,i)=>`<div class="peng" data-i="${i}"><div class="phd"><b>${c.name}</b> <span class="note">putaran maju: ${c.fwdRot>0?'CW':'CCW'}</span></div>
+   <div class="group"><button class="sm" data-d="${i}|1">Ahead</button><button class="sm" data-d="${i}|0">Neutral</button><button class="sm" data-d="${i}|-1">Astern</button></div>
+   <label class="f">RPM perintah (ECM) <input type="range" data-rpm="${i}" min="${PRP.idle}" max="${prRpmMax()}" step="10" value="${c.rpm}"><input type="number" data-rpmn="${i}" value="${c.rpm}" style="width:70px"></label>
+   <div class="prk" id="pk${i}"></div></div>`).join('');
+  R.querySelector('#prRun').onclick=()=>{PS.run=!PS.run;PS.last=performance.now();$('prRun')&&($('prRun').textContent=PS.run?'⏸ Jeda':'▶ Mulai');if(PS.run)prLoop()};
+  R.querySelector('#prRst').onclick=()=>{Object.assign(PS.ship,{X:0,Y:0,psi:0,u:0,v:0,r:0});PS.trail=[];PS.t=0;prDraw();prRead();try{p3Reset()}catch(e){}};
+  R.querySelector('#prTs').onchange=e=>{PRP.ts=+e.target.value};R.querySelector('#prSync').onchange=e=>{PRP.sync=e.target.checked};
+  const setDir=(i,d)=>{const idx=PRP.sync?[0,1,2]:[i];idx.forEach(k=>PRP.eng[k].dir=d);prSync()};
+  const setRpm=(i,v)=>{v=Math.max(PRP.idle,Math.min(prRpmMax(),v));const idx=PRP.sync?[0,1,2]:[i];idx.forEach(k=>PRP.eng[k].rpm=v);prSync()};
+  R.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{const [i,d]=b.dataset.d.split('|').map(Number);setDir(i,d)});
+  R.querySelectorAll('[data-rpm]').forEach(b=>b.oninput=()=>setRpm(+b.dataset.rpm,+b.value));R.querySelectorAll('[data-rpmn]').forEach(b=>b.onchange=()=>setRpm(+b.dataset.rpmn,+b.value));
+  R.querySelectorAll('[data-pre]').forEach(b=>b.onclick=()=>{const p=b.dataset.pre,mx=prRpmMax(),mid=Math.round((PRP.idle+mx)/2/10)*10;const A=PRP.eng;
+    if(p==='ahead')A.forEach(c=>{c.dir=1;c.rpm=mid});else if(p==='astern')A.forEach(c=>{c.dir=-1;c.rpm=mid});else if(p==='neutral')A.forEach(c=>{c.dir=0;c.rpm=PRP.idle});
+    else if(p==='port'){A[0].dir=1;A[0].rpm=Math.round((PRP.idle+mx)/2/10)*10*0.8;A[1].dir=1;A[1].rpm=mid;A[2].dir=1;A[2].rpm=Math.min(mx,mid*1.25)}
+    else{A[2].dir=1;A[2].rpm=Math.round((PRP.idle+mx)/2/10)*10*0.8;A[1].dir=1;A[1].rpm=mid;A[0].dir=1;A[0].rpm=Math.min(mx,mid*1.25)}prSync()});
+  PS.cv=R.querySelector('#prCv');prPar();prDoc();p3UiBuild(R);return R}
+function prSync(){const R=PS.root;if(!R)return;PRP.eng.forEach((c,i)=>{const s=R.querySelector(`[data-rpm="${i}"]`),n=R.querySelector(`[data-rpmn="${i}"]`);s.max=prRpmMax();s.min=PRP.idle;s.value=c.rpm;n.value=Math.round(c.rpm);
+  R.querySelectorAll(`[data-d^="${i}|"]`).forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.d.split('|')[1]===c.dir)))})}
+function prPar(){const R=PS.root,el=R.querySelector('#prPar');const I=(k,l,u)=>`<label>${l}<input data-pp="${k}" value="${isFinite(PRP[k])?PRP[k]:''}" placeholder="${u||''}"></label>`;
+  el.innerHTML=`<div class="xh">Dari pengguna (data aktual)</div><div class="xin">${I('ratio','Rasio reduksi gearbox (n:1)')}</div>
+  <div class="xh">Asumsi simulasi — ganti dengan data kapal bila tersedia</div><div class="xin">${I('etaG','Efisiensi mekanis gearbox')}${I('idle','RPM idle (rpm)')}${I('rpmMax','RPM maks mesin (kosong = ikut tab Jalan & gelombang)','rpm')}${I('shiftMax','RPM maks untuk pindah arah gearbox (interlock)')}${I('tauE','Konstanta waktu ECM/mesin (s)')}${I('tauC','Waktu engage clutch (s)')}${I('D','Diameter propeller (m)')}${I('etaO','Figure of merit bollard propeller')}${I('kAst','Faktor thrust astern terhadap ahead')}${I('Rast','Faktor hambatan saat mundur')}${I('tded','Thrust deduction t')}${I('wake','Wake fraction w')}${I('arm','Jarak lateral propeller PS/SB dari CL (m)','otomatis 0,22·B')}${I('Cd','Cd cross-flow lambung')}${I('Yv','Y′v (turunan linear)')}${I('Ty','Konstanta waktu yaw T′ (dalam L/U; redaman yaw linear = Iz·U/(T′·L))')}${I('mAddX','Massa tambah surge (frac)')}${I('mAddY','Massa tambah sway (frac)')}${I('kzz','k_zz / L (radius girasi yaw)')}</div>
+  <div class="xh">Mekanisme astern per mesin (belum dikonfirmasi)</div><div class="xin">${PRP.eng.map((c,i)=>`<label>${c.name}<select data-pa="${i}"><option value="rev"${c.ast==='rev'?' selected':''}>Gearbox membalik rotasi poros</option><option value="cpp"${c.ast==='cpp'?' selected':''}>Poros tetap, pitch dibalik (CPP)</option></select></label>`).join('')}</div>`;
+  el.querySelectorAll('[data-pp]').forEach(i=>i.onchange=()=>{const k=i.dataset.pp,v=num(i.value);if(i.value.trim()===''&&k==='rpmMax'||i.value.trim()===''&&k==='arm')PRP[k]=NaN;else if(isFinite(v)&&v>=0)PRP[k]=v;PS.pre=null;prSync();prRead()});
+  el.querySelectorAll('[data-pa]').forEach(i=>i.onchange=()=>{PRP.eng[+i.dataset.pa].ast=i.value;prRead()})}
+function prDoc(){PS.root.querySelector('#prDoc').innerHTML=`<p><b>Rantai tenaga per unit</b>: Main engine → Reduction gearbox (rasio ${PRP.ratio}:1, modul + solenoid pengatur arah) → Shaft → Propeller. Perintah rpm lewat ECM; perintah arah lewat modul gearbox (netral → ahead/astern hanya bila rpm ≤ batas interlock).</p>
+  <ul><li>RPM keluaran gearbox: n<sub>out</sub> = n<sub>mesin</sub> / i × (engage clutch 0…1); torsi keluaran: Q<sub>out</sub> = Q<sub>in</sub> · i · η<sub>G</sub>, Q<sub>in</sub> = P/(2π n).</li>
+  <li>Daya mesin (hukum propeller): P = P<sub>MCR</sub>·(n/n<sub>maks</sub>)³ — pendekatan.</li>
+  <li>Thrust per propeller: T = ±k·T<sub>0</sub>·[ν² − ν·(±V<sub>a</sub>/V<sub>p</sub>)], ν = n<sub>out</sub>/n<sub>out,maks</sub>, V<sub>a</sub> = (1−w)·u; T<sub>0</sub> = (η<sub>o</sub>·P<sub>d</sub>)<sup>2/3</sup>·(ρπD²/2)<sup>1/3</sup>. V<sub>p</sub> dikalibrasi supaya 3 propeller pada rpm penuh menyeimbangkan hambatan Holtrop–Mennen di kecepatan maksimum (batas MCR) dari tab Jalan &amp; gelombang.</li>
+  <li>Arah dipisah: <b>rotasi poros</b> (CW/CCW) ≠ <b>arah thrust</b> (+maju/−mundur) ≠ <b>arah gerak kapal</b> (tanda u). Maju: PS CCW, tengah CW, SB CW. Mundur: bila gearbox membalik poros, rotasi berbalik; bila CPP, rotasi tetap dan hanya thrust yang berbalik.</li>
+  <li>Dinamika: (m+m<sub>x</sub>)u̇ = ΣT(1−t) − R(u) + (m+m<sub>y</sub>)vr; (m+m<sub>y</sub>)v̇ = Y<sub>v</sub> − (m+m<sub>x</sub>)ur; I<sub>z</sub>ṙ = −ΣT(1−t)·y<sub>i</sub> − ρ·C<sub>d</sub>·T·L⁴/64·r|r| − (I<sub>z</sub>·|u|/(T′·L))·r  (I<sub>z</sub> = 1,2·m·(k<sub>zz</sub>L)²).</li>
+  <li>Heel belok (kuasi-statik, estimasi): φ = −atan[ u·r·(KG − T/2) / (g·GM) ]; trim &amp; sinkage dinamis dari model tab Jalan &amp; gelombang. Ini <b>bukan</b> stabilitas dinamis tervalidasi.</li></ul>
+  <p><b>Data yang masih dibutuhkan</b>: data propeller (D, P/D, EAR, kurva K<sub>T</sub>/K<sub>Q</sub>), konfirmasi mekanisme astern gearbox, kurva torsi/daya mesin &amp; batas ECM, daya MCR dan rpm nominal (tab Jalan &amp; gelombang), turunan hidrodinamika dari uji model, posisi propeller.</p>`}
+function prBan(){const pre=PS.pre,b=PS.root.querySelector('#prBan');if(!pre){b.className='banner na';b.textContent='Kondisi muat belum punya kesetimbangan (isi lightship/beban di panel kiri atau pakai Draft manual). Simulasi butuh displacement dan sikap kapal.';return}
+  b.className='banner '+(pre.ok?'warn':'bad');b.innerHTML=`Parameter asumsi aktif: D ${PRP.D} m, η gearbox ${PRP.etaG}, MCR/mesin ${UW.McrE} kW @ ${prRpmMax()} rpm (dari tab Jalan &amp; gelombang). Bollard thrust/propeller ≈ ${(pre.T0/1000).toFixed(1)} kN; V<sub>maks</sub> daya ≈ ${(pre.Vmax/KN).toFixed(1)} kn.${pre.ok?'':' <b>Kalibrasi thrust vs hambatan tidak konsisten</b> — periksa D / daya.'}`}
+/* canvas top-view */
+function prDraw(){const cv=PS.cv;if(!cv)return;const g=cv.getContext('2d'),W=cv.width,Hh=cv.height,sh=PS.ship,pre=PS.pre;g.fillStyle='#e4f1f6';g.fillRect(0,0,W,Hh);if(!pre){g.fillStyle='#456';g.font='13px sans-serif';g.fillText('Menunggu kesetimbangan kapal…',20,30);return}
+  const sc=Hh/(pre.L*1.7),cx=W/2,cy=Hh/2;const sx=X=>cx+(X-sh.X)*sc,sy=Y=>cy-(Y-sh.Y)*sc;
+  g.strokeStyle='#c3dbe4';g.lineWidth=1;const gs=10,x0=Math.floor((sh.X-W/sc/2)/gs)*gs,y0=Math.floor((sh.Y-Hh/sc/2)/gs)*gs;for(let x=x0;x<sh.X+W/sc/2+gs;x+=gs){g.beginPath();g.moveTo(sx(x),0);g.lineTo(sx(x),Hh);g.stroke()}for(let y=y0;y<sh.Y+Hh/sc/2+gs;y+=gs){g.beginPath();g.moveTo(0,sy(y));g.lineTo(W,sy(y));g.stroke()}
+  g.strokeStyle='#7fb2c8';g.lineWidth=2;g.beginPath();PS.trail.forEach((p,i)=>{i?g.lineTo(sx(p[0]),sy(p[1])):g.moveTo(sx(p[0]),sy(p[1]))});g.lineTo(sx(sh.X),sy(sh.Y));g.stroke();
+  // badan kapal di kerangka kapal: x maju, y starboard -> layar
+  const xc=(pre.Bg.x0+pre.Bg.x1)/2,cgx=xc;const tr=(x,y)=>{const a=x-cgx,b=y;const E=sh.X+a*Math.sin(sh.psi)+b*Math.cos(sh.psi),N=sh.Y+a*Math.cos(sh.psi)-b*Math.sin(sh.psi);return [sx(E),sy(N)]};
+  const pts=[];for(let x=pre.Bg.x0;x<=pre.Bg.x1;x+=0.5)pts.push([x,yEdge(x)]);const poly=[...pts.map(p=>[p[0],p[1]]),...pts.slice().reverse().map(p=>[p[0],-p[1]])];
+  g.fillStyle='rgba(16,120,40,.18)';g.strokeStyle='#107828';g.lineWidth=2;g.beginPath();poly.forEach((p,i)=>{const q=tr(p[0],p[1]);i?g.lineTo(q[0],q[1]):g.moveTo(q[0],q[1])});g.closePath();g.fill();g.stroke();
+  const bow=tr(pre.Bg.x1+2,0),mid=tr(pre.Bg.x1,0);g.strokeStyle='#0088c8';g.lineWidth=3;g.beginPath();g.moveTo(mid[0],mid[1]);g.lineTo(bow[0],bow[1]);g.stroke();
+  const arm=prArm(pre),ys=[-arm,0,arm],xp=S.ap+0.2;
+  PRP.eng.forEach((c,i)=>{const e=PS.E[i],p=tr(xp,ys[i]);const rr=0.55*sc*Math.max(1,PRP.D);g.save();g.translate(p[0],p[1]);g.rotate(sh.psi+e.ang*Math.PI/180*(1));g.strokeStyle=e.gear==='A'?'#107828':e.gear==='S'?'#b8334a':'#667';g.lineWidth=3;for(let k=0;k<3;k++){g.rotate(2*Math.PI/3);g.beginPath();g.moveTo(0,0);g.lineTo(0,-rr);g.stroke()}g.restore();
+    g.fillStyle='#223';g.font='bold 11px sans-serif';g.fillText(['PS','C','SB'][i],p[0]-8,p[1]+rr+13);
+    if(e.rot){g.strokeStyle=e.rot>0?'#107828':'#c4621a';g.lineWidth=2;const a0=-sh.psi-Math.PI/2;g.beginPath();g.arc(p[0],p[1],rr+4,a0,a0+e.rot*4.2,e.rot<0);g.stroke()}
+    const T=e.thr/1000,len=Math.min(60,Math.abs(T)*0.7);if(len>1){const dir=(T>0?1:-1),q=tr(xp-0.0,ys[i]),q2=tr(xp+dir*len/sc,ys[i]);g.strokeStyle=T>0?'#107828':'#b8334a';g.lineWidth=3;g.beginPath();g.moveTo(q[0],q[1]);g.lineTo(q2[0],q2[1]);g.stroke()}});
+  // kompas
+  g.save();g.translate(W-52,52);g.strokeStyle='#456';g.lineWidth=1.5;g.beginPath();g.arc(0,0,36,0,7);g.stroke();g.fillStyle='#456';g.font='11px sans-serif';g.fillText('N',-4,-40);g.rotate(sh.psi);g.strokeStyle='#b8334a';g.lineWidth=3;g.beginPath();g.moveTo(0,10);g.lineTo(0,-28);g.stroke();g.restore();
+  g.fillStyle='#123';g.font='12px sans-serif';g.fillText(`u ${(sh.u/KN).toFixed(2)} kn · ψ ${((sh.psi*180/Math.PI%360+360)%360).toFixed(1)}° · r ${(sh.r*180/Math.PI).toFixed(2)}°/s`,10,18);g.fillText('Grid 10 m · estimasi simulasi',10,Hh-8)}
+function prRead(){const R=PS.root;if(!R)return;prBan();const pre=PS.pre;
+  PRP.eng.forEach((c,i)=>{const e=PS.E[i];const st=e.inhibit?'<b style="color:#b8334a">SHIFT INHIBIT (rpm > batas)</b>':e.gear==='A'?'AHEAD':e.gear==='S'?'ASTERN':'NEUTRAL';const lamp=(on,n)=>`<span class="lamp ${on?'on':''}">${n}</span>`;
+    R.querySelector('#pk'+i).innerHTML=`<table class="kv"><tbody><tr><td class="l">RPM mesin aktual / perintah</td><td>${e.rpm.toFixed(0)} / ${(e.cmd||c.rpm).toFixed(0)}</td></tr><tr><td class="l">RPM keluaran gearbox (nominal ÷${PRP.ratio})</td><td>${e.out.toFixed(1)} (${(e.rpm/PRP.ratio).toFixed(1)})</td></tr><tr><td class="l">RPM poros (bertanda)</td><td>${(e.rot*e.out).toFixed(1)}</td></tr><tr><td class="l">Rotasi poros / propeller</td><td>${rotTxt(e.rot)}</td></tr><tr><td class="l">Arah thrust</td><td>${e.thr>1?'maju ▲':e.thr<-1?'mundur ▼':'nol'}</td></tr><tr><td class="l">Gearbox · clutch</td><td>${st} · ${(e.clutch*100).toFixed(0)}%</td></tr><tr><td class="l">Solenoid</td><td>${lamp(e.gear==='A','AHEAD')} ${lamp(e.gear==='S','ASTERN')} ${lamp(e.gear==='N','NEUT')}</td></tr><tr><td class="l">Daya mesin · torsi in/out</td><td>${(e.Pe/1000).toFixed(0)} kW · ${(e.Qin/1000).toFixed(2)} / ${(e.Qout/1000).toFixed(2)} kN·m</td></tr><tr><td class="l">Thrust</td><td>${(e.thr/1000).toFixed(1)} kN</td></tr></tbody></table>`});
+  const sh=PS.ship,res=cond().res,m=res&&res.c?metrics(res):null,D=PS.dyn;const f2=(v,d)=>isFinite(v)?v.toFixed(d):'–';
+  R.querySelector('#prRead').innerHTML=`<div class="two" style="display:flex;gap:12px;flex-wrap:wrap"><div style="flex:1 1 320px"><div class="xh">Gerak kapal (terpisah)</div><table class="kv"><tbody><tr><td class="l">Kecepatan u (surge)</td><td>${(sh.u/KN).toFixed(2)} kn</td></tr><tr><td class="l">Kecepatan lateral v</td><td>${(sh.v/KN).toFixed(2)} kn</td></tr><tr><td class="l">Heading ψ</td><td>${((sh.psi*180/Math.PI%360+360)%360).toFixed(1)}°</td></tr><tr><td class="l">Yaw rate r</td><td>${(sh.r*180/Math.PI).toFixed(2)} °/s</td></tr><tr><td class="l">Thrust total · hambatan</td><td>${((PS.fx||0)/1000).toFixed(1)} kN · ${((PS.Ru||0)/1000).toFixed(1)} kN</td></tr><tr><td class="l">Momen yaw diff. thrust</td><td>${((PS.nz||0)/1000).toFixed(1)} kN·m</td></tr><tr><td class="l">Waktu simulasi</td><td>${PS.t.toFixed(1)} s</td></tr></tbody></table></div>
+  <div style="flex:1 1 360px"><div class="xh">Stabilitas statis (dari kondisi muat aktual: ${esc(cond().name)})</div>${m?`<table class="kv"><tbody><tr><td class="l">Displacement</td><td>${f2(m.W,2)} t</td></tr><tr><td class="l">Draft haluan / buritan / rata-rata</td><td>${f2(m.Tf,3)} / ${f2(m.Ta,3)} / ${f2(m.Tm,3)} m</td></tr><tr><td class="l">Trim · Heel statis</td><td>${f2(m.trim,3)} m · ${f2(m.heel,2)}°</td></tr><tr><td class="l">LCG / VCG / TCG</td><td>${f2(m.LCG,3)} / ${f2(m.VCG,3)} / ${f2(m.TCG,3)} m</td></tr><tr><td class="l">GM transversal (terkoreksi FS)</td><td>${f2(m.GMTc,3)} m</td></tr></tbody></table>`:'<div class="note">Belum ada hasil kesetimbangan.</div>'}
+  <div class="xh">Efek dinamis (estimasi — bukan stabilitas dinamis tervalidasi)</div>${D?`<table class="kv"><tbody><tr><td class="l">Sinkage rata-rata / trim dinamis (squat)</td><td>${f2(D.dTm*1000,0)} mm / ${f2(D.dtrim*1000,0)} mm (+ buritan)</td></tr><tr><td class="l">Draft haluan · buritan saat jalan</td><td>${f2(D.Tf,3)} · ${f2(D.Ta,3)} m</td></tr><tr><td class="l">Heel belok (sentrifugal, kuasi-statik)</td><td>${f2(D.heelT,2)}° (+ SB turun)</td></tr><tr><td class="l">Fn</td><td>${f2(D.Fn,3)}</td></tr></tbody></table>`:'<div class="note">–</div>'}</div></div>
+  <div class="note">GM, displacement, dan draft statis hanya berubah bila muatan/tangki/A-frame berubah; throttle tidak mengubahnya. Perubahan akibat gerak muncul terpisah sebagai efek dinamis di atas.</div>`}
+let prRaf=0;
+function prLoop(){cancelAnimationFrame(prRaf);const f=now=>{if(!PS.run||!PS.root||!document.body.contains(PS.root)){PS.run=false;const b=$('prRun');if(b)b.textContent='▶ Mulai';return}
+    const dt=Math.min(0.1,(now-PS.last)/1000);PS.last=now;prPrepSafe();const n=Math.max(1,Math.min(60,Math.round(dt*PRP.ts/0.05)));for(let i=0;i<n;i++)prStep(0.05);
+    const last=PS.trail[PS.trail.length-1];if(!last||Math.hypot(last[0]-PS.ship.X,last[1]-PS.ship.Y)>1.5){PS.trail.push([PS.ship.X,PS.ship.Y]);if(PS.trail.length>800)PS.trail.shift()}
+    if(!PS._dt||now-PS._dt>300){PS._dt=now;try{PS.dyn=prDyn()}catch(e){}}prDraw();prRead();try{p3Frame(dt)}catch(e){console.error(e)}prRaf=requestAnimationFrame(f)};prRaf=requestAnimationFrame(f)}
+function prPrepSafe(){try{prPrep()}catch(e){console.error(e)}}
+TABX.prop={html(){return '<div id="prHost"></div>'},bind(){prPrepSafe();const R=prBuild();$('prHost').appendChild(R);prSync();try{PS.dyn=prDyn()}catch(e){}prDraw();prRead();const b=$('prRun');if(b)b.textContent=PS.run?'⏸ Jeda':'▶ Mulai'}};
+/* ujian tanpa UI: jalankan N detik */
+function prSim(sec){prPrepSafe();for(let i=0;i<sec/0.05;i++)prStep(0.05);return JSON.parse(JSON.stringify(PS.ship))}
+window.__PR={PRP,PS,prPrep,prStep,prSim,prDyn};
+
+/* ===================== EKSTENSI 7: KAMAR MESIN 3D + KAPAL IKUT BELOK DI VIEWPORT =====================
+   Menyambung simulasi tab "Propulsi & manuver" (PS/PRP) ke viewport 3D: mesin–gearbox–poros–propeller (RH/LH sesuai fwdRot),
+   modul solenoid (hijau = ahead, merah = astern), ECM + control head + sinyal kontrol putus-putus, hull ikut yaw/heel/air bergerak.
+   Frame three: x = haluan, y = atas, z = starboard. Bentuk & dimensi = VISUALISASI KONSEPTUAL (bukan CAD pabrikan). */
+const P3G=new THREE.Group();hullG.add(P3G);
+const _m=(c,mt,r)=>new THREE.MeshStandardMaterial({color:c,metalness:mt===undefined?.5:mt,roughness:r===undefined?.45:r});
+const _bx=(w,h,d)=>new THREE.BoxGeometry(w,h,d),_cy=(r,l,s)=>new THREE.CylinderGeometry(r,r,l,s||20),HPI=Math.PI/2;
+function _ad(p,g,m,x,y,z,rx,rz){const o=new THREE.Mesh(g,m);o.position.set(x||0,y||0,z||0);o.rotation.x=rx||0;o.rotation.z=rz||0;p.add(o);return o}
+function _grp(par,x,y,z,s,flip){const g=new THREE.Group();g.position.set(x,y,z);g.scale.setScalar(s);par.add(g);if(!flip)return g;const f=new THREE.Group();f.rotation.y=Math.PI;g.add(f);return f}
+const MT3={steel:_m(0x9aa3ad,.8,.35),dk:_m(0x2f3a46,.5,.5),g1:_m(0x3b7d3a,.35,.5),g2:_m(0x2b5c2a,.4,.5),g3:_m(0x4f9a4d,.3,.5),b1:_m(0x1f4e8c,.45,.4),b2:_m(0x173a69,.5,.4),brass:_m(0xb5833a,.85,.3),org:_m(0xd9531e,.4,.5),pan:new THREE.MeshStandardMaterial({color:0x0b1b2b,emissive:0x1a8aa8,emissiveIntensity:.6})};
+const P3L=[{k:'PS',y:-2.625},{k:'C',y:0},{k:'SB',y:2.625}],XE3=12.75,XG3=9.46,ZB3=1.5,SC3=.7;
+const P3={vis:true,yawOn:true,turn:0,base:.6,ang:[0,0,0],spin:[],gcm:[],shaft:[],brg:[],prop:[],sp:[],bl:[],lab:[],built:false,seaOn:false,posed:false,hud:null};
+(function(){const V3=THREE.Vector3;
+  P3L.forEach((L,i)=>{const z=L.y;let f=_grp(P3G,XE3,ZB3,z,SC3,true); /* mesin diesel */
+    _ad(f,_bx(5,.5,2.3),MT3.g2,0,.25,0);_ad(f,_bx(4.8,1.4,1.9),MT3.g1,0,1.2,0);
+    for(let j=0;j<6;j++)_ad(f,_bx(.55,.55,1.5),MT3.g3,-2+.8*j,2.15,0);
+    _ad(f,_cy(.17,4.4),MT3.steel,0,1.9,1.1,0,HPI);_ad(f,_cy(.45,.8),MT3.steel,2.3,1.9,1.4,0,HPI);_ad(f,_cy(.2,1.2),MT3.dk,2.3,2.8,1.4);
+    _ad(f,_cy(.85,.5),MT3.dk,2.75,1.2,0,0,HPI);_ad(f,_cy(.3,1),MT3.steel,3.5,1.2,0,0,HPI);
+    f=_grp(P3G,XG3,ZB3,z,SC3,true); /* reverse-reduction gearbox */
+    _ad(f,_bx(2.4,2,2),MT3.b1,0,1.2,0);_ad(f,_bx(1.9,.45,1.6),MT3.b2,0,2.42,0);
+    [-.8,0,.8].forEach(x=>_ad(f,_bx(.12,1.7,2.1),MT3.b2,x,1.2,0));
+    _ad(f,_cy(.55,.35),MT3.steel,-1.35,1.2,0,0,HPI);_ad(f,_cy(.5,.35),MT3.steel,1.35,1.2,0,0,HPI);_ad(f,_cy(.28,1.2),MT3.steel,0,.6,1.25,0,HPI);
+    /* poros (panjang/arah diatur p3Fit) */
+    const sh=new THREE.Mesh(_cy(.11,1,16),MT3.steel);P3G.add(sh);P3.shaft.push(sh);
+    P3.brg.push([0,1].map(()=>{const b=new THREE.Mesh(_bx(.4,.36,.5),MT3.dk);P3G.add(b);return b}));
+    /* propeller: sumbu lokal +x = arah buritan; rotasi (+) pada +x = CCW dilihat dari buritan */
+    const pg=new THREE.Group();P3G.add(pg);P3.prop.push(pg);const sp=new THREE.Group();pg.add(sp);P3.sp.push(sp);
+    _ad(sp,_cy(.3,.9),MT3.brass,0,0,0,0,HPI);_ad(sp,new THREE.ConeGeometry(.3,.5,20),MT3.brass,.65,0,0,0,-HPI);
+    const bl=[];for(let j=0;j<4;j++){const pv=new THREE.Group();pv.rotation.x=j*HPI;sp.add(pv);bl.push(_ad(pv,_bx(.1,1.5,.55),MT3.brass,0,1,0))}P3.bl.push(bl);
+    const e=PRP.eng[i],lb=label(L.k+' · maju '+(e.fwdRot>0?'CW':'CCW'),e.fwdRot>0?'#107828':'#0079b3',.55);P3G.add(lb);P3.lab.push(lb);
+    /* modul gearbox + solenoid */
+    const gm=_m(0xd9531e,.4,.5);f=_grp(P3G,XG3,3.35,z,.55,false);_ad(f,_bx(.9,.6,.7),gm);_ad(f,_cy(.18,.5),MT3.dk,0,.55,0);_ad(f,_cy(.08,.6),MT3.steel,0,-.65,0);P3.gcm.push(gm)});
+  /* ECM + control head + sinyal kontrol */
+  let f=_grp(P3G,15.9,ZB3,0,.6,false);_ad(f,_bx(1.6,2.2,.9),_m(0x55606c,.6,.4),0,1.1,0);_ad(f,_bx(1.2,.7,.04),MT3.pan,0,1.6,.47);
+  f=_grp(P3G,29.4,9.12,-.15,.7,false);_ad(f,_bx(1.4,1.1,1.1),MT3.dk,0,.55,0);_ad(f,_cy(.07,.9),MT3.steel,0,1.6,0,0,.4);_ad(f,new THREE.SphereGeometry(.15),MT3.org,-.18,2.05,0);_ad(f,_bx(.6,.35,.05),MT3.pan,0,.85,.56);
+  const dm=new THREE.MeshBasicMaterial({color:0xd9531e});
+  const dash=pts=>{for(let i=0;i<pts.length-1;i++){const a=pts[i],b=pts[i+1],L=a.distanceTo(b);if(L<.01)continue;const n=Math.max(1,Math.floor(L/.28)),dn=b.clone().sub(a).normalize();for(let j=0;j<n;j++){const m=new THREE.Mesh(_bx(.035,.035,.14),dm);m.position.copy(a).lerp(b,(j+.5)/n);m.quaternion.setFromUnitVectors(new V3(0,0,1),dn);P3G.add(m)}}};
+  const E=new V3(15.9,2.92,0);
+  dash([new V3(29.4,9.4,-.15),new V3(29.4,6,-.15),new V3(15.9,6,-.15),new V3(15.9,6,0),E]);
+  P3L.forEach(L=>dash([E,new V3(15.9,4,0),new V3(XG3,4,0),new V3(XG3,4,L.y),new V3(XG3,3.8,L.y)]));
+  const l1=label('ECM','#c4621a',.6);l1.position.set(15.9,3.4,0);P3G.add(l1);const l2=label('Control head','#c4621a',.6);l2.position.set(29.4,10.3,-.15);P3G.add(l2);
+  P3.built=true})();
+/* posisi poros & propeller mengikuti parameter simulasi (lengan lateral, diameter, posisi AP) */
+function p3Fit(){if(!P3.built)return;const V3=THREE.Vector3,B=PS.pre&&PS.pre.Bg?PS.pre.Bg.B:7.4,arm=isFinite(PRP.arm)?PRP.arm:.22*B,ys=[-arm,0,arm],xp=S.ap+.2,k=(PRP.D/2)/1.75;
+  for(let i=0;i<3;i++){const zc=Math.max(.35,.57+.22*Math.abs(ys[i])-.3),P0=new V3(XG3-1.5*SC3,ZB3+1.2*SC3,P3L[i].y),P1=new V3(xp,zc,ys[i]),d=P1.clone().sub(P0),len=d.length(),dn=d.clone().normalize();
+    const sh=P3.shaft[i];sh.position.copy(P0).addScaledVector(dn,len/2);sh.quaternion.setFromUnitVectors(new V3(0,1,0),dn);sh.scale.set(1,len,1);
+    P3.brg[i].forEach((b,j)=>{const p=P0.clone().addScaledVector(dn,len*(j?.62:.3));b.position.set(p.x,p.y-.26,p.z)});
+    const pg=P3.prop[i];pg.position.copy(P1);pg.quaternion.setFromUnitVectors(new V3(1,0,0),dn);P3.sp[i].scale.setScalar(k);
+    P3.lab[i].position.set(xp-.3,zc+PRP.D/2+.35,ys[i]);P3.bl[i].forEach(b=>b.rotation.y=.6*PRP.eng[i].fwdRot)}}
+/* yaw kapal di viewport (hanya saat tab Propulsi aktif) — dipanggil dari applyPose */
+window.__pmYaw=()=>{try{if(!P3.yawOn||TAB!=='prop'||!PS.ship.psi)return null;return new THREE.Matrix4().makeTranslation(23,0,0).multiply(new THREE.Matrix4().makeRotationY(-PS.ship.psi)).multiply(new THREE.Matrix4().makeTranslation(-23,0,0))}catch(e){return null}};
+function p3Restore(){const p=uwStaticPose();if(p)SCN.applyPose(p.h,p.phi,p.beta);else SCN.draw()}
+function p3Hud(){const mid=$('mid');if(!mid)return;let h=P3.hud;if(!h){h=P3.hud=document.createElement('div');h.className='ov';h.style.cssText='position:absolute;left:10px;bottom:10px;background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:5px 9px;font-size:12px;z-index:5;pointer-events:none';mid.appendChild(h)}
+  const sh=PS.ship,on=TAB==='prop'&&(PS.run||sh.psi||sh.u);h.style.display=on?'block':'none';if(!on)return;
+  const hd=((sh.psi/RAD)%360+360)%360,st=Math.abs(sh.r/RAD)<.05?'LURUS':sh.r>0?'BELOK KANAN':'BELOK KIRI';h.innerHTML=`<b>${st}</b> · u ${f1(sh.u/KN,1)} kn · ψ ${f1(hd,0)}° · r ${f1(sh.r/RAD,2)}°/s`}
+function p3Frame(dt){if(!P3.built)return;p3Fit();
+  PS.E.forEach((e,i)=>{P3.ang[i]+=-e.rot*e.out*6*dt*.08*RAD;P3.sp[i].rotation.x=P3.ang[i];const g=P3.gcm[i];g.emissive.setHex(e.inhibit?0xcc6600:e.gear==='A'?0x00aa44:e.gear==='S'?0xcc2200:0x222200);g.emissiveIntensity=.35+.65*e.clutch});
+  p3Hud();if(UW.running){SCN.draw();return}
+  if(P3.yawOn){const p0=uwStaticPose();if(p0){if(!P3.seaOn){SCN.showSea(true);P3.seaOn=true}seaTex.offset.set(PS.ship.Y/10,-PS.ship.X/10);P3.posed=true;
+    SCN.applyPose(p0.h,p0.phi+(PS.dyn?PS.dyn.heelT*RAD:0),p0.beta);return}}
+  SCN.draw()}
+function p3Tab(){if(TAB!=='prop'){if(P3.seaOn){SCN.showSea(false);P3.seaOn=false}if(P3.posed){P3.posed=false;p3Restore()}p3Hud()}else{p3Fit();if(P3.yawOn&&PS.ship.psi)p3Frame(0);else SCN.draw();p3Hud()}}
+function p3Reset(){P3.ang=[0,0,0];if(P3.seaOn){SCN.showSea(false);P3.seaOn=false}P3.posed=false;p3Restore();p3Hud()}
+/* sembunyikan boks mesin GA lama bila model 3D baru tampil (visual saja; bobot/tangki tidak berubah) */
+function p3Dupes(){for(const c of conds)for(const it of c.items)if(it.comp&&/^(Main engine|Gearbox|Unit tengah)/.test(it.name)){const m=cMesh.get(it.id);if(m&&P3G.visible)m.visible=false}}
+window.__pmDupes=p3Dupes;
+function p3Vis(v){P3.vis=v;P3G.visible=v;p3Dupes();const c=$('p3Vis');if(c)c.checked=v;const b=$('p3SupB');if(b)b.setAttribute('aria-pressed',v);SCN.draw()}
+function p3Room(){const ib=$('intb');if(ib.getAttribute('aria-pressed')!=='true')ib.click();const fs=$('intf');fs.value='0';fs.dispatchEvent(new Event('change'));p3Vis(true);target.set(8,2,0);theta=-.9;phiC=.75;dist=24;place();SCN.draw()}
+/* arah belok -> MCR/rpm per mesin (diferensial); astern dibatasi rpm interlock gearbox */
+function p3Apply(){const d=P3.turn,b=P3.base,c=x=>Math.max(-1,Math.min(1,x)),u=[c(b+d),b*(1-.5*Math.abs(d)),c(b-d)],mx=prRpmMax();
+  u.forEach((v,i)=>{const a=Math.abs(v),e=PRP.eng[i];if(a<.04){e.dir=0;e.rpm=PRP.idle;return}let r=Math.max(PRP.idle,Math.min(mx,mx*Math.pow(a,1/3)));e.dir=v>0?1:-1;if(e.dir<0)r=Math.min(r,PRP.shiftMax-50);e.rpm=Math.round(r/10)*10});
+  PRP.sync=false;const cb=$('prSync');if(cb)cb.checked=false;prSync()}
+function p3UiBuild(R){const el=R.querySelector('#p3Ui');if(!el)return;
+  el.innerHTML=`<div class="xh">Belok lewat MCR / rpm &amp; kamar mesin 3D</div>
+  <div class="group" style="flex-wrap:wrap;margin:6px 0"><button class="sm" data-p3t="-100">⟲ Kiri penuh</button><button class="sm" data-p3t="-50">Kiri</button><button class="sm" data-p3t="0">Lurus</button><button class="sm" data-p3t="50">Kanan</button><button class="sm" data-p3t="100">Kanan penuh ⟳</button></div>
+  <label class="f">Arah belok (− kiri / + kanan): <b id="p3Tv">${Math.round(P3.turn*100)}</b>%<input type="range" id="p3T" min="-100" max="100" step="5" value="${Math.round(P3.turn*100)}"></label>
+  <label class="f">Daya dasar MCR (− mundur / + maju): <b id="p3Bv">${Math.round(P3.base*100)}</b>%<input type="range" id="p3B" min="-100" max="100" step="5" value="${Math.round(P3.base*100)}"></label>
+  <div class="group" style="flex-wrap:wrap;margin:6px 0"><label><input type="checkbox" id="p3Vis"${P3.vis?' checked':''}> Mesin 3D di viewport</label><label><input type="checkbox" id="p3Yaw"${P3.yawOn?' checked':''}> Kapal ikut belok di 3D (heading, heel, air)</label><button class="sm" id="p3Room">Kamar mesin 3D</button></div>
+  <div class="note">Belok kanan: PS naik, SB turun (bisa mundur bila tajam); belok kiri sebaliknya; rpm = n<sub>maks</sub>·MCR<sup>1/3</sup>. Memakai diferensial 3 mesin, sehingga “Sinkronkan 3 mesin” dimatikan otomatis. Astern dibatasi ≤ batas rpm interlock gearbox. Propeller kanan/tengah maju CW, kiri CCW (dilihat dari buritan); bentuk blade RH/LH mengikuti sisi. Model 3D = visualisasi konseptual; letak propeller mengikuti parameter AP &amp; lengan lateral di bawah.</div>`;
+  const tv=()=>{$('p3Tv').textContent=Math.round(P3.turn*100);$('p3Bv').textContent=Math.round(P3.base*100);$('p3T').value=Math.round(P3.turn*100)};
+  el.querySelectorAll('[data-p3t]').forEach(b=>b.onclick=()=>{P3.turn=+b.dataset.p3t/100;tv();p3Apply()});
+  $('p3T').oninput=e=>{P3.turn=+e.target.value/100;tv();p3Apply()};$('p3B').oninput=e=>{P3.base=+e.target.value/100;tv();p3Apply()};
+  $('p3Vis').onchange=e=>p3Vis(e.target.checked);$('p3Yaw').onchange=e=>{P3.yawOn=e.target.checked;if(!P3.yawOn){if(P3.seaOn){SCN.showSea(false);P3.seaOn=false}P3.posed=false;p3Restore()}else p3Frame(0)};
+  $('p3Room').onclick=p3Room}
+(function(){const box=document.getElementById('sup');if(!box)return;const b=document.createElement('button');b.id='p3SupB';b.textContent='Mesin 3D';b.setAttribute('aria-pressed','true');box.appendChild(b);b.onclick=()=>p3Vis(!P3.vis)})();
+p3Fit();
+
 /* ===================== RESULTS ===================== */
 function metrics(res){if(!res||!res.c)return null;const c=res.c,wt=res.wt,m={W:wt.W,V:c.V,Mx:wt.Mx,My:wt.My,Mz:wt.Mz,LCG:wt.G[0],TCG:wt.G[1],VCG:wt.G[2],Tm:c.Tmean,Tf:c.Tf,Ta:c.Ta,trim:c.trimByStern,pitch:c.pitchDeg,heel:c.heelDeg,LCB:c.LCB,TCB:c.TCB,KB:c.KB,BMT:c.BMT,BML:c.BML,KMT:c.KMT,KML:c.KML,GMT:c.GMT,GG:c.GGfs,GMTc:c.GMTcorr,GML:c.GML,Awp:c.Awp,LCF:c.LCF,WSA:c.S};
   if(res.gz){m.gzmax=res.gz.max.GZ;m.gzang=res.gz.max.deg;m.van=res.gz.vanish;m.A30=areaGZ(res.curve,0,30);m.A40=areaGZ(res.curve,0,Math.min(40,isFinite(res.thetaF)?res.thetaF:40))}return m}
@@ -1503,7 +2104,7 @@ function heelSchem(res,deg){const p=res.curve.find(q=>q.deg===deg);if(!p)return 
   s+=`<circle cx="${X(By)}" cy="${Y(Bz)}" r="4.5" style="fill:var(--c1)"/><text x="${X(By)+7}" y="${Y(Bz)+4}">B</text><circle cx="${X(Gy)}" cy="${Y(Gz)}" r="4.5" style="fill:var(--bad)"/><text x="${X(Gy)+7}" y="${Y(Gz)-5}">G</text>`;
   s+=`<text x="${(X(Gy)+X(By))/2}" y="${Y(Gz)+14}" text-anchor="middle" style="fill:var(--good)">GZ = ${p.GZ.toFixed(3)} m</text><text x="8" y="${Hh-6}" class="mut">tampak depan, heel ${deg}° (+ stbd turun, ke kanan)</text></svg>`;return s}
 /* ===================== BOTTOM TABS ===================== */
-const TABS=[['gz','Kurva GZ'],['cmp','Perbandingan kondisi'],['cargo','Muatan & momen'],['det','Detail hitungan'],['warn','Peringatan'],['hyd','Jalan & gelombang'],['test','Uji validasi'],['exp','Ekspor']];
+const TABS=[['gz','Kurva GZ'],['cmp','Perbandingan kondisi'],['cargo','Muatan & momen'],['det','Detail hitungan'],['warn','Peringatan'],['hyd','Jalan & gelombang'],['prop','Propulsi & manuver'],['str','Kekuatan memanjang'],['sk','Seakeeping'],['voy','Rute & biaya'],['book','Booklet'],['guide','Panduan'],['test','Uji validasi'],['exp','Ekspor']];
 let TAB='gz',selDeg=30;
 function collectWarnings(){const W=[],c=cond(),res=c.res,A=(sev,t)=>W.push({sev,t});
   A('info','Mesh hidrostatik tertutup (watertight): 0 edge terbuka, 0 edge ganda; volume T=1,90 m cocok dengan model NURBS (277,96 vs 278,0 m³).');
@@ -1526,10 +2127,10 @@ function collectWarnings(){const W=[],c=cond(),res=c.res,A=(sev,t)=>W.push({sev,
       if(S.rows)S.rows.filter(r=>r.status==='FAIL').forEach(r=>A('bad','Kriteria tidak terpenuhi: '+r.crit+' ('+r.calc+', batas '+r.req+')'))}}
   return W}
 function renderTabs(){const bw=collectWarnings().filter(w=>w.sev==='bad').length;
-  $('tabs').innerHTML=TABS.map(([k,l])=>`<button data-t="${k}" aria-pressed="${k===TAB}">${l}${k==='warn'&&bw?` <span class="pill FAIL">${bw}</span>`:''}</button>`).join('');
+  $('tabs').innerHTML=TABS.map(([k,l])=>`<button data-t="${k}" aria-pressed="${k===TAB}">${l}${k==='warn'&&bw?` <span class="pill FAIL">${bw}</span>`:''}</button>`).join('')+`<button id="bmax" title="Perbesar / kecilkan panel bawah" aria-pressed="${$('app').classList.contains('bmax')}">⤢</button>`;
   $('tabs').querySelectorAll('button').forEach(b=>b.onclick=()=>{TAB=b.dataset.t;renderTabs()});renderTabBody()}
 function condsWithRes(){return conds.filter(k=>k.res&&k.res.c)}
-function renderTabBody(){const el=$('tabbody'),c=cond(),res=c.res;let h='';
+function renderTabBody(){const el=$('tabbody'),c=cond(),res=c.res;let h='';try{p3Tab()}catch(e){}
   if(TAB==='gz'){if(!res||res.state!=='full'){h=`<div class="spin">${res&&res.state==='nolight'?'Kurva GZ butuh lightship (lihat panel kanan).':esc(busy)||'Menghitung kurva GZ…'}</div>`}
     else{const list=[{curve:res.curve,stats:res.gz,color:'var(--c1)',name:c.name}];const bc=conds[S.base];if(bc!==c&&bc.res&&bc.res.state==='full')list.push({curve:bc.res.curve,stats:bc.res.gz,color:'var(--c2)',dash:1,name:bc.name+' (baseline)'});
       const p=res.curve.find(q=>q.deg===selDeg)||res.curve[0];
@@ -1547,12 +2148,14 @@ function renderTabBody(){const el=$('tabbody'),c=cond(),res=c.res;let h='';
   else if(TAB==='det'){h=`<pre class="det">${esc(detailText())}</pre>`}
   else if(TAB==='warn'){const w=collectWarnings();const order={bad:0,warn:1,info:2};w.sort((a,b)=>order[a.sev]-order[b.sev]);h=w.map(x=>`<div class="banner ${x.sev==='bad'?'bad':x.sev==='warn'?'warn':'na'}">${esc(x.t)}</div>`).join('')}
   else if(TAB==='hyd'){h=uwHtml()}
+  else if(TABX[TAB]){h=TABX[TAB].html()}
   else if(TAB==='test'){h=`<div class="group"><button id="runTest" class="sm">Jalankan uji validasi</button><span class="note">Menjalankan mesin hitung yang sama dengan UI (±10–20 detik).</span></div><div id="testOut" style="margin-top:8px">${S.testHtml||''}</div>`}
   else if(TAB==='exp'){h=`<div class="group"><button class="sm" id="expBtn">Buat ringkasan hasil</button><button class="sm" id="copyBtn">Salin ke clipboard</button></div><textarea id="expTxt" readonly placeholder="Klik 'Buat ringkasan hasil'"></textarea><div class="note">Unduhan file tidak diizinkan di halaman ini; salin teks lalu tempel ke berkas Anda.</div>`}
   el.innerHTML=h;
   if($('selDeg'))$('selDeg').oninput=e=>{selDeg=+e.target.value;renderTabBody()};
   if($('calcAll'))$('calcAll').onclick=calcAll;if($('runTest'))$('runTest').onclick=runTests;
   if(TAB==='hyd')uwBind();
+  if(TABX[TAB]&&TABX[TAB].bind)TABX[TAB].bind();
   if($('expBtn'))$('expBtn').onclick=()=>{$('expTxt').value=exportText()};
   if($('copyBtn'))$('copyBtn').onclick=async()=>{const t=$('expTxt');if(!t.value)t.value=exportText();try{await navigator.clipboard.writeText(t.value)}catch(e){t.select()}}}
 async function calcAll(){const my=++calcTok;for(const k of conds){busy='Menghitung '+k.name+'…';renderStatus();const r=await computeCond(k,{tok:my,onProg:(a,b)=>{busy=`${k.name}: GZ ${a}/${b}`;renderStatus()}});if(my!==calcTok)return;k.res=r;renderTabBody()}busy='';S.cres=cond().res;renderAll()}
@@ -1601,19 +2204,19 @@ function S_light_tmp(){}
 /* ===================== MANUAL T INPUT & INIT ===================== */
 $('wlv').addEventListener('input',()=>{const v=num($('wlv').value);if(isFinite(v)&&S.mode==='manual'){S.T=Math.min(6.8,Math.max(0,v));SCN.applyPose(S.T,0,0);renderRight();renderOverlay()}});
 $('mManual').onclick=()=>switchMode('manual');$('mLoad').onclick=()=>switchMode('loading');
-window.__UW=UW;window.__uwEval=uwEval;window.__uwGeo=uwGeo;window.__uwStatic=uwStaticPose;window.__PM19={LL,llStatus,llDraw,afSolve,AF,afApply,afSheave,saveNow,resetShip,resetAll,corners,hbAt,FOOT,inPoly,geomChecks,afterEdit,requestCalc,S,conds,Eng,H,computeCond,runTests,weights,metrics,SCN,evalCriterion,areaGZ,gzAt,renderAll,addItem,cond};
+window.__UW=UW;window.__uwEval=uwEval;window.__uwGeo=uwGeo;window.__uwStatic=uwStaticPose;window.__PM19={UIobj,afClamp,afSheave,afStatus,itemById,AF,LL,llStatus,llDraw,afSolve,AF,afApply,afSheave,saveNow,resetShip,resetAll,corners,hbAt,FOOT,inPoly,geomChecks,afterEdit,requestCalc,S,conds,Eng,H,computeCond,runTests,weights,metrics,SCN,evalCriterion,areaGZ,gzAt,renderAll,addItem,cond};
 
 /* ===== reset pose + autosave (localStorage) ===== */
 const SKEY='pm19_state_v2';
 const jrep=(k,v)=>typeof v==='number'&&!isFinite(v)?'__N'+(v!==v?'a':v>0?'+':'-'):v;
 const jrev=(k,v)=>v==='__Na'?NaN:v==='__N+'?Infinity:v==='__N-'?-Infinity:v;
 function snapshotState(){const so={};for(const k of ['rho','ap','fp','thetaF','vessel','demo','light','demoLight','mode','snap','T','gzStep','gzMax','cur','base','cseq'])so[k]=S[k];
-  return JSON.stringify({v:2,AF,LL,UW:(()=>{const u={};for(const k of ['V','Hw','Tw','mu','trim0','Sapp','k2','Cstern','etaD','tauMax','Fnp','Csq','nME','nRun','McrE','rpmE','gearR','sfocE','etaG','etaS','nGen','PGen','Php','sfocG','fdens'])u[k]=UW[k];return u})(),S:so,conds:conds.map(c=>({id:c.id,name:c.name,items:c.items})),int:{on:INT.on,focus:INT.focus}},jrep)}
+  return JSON.stringify({v:2,AF,LL,UW:(()=>{const u={};for(const k of ['V','Hw','Tw','mu','trim0','Sapp','k2','Cstern','etaD','tauMax','Fnp','Csq','nME','nRun','McrE','rpmE','gearR','sfocE','etaG','etaS','nGen','PGen','Php','sfocG','fdens'])u[k]=UW[k];return u})(),S:so,conds:conds.map(c=>({id:c.id,name:c.name,items:c.items})),VY:EXT_STATE('VY'),SK:EXT_STATE('SK'),ST:EXT_STATE('ST'),BK:EXT_STATE('BK'),PR:EXT_STATE('PR'),int:{on:INT.on,focus:INT.focus}},jrep)}
 function loadState(){try{const raw=localStorage.getItem(SKEY);if(!raw)return false;const o=JSON.parse(raw,jrev);if(!o||o.v!==2||!o.conds||!o.conds.length)return false;
-  Object.assign(S,o.S);if(o.AF)Object.assign(AF,o.AF);if(o.LL)Object.assign(LL,o.LL);if(o.UW)Object.assign(UW,o.UW);conds.length=0;let mx=0;for(const c of o.conds){c.res=null;c.items.forEach(i=>{mx=Math.max(mx,i.id||0)});conds.push(c)}
+  Object.assign(S,o.S);if(o.AF)Object.assign(AF,o.AF);if(o.LL)Object.assign(LL,o.LL);if(o.UW)Object.assign(UW,o.UW);if(o.VY)Object.assign(VY,o.VY);if(o.SK)Object.assign(SK,o.SK);if(o.ST)Object.assign(ST,o.ST);if(o.BK)Object.assign(BK,o.BK);if(o.PR)Object.assign(PRP,o.PR);conds.length=0;let mx=0;for(const c of o.conds){c.res=null;c.items.forEach(i=>{mx=Math.max(mx,i.id||0)});conds.push(c)}
   S.uid=mx+1;conds.forEach(ensureDeckComps);S.sel=null;S.carry=null;S.cur=Math.min(S.cur||0,conds.length-1);S.base=Math.min(S.base||0,conds.length-1);S._int=o.int;return true}catch(e){return false}}
 let lastSaved='';function saveNow(){try{const s=snapshotState();if(s===lastSaved)return;localStorage.setItem(SKEY,s);lastSaved=s;const t=$('saveStat');if(t)t.textContent='tersimpan '+new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}catch(e){const t=$('saveStat');if(t)t.textContent='penyimpanan browser tidak tersedia'}}
-function resetShip(){if(anim){cancelAnimationFrame(anim);anim=null}if(S.carry)endCarry(false);S.T=1.9;$('wlv').value='1.90';switchMode('manual',true);SCN.applyPose(S.T,0,0);[SCN.mG,SCN.mB,SCN.mM].forEach(x=>x.visible=false);renderAll(true);SCN.draw()}
+function resetShip(){try{p3Reset()}catch(e){}if(anim){cancelAnimationFrame(anim);anim=null}if(S.carry)endCarry(false);S.T=1.9;$('wlv').value='1.90';switchMode('manual',true);SCN.applyPose(S.T,0,0);[SCN.mG,SCN.mB,SCN.mM].forEach(x=>x.visible=false);renderAll(true);SCN.draw()}
 function resetAll(){try{localStorage.removeItem(SKEY)}catch(e){}lastSaved='';S.rho=1.025;S.ap=5.04;S.fp=47;S.thetaF=NaN;S.vessel='';S.demo=false;S.light={W:NaN,x:NaN,y:NaN,z:NaN};S.cur=0;S.base=0;S.sel=null;Object.assign(AF,{px:-2.55,pz:4.25,L:7.875,alpha:10.24,w:0,cgf:0.6,sy:[-1,0,1],rope:true});conds.length=0;conds.push({id:1,name:'Kondisi 1 (baseline)',items:makeInterior(),res:null});resetShip();renderLeft();refreshMeshes();requestCalc(0)}
 $('rstShip').onclick=resetShip;
 (function(){const g=$('rstShip').parentElement;const st=document.createElement('span');st.id='saveStat';st.className='sub';st.style.cssText='margin-left:8px;font-size:11px';st.textContent='';g.appendChild(st)})();
@@ -1644,7 +2247,6 @@ $('wlv').value=S.T.toFixed(2);
   $('zfs').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await $('mid').requestFullscreen()}catch(e){$('focusb').click()}};
   document.addEventListener('fullscreenchange',()=>setTimeout(()=>SCN.resize(),80));
   $('fzm').onclick=()=>{L.fz=Math.max(0.7,(L.fz||1)-0.1);save();fz();rs()};$('fzp').onclick=()=>{L.fz=Math.min(1.6,(L.fz||1)+0.1);save();fz();rs()};
-  $('lockb').onclick=()=>{if(window.__lockPM19)window.__lockPM19()};
   fz();addEventListener('resize',fz)})();
 setInterval(saveNow,1500);window.addEventListener('pagehide',saveNow);document.addEventListener('visibilitychange',()=>{if(document.hidden)saveNow()});
 })();
